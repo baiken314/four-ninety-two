@@ -1,0 +1,191 @@
+{
+    "name": "Test Map",
+    "description": "A symmetrical map for testing.",
+    "startingRegions": [
+        {
+            "name": "North",
+            "regionNames": ["N1", "N2", "N3", "N4"]
+        },
+        {
+            "name": "South",
+            "regionNames": ["S1", "S2", "S3", "S4"]
+        }
+    ],
+    "regions": [
+        {
+            "name": "N1",
+            "type": "land",
+            "adjacentRegionNames": ["N2", "N3", "NS1", "NS2"]
+        },
+        {
+            "name": "N2",
+            "type": "land",
+            "adjacentRegionNames": ["N1", "N4", "NS2", "NS3"]
+        },
+        {
+            "name": "N3",
+            "type": "land",
+            "adjacentRegionNames": ["N1", "N4", "B1", "NS1", "NS4"]
+        },
+        {
+            "name": "N4",
+            "type": "land",
+            "adjacentRegionNames": ["N2", "N4", "B1", "NS3", "NS5"]
+        },
+        {
+            "name": "B1",
+            "type": "land",
+            "adjacentRegionNames": ["N3", "N4", "C1", "C3", "C4", "NS4", "NS5"]
+        },
+        {
+            "name": "C1",
+            "type": "land",
+            "adjacentRegionNames": ["B1", "C2", "C3", "NS4", "CS1"]
+        },
+        {
+            "name": "C2",
+            "type": "land",
+            "adjacentRegionNames": ["C1", "C3", "B2", "CS1", "SS1"]
+        },
+        {
+            "name": "C3",
+            "type": "land",
+            "adjacentRegionNames": ["B1", "C1", "C2", "C4", "C5", "B2"]
+        },
+        {
+            "name": "C4",
+            "type": "land",
+            "adjacentRegionNames": ["B1", "C3", "C5", "NS5", "CS2"]
+        },
+        {
+            "name": "C5",
+            "type": "land",
+            "adjacentRegionNames": ["C3", "C4", "B2", "CS2", "SS2"]
+        },
+        {
+            "name": "B2",
+            "type": "land",
+            "adjacentRegionNames": ["C2", "C3", "C5", "S1", "S2", "SS1", "SS2"]
+        },
+        {
+            "name": "S1",
+            "type": "land",
+            "adjacentRegionNames": ["B2", "S2", "S3", "SS1", "SS3"]
+        },
+        {
+            "name": "S2",
+            "type": "land",
+            "adjacentRegionNames": ["B2", "S1", "S4", "SS2", "SS5"]
+        },
+        {
+            "name": "S3",
+            "type": "land",
+            "adjacentRegionNames": ["S1", "S4", "SS3", "SS4"]
+        },
+        {
+            "name": "S4",
+            "type": "land",
+            "adjacentRegionNames": ["S2", "S3", "SS4", "SS5"]
+        },
+        {
+            "name": "NS1",
+            "type": "sea",
+            "adjacentRegionNames": ["N1", "N3", "NS2", "NS4", "O1", "O3"]
+        },
+        {
+            "name": "NS2",
+            "type": "sea",
+            "adjacentRegionNames": ["N1", "N2", "NS1", "NS3", "O1", "O2"]
+        },
+        {
+            "name": "NS3",
+            "type": "sea",
+            "adjacentRegionNames": ["N2", "N4", "NS2", "NS5", "O2", "O4"]
+        },
+        {
+            "name": "NS4",
+            "type": "sea",
+            "adjacentRegionNames": ["N3", "B1", "C1", "NS1", "CS1", "O3"]
+        },
+        {
+            "name": "NS5",
+            "type": "sea",
+            "adjacentRegionNames": ["N4", "B1", "C4", "NS3", "CS2", "O4"]
+        },
+        {
+            "name": "CS1",
+            "type": "sea",
+            "adjacentRegionNames": ["C1", "C2", "NS4", "SS1", "O3", "O5"]
+        },
+        {
+            "name": "CS2",
+            "type": "sea",
+            "adjacentRegionNames": ["C4", "C5", "NS5", "SS2", "O4", "O6"]
+        },
+        {
+            "name": "SS1", 
+            "type": "sea",
+            "adjacentRegionNames": ["C2", "B2", "S1", "CS1", "SS3", "O5"]
+        },
+        {
+            "name": "SS2",
+            "type": "sea",
+            "adjacentRegionNames": ["C5", "B2", "S2", "CS2", "SS5", "O6"]
+        },
+        {
+            "name": "SS3",
+            "type": "sea",
+            "adjacentRegionNames": ["S1", "S3", "SS1", "SS4", "O5", "O7"]
+        },
+        {
+            "name": "SS4",
+            "type": "sea",
+            "adjacentRegionNames": ["S3", "S4", "SS3", "SS5", "O7", "O8"]
+        },
+        {
+            "name": "SS5",
+            "type": "sea",
+            "adjacentRegionNames": ["S2", "S4", "SS2", "SS4", "O6", "O8"]
+        },
+        {
+            "name": "O1",
+            "type": "ocean",
+            "adjacentRegionNames": ["NS1", "NS2", "O3", "O2"]
+        },
+        {
+            "name": "O2",
+            "type": "ocean",
+            "adjacentRegionNames": ["NS2", "NS3", "O1", "O4"]
+        },
+        {
+            "name": "O3",
+            "type": "ocean",
+            "adjacentRegionNames": ["NS1", "NS4", "CS1", "O1", "O4", "O5"]
+        },
+        {
+            "name": "O4",
+            "type": "ocean",
+            "adjacentRegionNames": ["NS3", "NS5", "CS2", "O2", "O3", "O6"]
+        },
+        {
+            "name": "O5",
+            "type": "ocean",
+            "adjacentRegionNames": ["CS1", "SS1", "SS3", "O3", "O6", "O7"]
+        },
+        {
+            "name": "O6",
+            "type": "ocean",
+            "adjacentRegionNames": ["CS2", "SS2", "SS5", "O4", "O5", "O8"]
+        },
+        {
+            "name": "O7",
+            "type": "ocean",
+            "adjacentRegionNames": ["SS3", "SS4", "O5", "O8"]
+        },
+        {
+            "name": "O8",
+            "type": "ocean",
+            "adjacentRegionNames": ["SS4", "SS5", "O6", "O7"]
+        }
+    ]
+}

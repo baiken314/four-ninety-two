@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Login</title>
+    </head>
+    <link rel="stylesheet" href="styles/w3.css">
+    <link rel="stylesheet" href="styles/custom.css">
+    <body>
+        <div class="w3-row">
+            <div class="w3-col w3-left" style="width:33%">
+                <hr>
+            </div>
+            <div class="w3-col w3-right" style="width:33%">
+                <hr>
+            </div>
+            <div class="w3-center w3-black w3-margin vertical-center w3-rest">
+                <div class="w3-container w3-black w3-margin w3-center">
+                    <br>
+                    <h1>Login or Register</h1>
+                    <br>
+                    <br>
+                </div>
+                <hr>
+                <hr>
+                <hr>
+                <div class="w3-center w3-container w3-black w3-margin w3-padding">
+                    <form action="/login" method="POST">
+                        <table style="width:100%">
+                            <tr>
+                                <td class="align-right">
+                                    <label for="name"><h4>Username: </h4></label>
+                                </td>
+                                <td>
+                                    <input style="width:300px" class="custom-input" type="text" name="name" required>
+                                    <br>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="align-right">
+                                    <label for="email"><h4>Email, if registering:</h4></label>
+                                </td>
+                                <td>
+                                    <input style="width:300px" class="custom-input" type="text" name="email">
+                                    <br>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="align-right">
+                                    <label for="password"><h4>Password: </h4></label>
+                                </td>
+                                <td>
+                                    <input style="width:300px" class="custom-input" type="password" name="password" required>
+                                    <br>
+                                </td>
+                            </tr>
+                        </table>
+                        <br>
+                        <button style="width:70%" class="w3-green w3-button custom-button" type="submit"><h4>Login/Register</h4></button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <script src="scripts/login.js"></script>
+    </body>
+</html>

@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>four ninety-two</title>
+    <link rel="stylesheet" href="styles/w3.css">
+    <link rel="stylesheet" href="styles/custom.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+    <div id="game-app">
+        <div class="w3-row w3-margin">
+            <div class="w3-col w3-black w3-left w3-margin-right" style="width:305px">
+                <div class="w3-container w3-center">
+                    <br>
+                    <h3><b>-=- {{ user.name }} -=-</b></h3>
+                    <table style="width:100%">
+                        <tr>
+                            <td class="align-left"><h4><b>Balance: </b></h4></td>
+                            <td class="align-right"><h4 id="playerCurrency">{{ player.balance }}</h4></td>
+                        </tr>
+                        <tr>
+                            <td class="align-left"><h5 class="w3-opacity">Fees: </h5></td>
+                            <td class="align-right"><h5>-</h5><h5>{{ player.unitFees }}</h5></td>
+                        </tr>
+                    </table>
+                </div>
+                <hr>
+                <hr>
+                <div class="w3-container w3-center">
+                    <h3>Industrial Control</h3>
+                    <div class="w3-panel w3-green">
+                        <table style="width:100%">
+                            <tr>
+                                <td class="align-left"><h4><b>Agriculture: </b></h4></td>
+                                <td class="align-right"><h4 id="playerAgricultureValue">{{ player.resources.agriculture }}</h4></td>
+                            </tr>
+                            <tr>
+                                <td class="align-left"><h5 class="w3-opacity">Incoming: </h5></td>
+                                <td class="align-right"><h5>+</h5><h5 id="playerAgricultureIncome">{{ player.incomingResources.agriculture }}</h5></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="w3-panel w3-brown">
+                        <table style="width:100%">
+                            <tr>
+                                <td class="align-left"><h4><b>Mining: </b></h4></td>
+                                <td class="align-right"><h4 id="playerMiningValue">{{ player.resources.mining }}</h4></td>
+                            </tr>
+                            <tr>
+                                <td class="align-left"><h5 class="w3-opacity">Incoming: </h5></td>
+                                <td class="align-right"><h5>+</h5><h5 id="playerMiningIncome">{{ player.incomingResources.mining }}</h5></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="w3-panel w3-pink">
+                        <table style="width:100%">
+                            <tr>
+                                <td class="align-left"><h4><b>Synthetics: </b></h4></td>
+                                <td class="align-right"><h4 id="playerSyntheticsValue">{{ player.resources.synthetics }}</h4></td>
+                            </tr>
+                            <tr>
+                                <td class="align-left"><h5 class="w3-opacity">Incoming: </h5></td>
+                                <td class="align-right"><h5>+</h5><h5 id="playerSyntheticsIncome">{{ player.incomingResources.synthetics }}</h5></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <hr>
+                <hr>
+                <div class="w3-container w3-center">
+                    <h3 class="w3-center">Global Exchange</h3>
+                    <div class="custom-accordian w3-round w3-show" id="agricultureAccordian" @mouseover="openAccordian('a')" @mouseleave="closeAccordian('a')">
+                        <div class="w3-round custom-light-green layer-grid">
+                                <div id="globalExchangeAgricultureProgress" class="w3-container w3-round w3-green w3-center custom-spacing custom-progress-bar layer1" v-bind:style="{width:(game.market.prices.agriculture * 2).toString() + '%'}"></div>
+                                <h3 id="globalExchangeAgricultureValue" class="w3-opacity layer2 vertical-center">{{ game.market.prices.agriculture }}</h3>
+                                <div id="a" class="w3-hide w3-animate-zoom">
+                                <div class="w3-row">
+                                        <input id="agricultureInput" class="w3-third custom-input" type="text" placeholder="Amount">
+                                        <div onclick="interactWithGlobalExchange('sell','agriculture',document.getElementById('agricultureInput').value,document.getElementById('globalExchangeAgricultureValue').textContent);" class="w3-third w3-button">Sell</div>
+                                        <div onclick="interactWithGlobalExchange('buy','agriculture',document.getElementById('agricultureInput').value,document.getElementById('globalExchangeAgricultureValue').textContent);" class="w3-third w3-button">Buy</div>
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="custom-accordian w3-round" id="miningAccordian" @mouseover="openAccordian('m')" @mouseleave="closeAccordian('m')">
+                        <div class="w3-round custom-light-brown layer-grid">
+                                <div id="globalExchangeMiningProgress" class="w3-container w3-round w3-brown w3-center custom-spacing custom-progress-bar layer1" v-bind:style="{width:(game.market.prices.mining * 2).toString() + '%'}"></div>
+                                <h3 id="globalExchangeMiningValue" class="w3-opacity layer2 vertical-center">{{ game.market.prices.mining }}</h3>
+                                <div id="m" class="w3-hide w3-animate-zoom">
+                                <div class="w3-row">
+                                        <input id="miningInput" class="w3-third custom-input" type="text" placeholder="Amount">
+                                        <div onclick="interactWithGlobalExchange('sell','mining',document.getElementById('miningInput').value,document.getElementById('globalExchangeMiningValue').textContent);" class="w3-third w3-button">Sell</div>
+                                        <div onclick="interactWithGlobalExchange('buy','mining',document.getElementById('miningInput').value,document.getElementById('globalExchangeMiningValue').textContent);" class="w3-third w3-button">Buy</div>
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="custom-accordian w3-round" id="syntheticsAccordian" @mouseover="openAccordian('s')" @mouseleave="closeAccordian('s')">
+                        <div class="w3-round custom-light-pink layer-grid">
+                                <div id="globalExchangeSyntheticsProgress" class="w3-container w3-round w3-pink w3-center custom-spacing custom-progress-bar layer1" v-bind:style="{width:(game.market.prices.synthetics * 2).toString() + '%'}"></div>
+                                <h3 id="globalExchangeSyntheticsValue" class="w3-opacity layer2 vertical-center">{{ game.market.prices.synthetics }}</h3>
+                                <div id="s" class="w3-hide w3-animate-zoom">
+                                    <div class="w3-row">
+                                        <input id="syntheticsInput" class="w3-third custom-input" type="text" placeholder="Amount">
+                                        <div onclick="interactWithGlobalExchange('sell','synthetics',document.getElementById('syntheticsInput').value,document.getElementById('globalExchangeSyntheticsValue').textContent);" class="w3-third w3-button">Sell</div>
+                                        <div onclick="interactWithGlobalExchange('buy','synthetics',document.getElementById('syntheticsInput').value,document.getElementById('globalExchangeSyntheticsValue').textContent);" class="w3-third w3-button">Buy</div>
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="w3-col w3-black w3-right w3-margin-left" style="width:220px">
+                <div class="w3-container w3-center">
+                    <br>
+                    <h3>Round </h3>
+                    <h3 id="roundCount">{{ game.turn }}</h3>
+                </div>
+                <hr>
+                <hr>
+                <hr>
+                <div class="w3-container w3-center">
+                    <h3>Subrounds</h3>
+                    <div id="subroundPanel1" v-bind:class="{ 'w3-show': this.game.state == 'focus' , 'w3-hide': this.game.state != 'focus'}">
+                        <h5>Determine your<br>focuses and submit.</h5>
+                        <div class="w3-panel w3-gray">
+                            <h4 class="subround-text">Sell</h4>
+                            <br>
+                            <input type="range" id="sellFocus" min="0" max="10" step="1" value="0" onchange="updateFocusRangeValues(this.value, 's');">
+                            <br>
+                            <h5 class="subround-text">Focus:</h5><h5 class="subround-text" id="sellFocusRangeValue">0</h5>
+                        </div>
+                        <div class="w3-panel w3-gray">
+                            <h4 class="subround-text">Act</h4>
+                            <br>
+                            <input type="range" id="actFocus" min="0" max="10" step="1" value="0" onchange="updateFocusRangeValues(this.value, 'a');">
+                            <br>
+                            <h5 class="subround-text">Focus:</h5><h5 class="subround-text" id="actFocusRangeValue">0</h5>
+                        </div>
+                        <div class="w3-panel w3-gray">
+                            <h4 class="subround-text">Buy</h4>
+                            <br>
+                            <input type="range" id="buyFocus" min="0" max="10" step="1" value="0" onchange="updateFocusRangeValues(this.value, 'b');">
+                            <br>
+                            <h5 class="subround-text">Focus:</h5><h5 class="subround-text" id="buyFocusRangeValue">0</h5>
+                        </div>
+                        <div @click="submitFocuses();" class="custom-button w3-panel w3-gray w3-round" v-bind:class="{ 'w3-show':player.focus.sell + player.focus.act + player.focus.buy != 10, 'w3-hide':player.focus.sell + player.focus.act + player.focus.buy == 10}">
+                            <h4 class="subround-text">Submit</h4>
+                        </div>
+                        <div v-if="player.focus.sell + player.focus.act + player.focus.buy == 10">
+                            <h5>
+                                Waiting for the following player(s):
+                            </h5>
+                            <br>
+                            <h5 style="display:block" v-for="player in game.players.filter(player=>player.focus.sell + player.focus.act + player.focus.buy != 10)">{{player.name}}</h5>
+                        </div>
+                        <br>
+                    </div>
+                    <div id="subroundPanel2" v-bind:class="{ 'w3-show': this.game.state != 'focus' , 'w3-hide': this.game.state == 'focus'}">
+                        <div class="w3-panel w3-gray" id="sellSubroundSection"  v-bind:class="{ 'w3-opacity-max': this.game.state != 'sell' , 'w3-grayscale': this.game.state == 'sell'}">
+                            <h4 class="subround-text">sell</h4>
+                            <table style="width:100%">
+                                <tr v-for="player in game.players.sort((a,b) => {return a.focus.sell < b.focus.sell?1:-1;})">
+                                    <td class="align-left">
+                                        <h5 v-bind:class="{ 'custom-red-loud':player._id == game.playerOrder[0] && game.state == 'sell'}" class="subround-text">{{player.name}}</h5>
+                                    </td>
+                                    <td>
+                                        <h4>|</h4>
+                                    </td>
+                                    <td class="align-left">
+                                        <h5 v-bind:class="{ 'custom-red-loud':player._id == game.playerOrder[0] && game.state == 'sell'}" class="subround-text">{{player.focus.sell}}</h5>
+                                        <br>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="w3-panel w3-gray" id="actSubroundSection" v-bind:class="{ 'w3-opacity-max': !this.game.state.includes('act') , 'w3-grayscale': this.game.state.includes('act')}">
+                            <h4 class="subround-text">act {{ game.state.includes("act")? "- " + game.state.substring(4): ""}}</h4>
+                            <table style="width:100%">
+                                <tr v-for="player in game.players.sort((a,b) => {return a.focus.act < b.focus.act?1:-1;})">
+                                    <td class="align-left">
+                                        <h5 v-bind:class="{ 'custom-red-loud':player._id == game.playerOrder[0] && game.state.includes('act')}" class="subround-text">{{player.name}}</h5>
+                                    </td>
+                                    <td>
+                                        <h4>|</h4>
+                                    </td>
+                                    <td class="align-left">
+                                        <h5 v-bind:class="{ 'custom-red-loud':player._id == game.playerOrder[0] && game.state.includes('act')}" class="subround-text">{{player.focus.act}}</h5>
+                                        <br>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="w3-panel w3-gray" id="buySubroundSection"   v-bind:class="{ 'w3-opacity-max': this.game.state != 'buy' , 'w3-grayscale': this.game.state == 'buy'}">
+                            <h4 class="subround-text">buy</h4>
+                            <table style="width:100%">
+                                <tr v-for="player in game.players.sort((a,b) => {return a.focus.buy < b.focus.buy?1:-1;})">
+                                    <td class="align-left">
+                                        <h5 v-bind:class="{ 'custom-red-loud':player._id == game.playerOrder[0] && game.state == 'buy'}" class="subround-text">{{player.name}}</h5>
+                                    </td>
+                                    <td>
+                                        <h4>|</h4>
+                                    </td>
+                                    <td class="align-left">
+                                        <h5 v-bind:class="{ 'custom-red-loud':player._id == game.playerOrder[0] && game.state == 'buy'}" class="subround-text">{{player.focus.buy}}</h5>
+                                        <br>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <br>
+                    </div>
+                </div>
+            </div>
+            <div class="w3-rest w3-dark-gray w3-center">
+                <canvas id='canvas'></canvas>
+                
+            </div>
+        </div>
+    </div>
+    <script src="scripts/index.js"></script>
+    <script src="scripts/canvas.js"></script>
+    <script src="scripts/gameApp.js"></script>
+</body>
+</html>
