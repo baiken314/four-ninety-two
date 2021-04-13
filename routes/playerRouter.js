@@ -203,7 +203,7 @@ router.route("/attack").post(async (req, res) => {
             if (units.bioweapons > 0) attackingRegion.units.bioweapons -= 1;
 
             // check if radar defends
-            let radarChance = 1 / radarCount;
+            let radarChance = 1 / (radarCount + 1);
             let radarRoll = Math.random();
             let radarDefends = radarRoll > radarChance;
 
