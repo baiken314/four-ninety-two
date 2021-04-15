@@ -26,11 +26,17 @@ let gameApp = new Vue({
     el: "#game-app",
     data: {
         user: {},
-        game: {},
+        game: null,
         player: {},
-        currentlyOpened: null
+        currentlyOpened: null,
+        //canvas: null,
+        //ctx: null,
+        agricultureMarketRequest: null,
+        miningMarketRequest: null,
+        syntheticsMarketRequest: null
+
     },
-    methods:{
+    methods: {
         openAccordian: function(x)
         {
             x = document.getElementById(x);
@@ -90,8 +96,48 @@ let gameApp = new Vue({
             });
             const playerEndTurn = await playerEndTurnRequest.json();
             console.log(playerEndTurn);
+        },
+
+        submitMarketOrder: async function(passedAction, passedResource)
+        {
+            var passedAmount = null;
+            if (passedResource == 'agriculture')
+            {
+                passedAmount = this.agricultureMarketRequest;
+            }
+            else if (passedResource == 'mining')
+            {
+                passedAmount = this.miningMarketRequest;
+            }
+            else if (passedResource == 'synthetics')
+            {
+                passedAmount = this.syntheticsMarketRequest;
+            }
+
+            const playerMarketOrderRequest = await fetch(URL + "/player/market-order", {
+                method: "POST",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    game: this.game._id,
+                    player: this.player._id,
+                    resource: passedResource,
+                    action: passedAction,
+                    amount: passedAmount
+                })
+            });
+            const playerMarketOrder = await playerMarketOrderRequest.json();
+            console.log(playerMarketOrder);
         }
     }
+
+    //mounted()
+    //{
+    //    this.canvas = document.getElementById("canvas");
+    //    this.ctx = canvas.getContext("2d");
+    //}
 });
 
 // update the page onload

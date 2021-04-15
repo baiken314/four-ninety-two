@@ -9,6 +9,9 @@
     <script src="/socket.io/socket.io.js"></script>
 </head>
 <body>
+    <div id='canvasContainer' class="w3-rest w3-dark-gray w3-center" style="height:900px">
+        <canvas id='canvas'></canvas>
+    </div>
     <div id="game-app">
         <div class="w3-row w3-margin">
             <div class="w3-col w3-black w3-left w3-margin-right" style="width:305px">
@@ -74,40 +77,40 @@
                     <h3 class="w3-center">Global Exchange</h3>
                     <div class="custom-accordian w3-round w3-show" id="agricultureAccordian" @mouseover="openAccordian('a')" @mouseleave="closeAccordian('a')">
                         <div class="w3-round custom-light-green layer-grid">
-                                <div id="globalExchangeAgricultureProgress" class="w3-container w3-round w3-green w3-center custom-spacing custom-progress-bar layer1" v-bind:style="{width:(game.market.prices.agriculture * 2).toString() + '%'}"></div>
-                                <h3 id="globalExchangeAgricultureValue" class="w3-opacity layer2 vertical-center">{{ game.market.prices.agriculture }}</h3>
-                                <div id="a" class="w3-hide w3-animate-zoom">
+                            <div id="globalExchangeAgricultureProgress" class="w3-container w3-round w3-green w3-center custom-spacing custom-progress-bar layer1" v-bind:style="{width:(game.market.prices.agriculture * 2).toString() + '%'}"></div>
+                            <h3 id="globalExchangeAgricultureValue" class="w3-opacity layer2 vertical-center">{{ game.market.prices.agriculture }}</h3>
+                            <div id="a" class="w3-hide w3-animate-zoom">
                                 <div class="w3-row">
-                                        <input id="agricultureInput" class="w3-third custom-input" type="text" placeholder="Amount">
-                                        <div onclick="interactWithGlobalExchange('sell','agriculture',document.getElementById('agricultureInput').value,document.getElementById('globalExchangeAgricultureValue').textContent);" class="w3-third w3-button">Sell</div>
-                                        <div onclick="interactWithGlobalExchange('buy','agriculture',document.getElementById('agricultureInput').value,document.getElementById('globalExchangeAgricultureValue').textContent);" class="w3-third w3-button">Buy</div>
-                                    </div>
+                                    <input id="agricultureInput" class="w3-third custom-input" type="text" placeholder="Amount" v-model="agricultureMarketRequest">
+                                    <div @click="submitMarketOrder('sell','agriculture');" class="w3-third w3-button">Sell</div>
+                                    <div @click="submitMarketOrder('buy','agriculture');" class="w3-third w3-button">Buy</div>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="custom-accordian w3-round" id="miningAccordian" @mouseover="openAccordian('m')" @mouseleave="closeAccordian('m')">
                         <div class="w3-round custom-light-brown layer-grid">
-                                <div id="globalExchangeMiningProgress" class="w3-container w3-round w3-brown w3-center custom-spacing custom-progress-bar layer1" v-bind:style="{width:(game.market.prices.mining * 2).toString() + '%'}"></div>
-                                <h3 id="globalExchangeMiningValue" class="w3-opacity layer2 vertical-center">{{ game.market.prices.mining }}</h3>
-                                <div id="m" class="w3-hide w3-animate-zoom">
+                            <div id="globalExchangeMiningProgress" class="w3-container w3-round w3-brown w3-center custom-spacing custom-progress-bar layer1" v-bind:style="{width:(game.market.prices.mining * 2).toString() + '%'}"></div>
+                            <h3 id="globalExchangeMiningValue" class="w3-opacity layer2 vertical-center">{{ game.market.prices.mining }}</h3>
+                            <div id="m" class="w3-hide w3-animate-zoom">
                                 <div class="w3-row">
-                                        <input id="miningInput" class="w3-third custom-input" type="text" placeholder="Amount">
-                                        <div onclick="interactWithGlobalExchange('sell','mining',document.getElementById('miningInput').value,document.getElementById('globalExchangeMiningValue').textContent);" class="w3-third w3-button">Sell</div>
-                                        <div onclick="interactWithGlobalExchange('buy','mining',document.getElementById('miningInput').value,document.getElementById('globalExchangeMiningValue').textContent);" class="w3-third w3-button">Buy</div>
-                                    </div>
+                                    <input id="miningInput" class="w3-third custom-input" type="text" placeholder="Amount" v-model="miningMarketRequest">
+                                    <div @click="submitMarketOrder('sell','mining');" class="w3-third w3-button">Sell</div>
+                                    <div @click="submitMarketOrder('buy','mining');" class="w3-third w3-button">Buy</div>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="custom-accordian w3-round" id="syntheticsAccordian" @mouseover="openAccordian('s')" @mouseleave="closeAccordian('s')">
                         <div class="w3-round custom-light-pink layer-grid">
-                                <div id="globalExchangeSyntheticsProgress" class="w3-container w3-round w3-pink w3-center custom-spacing custom-progress-bar layer1" v-bind:style="{width:(game.market.prices.synthetics * 2).toString() + '%'}"></div>
-                                <h3 id="globalExchangeSyntheticsValue" class="w3-opacity layer2 vertical-center">{{ game.market.prices.synthetics }}</h3>
-                                <div id="s" class="w3-hide w3-animate-zoom">
-                                    <div class="w3-row">
-                                        <input id="syntheticsInput" class="w3-third custom-input" type="text" placeholder="Amount">
-                                        <div onclick="interactWithGlobalExchange('sell','synthetics',document.getElementById('syntheticsInput').value,document.getElementById('globalExchangeSyntheticsValue').textContent);" class="w3-third w3-button">Sell</div>
-                                        <div onclick="interactWithGlobalExchange('buy','synthetics',document.getElementById('syntheticsInput').value,document.getElementById('globalExchangeSyntheticsValue').textContent);" class="w3-third w3-button">Buy</div>
-                                    </div>
+                            <div id="globalExchangeSyntheticsProgress" class="w3-container w3-round w3-pink w3-center custom-spacing custom-progress-bar layer1" v-bind:style="{width:(game.market.prices.synthetics * 2).toString() + '%'}"></div>
+                            <h3 id="globalExchangeSyntheticsValue" class="w3-opacity layer2 vertical-center">{{ game.market.prices.synthetics }}</h3>
+                            <div id="s" class="w3-hide w3-animate-zoom">
+                                <div class="w3-row">
+                                    <input id="syntheticsInput" class="w3-third custom-input" type="text" placeholder="Amount" v-model="syntheticsMarketRequest">
+                                    <div @click="submitMarketOrder('sell','synthetics');" class="w3-third w3-button">Sell</div>
+                                    <div @click="submitMarketOrder('buy','synthetics');" class="w3-third w3-button">Buy</div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -218,14 +221,10 @@
                     </div>
                 </div>
             </div>
-            <div class="w3-rest w3-dark-gray w3-center">
-                <canvas id='canvas'></canvas>
-                
-            </div>
         </div>
     </div>
     <script src="scripts/index.js"></script>
-    <script src="scripts/canvas.js"></script>
     <script src="scripts/gameApp.js"></script>
+    <script src="scripts/canvas.js"></script>
 </body>
 </html>
