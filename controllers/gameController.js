@@ -53,6 +53,8 @@ module.exports = {
                 this.doIndustrializationPhase(game);
             }
         }
+
+        this.removeDeadPlayers(game);
     },
 
     rotatePlayerOrder: function (game) {
@@ -83,10 +85,17 @@ module.exports = {
     },
 
     removeDeadPlayers: function (game) {
+        console.log("gameController.removeDeadPlayers");
         for (let i = 0; i < game.playerOrder.length; i++) {
-            if (game.playerOrder[i].status == "dead")
-                game.playerOrder.pop(i);
+            let player = game.players.filter(player => player._id == game.playerOrder[i])[0];
+            console.log("player: " + player);
+            if (player.status != "alive") {
+                console.log("player is not alive " + player._id);
+                game.playerOrder.splice(i, 1);
+            }
         }
+        console.log("new playerOrder: " + game.playerOrder);
+        game.checkWinCondition(this);
     },
 
     // focus -> sell
@@ -94,7 +103,7 @@ module.exports = {
         console.log("gameController.checkFocus");
         let ready = true;
         for (player of game.players) {
-            if (player.status == "dead") continue;
+            if (player.status != "alive") continue;
             let sum = 0;
             for (action in player._doc.focus) {
                 sum += player._doc.focus[action];
