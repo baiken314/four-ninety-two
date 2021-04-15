@@ -1,5 +1,9 @@
 const socket = io();
 
+<<<<<<< Updated upstream
+=======
+//const URL = "https://23.130.192.72:8000";
+>>>>>>> Stashed changes
 const URL = "http://localhost:8000";
 
 // grab game information from the player-session and load into gameApp
@@ -72,6 +76,23 @@ let gameApp = new Vue({
             });
             const playerFocus = await playerFocusRequest.json();
             console.log(playerFocus);
+        },
+
+        endTurn: async function()
+        {
+            const playerEndTurnRequest = await fetch(URL + "/player/end-turn", {
+                method: "POST",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    game: this.game._id,
+                    player: this.player._id
+                })
+            });
+            const playerEndTurn = await playerEndTurnRequest.json();
+            console.log(playerEndTurn);
         }
     }
 });

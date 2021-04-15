@@ -15,7 +15,8 @@
                 <div class="w3-container w3-center">
                     <br>
                     <h3><b>-=- {{ user.name }} -=-</b></h3>
-                    <table style="width:100%">
+                    <h4 v-if="player.status != 'alive'"><br>You have lost.</h4>
+                    <table style="width:100%" v-if="player.status == 'alive'">
                         <tr>
                             <td class="align-left"><h4><b>Balance: </b></h4></td>
                             <td class="align-right"><h4 id="playerCurrency">{{ player.balance }}</h4></td>
@@ -28,7 +29,7 @@
                 </div>
                 <hr>
                 <hr>
-                <div class="w3-container w3-center">
+                <div class="w3-container w3-center" v-if="player.status == 'alive'">
                     <h3>Industrial Control</h3>
                     <div class="w3-panel w3-green">
                         <table style="width:100%">
@@ -123,7 +124,7 @@
                 <hr>
                 <div class="w3-container w3-center">
                     <h3>Subrounds</h3>
-                    <div id="subroundPanel1" v-bind:class="{ 'w3-show': this.game.state == 'focus' , 'w3-hide': this.game.state != 'focus'}">
+                    <div id="subroundPanel1" v-if="player.status == 'alive'" v-bind:class="{ 'w3-show': this.game.state == 'focus' , 'w3-hide': this.game.state != 'focus'}">
                         <h5>Determine your<br>focuses and submit.</h5>
                         <div class="w3-panel w3-gray">
                             <h4 class="subround-text">Sell</h4>
@@ -211,6 +212,9 @@
                             </table>
                         </div>
                         <br>
+                        <div @click="endTurn();" v-if="player.status == 'alive' && player._id == game.playerOrder[0]" class="custom-button w3-panel w3-gray w3-round">
+                            <h4 class="subround-text">End Turn</h4>
+                        </div>
                     </div>
                 </div>
             </div>
