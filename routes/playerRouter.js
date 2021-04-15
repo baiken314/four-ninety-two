@@ -83,8 +83,8 @@ router.route("/market-order").post(async (req, res) => {
                 return;
             }
             player.balance += price;
-            player.resources[req.body.resource] -= req.body.amount;
-            game.market.prices[req.body.resource] -= req.body.amount;
+            player.resources[req.body.resource] -= parseInt(req.body.amount);
+            game.market.prices[req.body.resource] -= parseInt(req.body.amount);
             console.log(game.market.prices[req.body.resource]);
             if (game.market.prices[req.body.resource] < 1)
                 game.market.prices[req.body.resource] = 1;
@@ -96,8 +96,8 @@ router.route("/market-order").post(async (req, res) => {
                 return;
             }
             player.balance -= price;
-            player.resources[req.body.resource] += req.body.amount;
-            game.market.prices[req.body.resource] += req.body.amount;
+            player.resources[req.body.resource] += parseInt(req.body.amount);
+            game.market.prices[req.body.resource] += parseInt(req.body.amount);
             console.log(game.market.prices[req.body.resource]);
             if (game.market.prices[req.body.resource] > game._doc.market.maxPrice)
                 game.market.prices[req.body.resource] = game._doc.market.maxPrice;
