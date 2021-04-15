@@ -72,6 +72,8 @@ router.route("/market-order").post(async (req, res) => {
     let game = await Game.findOne({ _id: req.body.game });
     let player = game.players.filter(player => player._id == req.body.player)[0];
 
+    console.log("req.body: " + req.body);
+
     if (game.state == req.body.action && game.playerOrder[0] == player._id) {
         let price = req.body.amount * game._doc.market.prices[req.body.resource];
         console.log("price: " + price);
