@@ -95,7 +95,7 @@ module.exports = {
             }
         }
         console.log("new playerOrder: " + game.playerOrder);
-        game.checkWinCondition(this);
+        this.checkWinCondition(game);
     },
 
     // focus -> sell
