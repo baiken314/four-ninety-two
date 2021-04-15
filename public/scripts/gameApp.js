@@ -1,9 +1,6 @@
 const socket = io();
 
-<<<<<<< Updated upstream
-=======
 //const URL = "https://23.130.192.72:8000";
->>>>>>> Stashed changes
 const URL = "http://localhost:8000";
 
 // grab game information from the player-session and load into gameApp
