@@ -1861,54 +1861,6 @@
 			]
 		},
 		{
-			"name": "Iceland",
-			"type": "land",
-			"adjacentRegionNames": ["Greenland Sea"],
-			"industrialization": {
-				"agriculture": 0,
-				"mining": 0,
-				"synthetics": 0
-			},
-			"coordinates": [
-				{
-					"x": 790,
-					"y": 275
-				},
-				{
-					"x": 810,
-					"y": 255
-				},
-				{
-					"x": 820,
-					"y": 255
-				},
-				{
-					"x": 830,
-					"y": 265
-				},
-				{
-					"x": 830,
-					"y": 280
-				},
-				{
-					"x": 820,
-					"y": 290
-				},
-				{
-					"x": 810,
-					"y": 290
-				},
-				{
-					"x": 805,
-					"y": 285
-				},
-				{
-					"x": 800,
-					"y": 285
-				}
-			]
-		},
-		{
 			"name": "Labrador Sea",
 			"type": "water",
 			"adjacentRegionNames": ["Northeastern Islands","New England","Quebec","Baffin Bay","North Atlantic Ocean"],
@@ -4733,6 +4685,122 @@
 				{
 					"x": 705,
 					"y": 155
+				}
+			]
+		},
+		{
+			"name": "Midwest",
+			"type": "land",
+			"adjacentRegionNames": ["Praries","Great Plains","Rio Grande","Deep South","Appalachia","Great Lakes"],
+			"industrialization": {
+				"agriculture": 0,
+				"mining": 0,
+				"synthetics": 0
+			},
+			"coordinates": [
+				{
+					"x": 445,
+					"y": 535
+				},
+				{
+					"x": 445,
+					"y": 585
+				},
+				{
+					"x": 435,
+					"y": 595
+				},
+				{
+					"x": 435,
+					"y": 635
+				},
+				{
+					"x": 440,
+					"y": 640
+				},
+				{
+					"x": 440,
+					"y": 670
+				},
+				{
+					"x": 460,
+					"y": 690
+				},
+				{
+					"x": 485,
+					"y": 665
+				},
+				{
+					"x": 515,
+					"y": 665
+				},
+				{
+					"x": 530,
+					"y": 650
+				},
+				{
+					"x": 485,
+					"y": 605
+				},
+				{
+					"x": 485,
+					"y": 540
+				},
+				{
+					"x": 480,
+					"y": 535
+				},
+				{
+					"x": 445,
+					"y": 535
+				}
+			]
+		},
+		{
+			"name": "Iceland",
+			"type": "land",
+			"adjacentRegionNames": ["Greenland Sea"],
+			"industrialization": {
+				"agriculture": 0,
+				"mining": 0,
+				"synthetics": 0
+			},
+			"coordinates": [
+				{
+					"x": 790,
+					"y": 275
+				},
+				{
+					"x": 810,
+					"y": 255
+				},
+				{
+					"x": 820,
+					"y": 255
+				},
+				{
+					"x": 830,
+					"y": 265
+				},
+				{
+					"x": 830,
+					"y": 280
+				},
+				{
+					"x": 820,
+					"y": 290
+				},
+				{
+					"x": 810,
+					"y": 290
+				},
+				{
+					"x": 805,
+					"y": 285
+				},
+				{
+					"x": 800,
+					"y": 285
 				}
 			]
 		},
