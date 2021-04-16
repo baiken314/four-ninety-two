@@ -9,12 +9,9 @@
     <script src="/socket.io/socket.io.js"></script>
 </head>
 <body>
-    <div id='canvasContainer' class="w3-rest w3-dark-gray w3-center" style="height:900px">
-        <canvas id='canvas'></canvas>
-    </div>
-    <div id="game-app">
-        <div class="w3-row w3-margin">
-            <div class="w3-col w3-black w3-left w3-margin-right" style="width:305px">
+    <div class="w3-row w3-margin">
+        <div id="game-app">
+            <div id="leftColumn" class="w3-col w3-black w3-left w3-margin-right" style="width:305px">
                 <div class="w3-container w3-center">
                     <br>
                     <h3><b>-=- {{ user.name }} -=-</b></h3>
@@ -116,7 +113,7 @@
                     </div>
                 </div>
             </div>
-            <div class="w3-col w3-black w3-right w3-margin-left" style="width:220px">
+            <div id="rightColumn" class="w3-col w3-black w3-right w3-margin-left" style="width:220px">
                 <div class="w3-container w3-center">
                     <br>
                     <h3>Round </h3>
@@ -166,7 +163,7 @@
                         <div class="w3-panel w3-gray" id="sellSubroundSection"  v-bind:class="{ 'w3-opacity-max': this.game.state != 'sell' , 'w3-grayscale': this.game.state == 'sell'}">
                             <h4 class="subround-text">sell</h4>
                             <table style="width:100%">
-                                <tr v-for="player in game.players.sort((a,b) => {return a.focus.sell < b.focus.sell?1:-1;})">
+                                <tr v-for="player in game.players.filter(player=>player.status == 'alive').sort((a,b) => {return a.focus.sell < b.focus.sell?1:-1;})">
                                     <td class="align-left">
                                         <h5 v-bind:class="{ 'custom-red-loud':player._id == game.playerOrder[0] && game.state == 'sell'}" class="subround-text">{{player.name}}</h5>
                                     </td>
@@ -183,7 +180,7 @@
                         <div class="w3-panel w3-gray" id="actSubroundSection" v-bind:class="{ 'w3-opacity-max': !this.game.state.includes('act') , 'w3-grayscale': this.game.state.includes('act')}">
                             <h4 class="subround-text">act {{ game.state.includes("act")? "- " + game.state.substring(4): ""}}</h4>
                             <table style="width:100%">
-                                <tr v-for="player in game.players.sort((a,b) => {return a.focus.act < b.focus.act?1:-1;})">
+                                <tr v-for="player in game.players.filter(player=>player.status == 'alive').sort((a,b) => {return a.focus.act < b.focus.act?1:-1;})">
                                     <td class="align-left">
                                         <h5 v-bind:class="{ 'custom-red-loud':player._id == game.playerOrder[0] && game.state.includes('act')}" class="subround-text">{{player.name}}</h5>
                                     </td>
@@ -200,7 +197,7 @@
                         <div class="w3-panel w3-gray" id="buySubroundSection"   v-bind:class="{ 'w3-opacity-max': this.game.state != 'buy' , 'w3-grayscale': this.game.state == 'buy'}">
                             <h4 class="subround-text">buy</h4>
                             <table style="width:100%">
-                                <tr v-for="player in game.players.sort((a,b) => {return a.focus.buy < b.focus.buy?1:-1;})">
+                                <tr v-for="player in game.players.filter(player=>player.status == 'alive').sort((a,b) => {return a.focus.buy < b.focus.buy?1:-1;})">
                                     <td class="align-left">
                                         <h5 v-bind:class="{ 'custom-red-loud':player._id == game.playerOrder[0] && game.state == 'buy'}" class="subround-text">{{player.name}}</h5>
                                     </td>
@@ -222,7 +219,30 @@
                 </div>
             </div>
         </div>
+        <div class="w3-rest w3-center">
+            <canvas id='canvas'></canvas>
+            <div id='regionBar' class="w3-container w3-black w3-hide">
+                <table style="width:100%">
+                    <tr>
+                        <td style="width:70%" class="align-left"><h4 id='regionBarInfoLeftHeader'></h4><br><h5 id='regionBarInfoLeftBody'></h5></td>
+                        <td style="width:30%" id="actButtons" class="align-right w3-hide">
+                            <table class="w3-center vertical-center" style="width:100%">
+                                <tr>
+                                    <td style="width:50%" class="custom-button w3-panel w3-gray w3-round"><h4 onclick="gameApp.attack();">Attack</h4></td>
+                                    <td style="width:50%" class="custom-button w3-panel w3-gray w3-round"><h4>Move</h4></td>
+                                </tr>
+                                <tr>
+                                    <td style="width:50%" class="custom-button w3-panel w3-gray w3-round"><h4>Build</h4></td>
+                                    <td style="width:50%" class="custom-button w3-panel w3-gray w3-round"><h4>Research</h4></td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
     </div>
+
     <script src="scripts/index.js"></script>
     <script src="scripts/gameApp.js"></script>
     <script src="scripts/canvas.js"></script>
