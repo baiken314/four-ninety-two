@@ -58,7 +58,7 @@ function Region(regionObject)
         ctx.lineTo(this.coordinates[0].x * scaleFactor + xOffset, this.coordinates[0].y * scaleFactor + yOffset);
         ctx.strokeStyle = "#06111B";
         ctx.lineWidth = 3;
-        if (gameApp.currentlySelectedRegion != null && gameApp.currentlySelectedRegion.name == this.name)
+        if (regionApp.selectedRegion != null && regionApp.selectedRegion.name == this.name)
         {
             //ctx.strokeStyle = "#FFF";
             //ctx.lineWidth = 5;
@@ -83,8 +83,7 @@ function Region(regionObject)
         }
         if(inRegion)
         {
-            gameApp.currentlySelectedRegion = gameApp.game.regions.filter(region => region.name == this.name)[0];
-            gameApp.updateRegionBar();
+            regionApp.selectedRegion = gameApp.game.regions.filter(region => region.name == this.name)[0];
         }
         this.draw();
     }
