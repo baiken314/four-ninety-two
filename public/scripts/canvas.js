@@ -30,6 +30,14 @@ function Region(regionObject)
     this.arrayOfXCoordinates = [];
     this.arrayOfYCoordinates = [];
 
+    this.updatedCoordinated = null;
+
+    this.centerX = null;
+    this.centerY = null;
+
+    this.updatedX = null;
+    this.updatedY = null;
+
     this.draw = function()
     {
         if (gameApp.game.regions.filter(region => region.name == this.name)[0].player != null)
@@ -46,30 +54,72 @@ function Region(regionObject)
         }
         this.arrayOfXCoordinates = [];
         this.arrayOfYCoordinates = [];
+        this.updatedCoordinates = [];
         ctx.beginPath();
         ctx.moveTo(this.coordinates[0].x * scaleFactor + xOffset, this.coordinates[0].y * scaleFactor + yOffset);
         for (coordinate of this.coordinates)
         {
-            ctx.lineTo(coordinate.x * scaleFactor + xOffset, coordinate.y * scaleFactor + yOffset);
-            this.arrayOfXCoordinates.push(coordinate.x * scaleFactor + xOffset);
-            this.arrayOfYCoordinates.push(coordinate.y * scaleFactor + yOffset);
+            this.updatedX = coordinate.x * scaleFactor + xOffset;
+            this.updatedY = coordinate.y * scaleFactor + yOffset;
+            ctx.lineTo(this.updatedX, this.updatedY);
+            this.arrayOfXCoordinates.push(this.updatedX);
+            this.arrayOfYCoordinates.push(this.updatedY);
+            this.updatedCoordinates.push({x: this.updatedX, y: this.updatedY});
         }
 
         ctx.lineTo(this.coordinates[0].x * scaleFactor + xOffset, this.coordinates[0].y * scaleFactor + yOffset);
         ctx.strokeStyle = "#06111B";
         ctx.lineWidth = 3;
-        if (regionApp.selectedRegion != null && regionApp.selectedRegion.name == this.name)
-        {
-            //ctx.strokeStyle = "#FFF";
-            //ctx.lineWidth = 5;
-            //if (regionArray.indexOf(this) != regionArray.length - 1)
-            //{
-            //    makeRegionTheLastDrawn(regionArray, regionArray.indexOf(this), regionArray.length - 1);
-            //}
-        }
         ctx.stroke();
         ctx.closePath();
         ctx.fill();
+    }
+    this.overlay = function()
+    {
+        [this.centerX, this.centerY] = determineCenterOfRegion(this.updatedCoordinates);
+        ctx.fillStyle = "#000";
+        ctx.font = "15px Arial";
+        //console.log(this.centerX,this.centerY);
+        ctx.fillText("X",this.centerX - 10,this.centerY);
+    }
+    this.selectionBorders = function()
+    {
+        for (adjacentRegionName of this.adjacentRegionNames)
+        {
+            for (region of regionArray)
+            {
+                if (adjacentRegionName == region.name)
+                {
+                    ctx.beginPath();
+                    ctx.moveTo(region.updatedCoordinates[0].x, region.updatedCoordinates[0].y);
+                    for (coordinate of region.updatedCoordinates)
+                    {
+                        ctx.lineTo(coordinate.x, coordinate.y);
+                    }
+            
+                    ctx.lineTo(region.updatedCoordinates[0].x, region.updatedCoordinates[0].y);
+                    let r_a = 0.3; 
+                    ctx.fillStyle = "rgba(0, 0, 0, " + r_a + ")"; 
+                    ctx.fill();
+                    ctx.closePath();
+                }
+            }
+        }
+        ctx.beginPath();
+        ctx.moveTo(this.updatedCoordinates[0].x, this.updatedCoordinates[0].y);
+        for (coordinate of this.updatedCoordinates)
+        {
+            ctx.lineTo(coordinate.x, coordinate.y);
+        }
+
+        ctx.lineTo(this.updatedCoordinates[0].x, this.updatedCoordinates[0].y);
+        let r_a = 0.3; 
+        ctx.fillStyle = "rgba(255, 255, 255, " + r_a + ")"; 
+        ctx.lineWidth = 5;
+        ctx.strokeStyle = "#FFF";
+        ctx.stroke();
+        ctx.fill();
+        ctx.closePath();
     }
     this.update = function()
     {
@@ -138,20 +188,65 @@ function main()
     {
         region.update();
     }
+    if (regionApp.selectedRegion != null)
+    {
+        for (region of regionArray)
+        {
+            if (region.name == regionApp.selectedRegion.name)
+            {
+                region.selectionBorders();
+            }
+        }
+    }
+    for (region of regionArray)
+    {
+        region.overlay();
+    }
     requestAnimationFrame(main);
 }
 
-function makeRegionTheLastDrawn(arr, old_index, new_index)
+// function makeRegionTheLastDrawn(arr, old_index, new_index)
+// {
+//     if (new_index >= arr.length)
+//     {
+//         var k = new_index - arr.length + 1;
+//         while (k--)
+//         {
+//             arr.push(undefined);
+//         }
+//     }
+//     arr.splice(new_index, 0, arr.splice(old_index, 1)[0]);
+// }
+
+function determineCenterOfRegion(coordinates)
 {
-    if (new_index >= arr.length)
+    let minX = 1000000;
+    let maxX = -1000000;
+    let minY = 1000000;
+    let maxY = -1000000;
+
+    for (coordinate of coordinates)
     {
-        var k = new_index - arr.length + 1;
-        while (k--)
+        if (coordinate.x < minX)
         {
-            arr.push(undefined);
+            minX = coordinate.x;
+        }
+        if (coordinate.x > maxX)
+        {
+            maxX = coordinate.x;
+        }
+        if (coordinate.y < minY)
+        {
+            minY = coordinate.y;
+        }
+        if (coordinate.y > maxY)
+        {
+            maxY = coordinate.y;
         }
     }
-    arr.splice(new_index, 0, arr.splice(old_index, 1)[0]);
+    let averageX = (minX + maxX) / 2;
+    let averageY = (minY + maxY) / 2;
+    return [averageX, averageY];
 }
 
 initialize();
