@@ -151,7 +151,7 @@
 		{
 			"name": "Gulf of Alaska",
 			"type": "water",
-			"adjacentRegionNames": ["Actic Ocean","Alaska","Western Cordillera","North Pacific Ocean"],
+			"adjacentRegionNames": ["Arctic Ocean","Yukon","Western Cordillera","North Pacific Ocean"],
 			"industrialization": {
 				"agriculture": 0,
 				"mining": 0,
