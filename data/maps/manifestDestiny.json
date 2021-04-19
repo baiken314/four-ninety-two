@@ -3875,7 +3875,7 @@
 		{
 			"name": "Baja California",
 			"type": "land",
-			"adjacentRegionNames": ["Gulf of California","Central Pacific Ocean","Southwest","Northern Sierra Madre"],
+			"adjacentRegionNames": ["Gulf of California","Central Pacific Ocean","Southwest","Northern Sierra Madre","North Pacific Ocean"],
 			"industrialization": {
 				"agriculture": 3,
 				"mining": 3,

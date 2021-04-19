@@ -79,7 +79,6 @@ function Region(regionObject)
         [this.centerX, this.centerY] = determineCenterOfRegion(this.updatedCoordinates);
         ctx.fillStyle = "#000";
         ctx.font = "15px Arial";
-        //console.log(this.centerX,this.centerY);
         ctx.fillText("X",this.centerX - 10,this.centerY);
     }
     this.selectionBorders = function()
