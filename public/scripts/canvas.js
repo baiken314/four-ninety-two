@@ -76,10 +76,11 @@ function Region(regionObject)
     }
     this.overlay = function()
     {
-        [this.centerX, this.centerY] = determineCenterOfRegion(this.updatedCoordinates);
+        [this.centerX, this.centerY, this.biggestXDifference] = determineCenterOfRegion(this.updatedCoordinates);
         ctx.fillStyle = "#000";
+        // + ((this.centerX - (canvas.width / 2)) / 3000 * this.biggestXDifference)
         ctx.font = "15px Arial";
-        ctx.fillText("X",this.centerX - 10,this.centerY);
+        ctx.fillText(this.name[0],this.centerX - 10,this.centerY);
     }
     this.selectionBorders = function()
     {
@@ -179,7 +180,7 @@ function main()
     //{
     //    canvas.width = 875;
     //}
-    canvas.width = 800;
+    canvas.width = 780;
     canvas.height = canvas.width;
     scaleFactor = canvas.width * .001;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -245,7 +246,22 @@ function determineCenterOfRegion(coordinates)
     }
     let averageX = (minX + maxX) / 2;
     let averageY = (minY + maxY) / 2;
-    return [averageX, averageY];
+    let biggestXDifference = maxX - minX;
+
+    if (minX == 0)
+    {
+        averageX = 0 + (averageX / 3);
+    }
+    if (maxX == canvas.width)
+    {
+        averageX = canvas.width - (averageX / 8);
+    }
+    if (minX == 0 && maxX == canvas.width)
+    {
+        averageX = canvas.width / 2;
+    }
+
+    return [averageX, averageY, biggestXDifference];
 }
 
 initialize();
