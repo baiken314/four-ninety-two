@@ -81,8 +81,7 @@ router.route("/create").post(async (req, res) => {
     // assign land unit to each starting Region
     for (let i = 0; i < game.players.length; i++) {
         for (startingRegionName of map.startingRegions[i].regionNames) {
-            let region = game.regions.filter
-                (region => startingRegionName == region.name)[0];
+            let region = game.regions.filter(region => startingRegionName == region.name)[0];
             region.player = game.players[i]._id;
             region.units.land = 1;
             region.industrialization = {
