@@ -221,17 +221,18 @@
         </div>
         <div class="w3-rest w3-center">
             <canvas id='canvas'></canvas>
-            <div id="region-app" v-if="selectedRegion != null" class="w3-container w3-black">
+            <div id="region-app" v-if="selectedRegion != null" class="w3-container w3-black" style="height:140px">
                 <table style="width:100%">
                     <tr>
-                        <td style="width:70%" class="align-left">
+                        <td style="width:60%" class="align-left">
                             <h4>{{"-=- " + selectedRegion.name}}</h4><h4 v-if="selectedRegion.player != null">{{" - " + game.players.filter(player => player._id == selectedRegion.player)[0].name}}</h4><h4>{{" -=-"}}</h4>
                             <h5><br>{{"Land: " + selectedRegion.units.land + " | Naval: " + selectedRegion.units.naval + " | Amphibious: " + selectedRegion.units.amphibious}}</h5>
+                            <h5><br>{{"Level of Investment: " + selectedRegion.industrialization.investment}}</h5>
                             <h5 v-if="selectedRegion.player == player._id"><br>{{"Agriculture: " + selectedRegion.industrialization.agriculture + " | Mining: " + selectedRegion.industrialization.mining + " | Synthetics: " + selectedRegion.industrialization.synthetics}}</h5>
                             <h5 v-if="selectedRegion.player == player._id"><br>{{"Atom Bombs: " + selectedRegion.units.atomBombs + " | Bioweapons: " + selectedRegion.units.bioweapons + " | Radars: " + selectedRegion.units.radars}}</h5>
                         </td>
-                        <td style="width:30%" v-if="selectedRegion.player == player._id" class="align-right">
-                            <table class="w3-center vertical-center" style="width:100%">
+                        <td style="width:40%" v-if="selectedRegion.player == player._id" class="align-right">
+                            <table class="w3-center" style="width:100%">
                                 <tr>
                                     <td style="width:50%" class="custom-button w3-panel w3-gray w3-round"><h4 @click="attack();">Attack</h4></td>
                                     <td style="width:50%" class="custom-button w3-panel w3-gray w3-round"><h4>Move</h4></td>

@@ -38,6 +38,13 @@ function Region(regionObject)
     this.updatedX = null;
     this.updatedY = null;
 
+    this.arrayOfArmies = [];
+    this.arrayOfNavies = [];
+    this.arrayOfAmphibious = [];
+    this.arrayOfAtomBombs = [];
+    this.arrayOfBioweapons = [];
+    this.arrayOfRadars = [];
+
     this.draw = function()
     {
         if (gameApp.game.regions.filter(region => region.name == this.name)[0].player != null)
@@ -76,11 +83,12 @@ function Region(regionObject)
     }
     this.overlay = function()
     {
-        [this.centerX, this.centerY] = determineCenterOfRegion(this.updatedCoordinates);
+        [this.centerX, this.centerY, this.biggestXDifference] = determineCenterOfRegion(this.updatedCoordinates);
         ctx.fillStyle = "#000";
-        ctx.font = "15px Arial";
-        //console.log(this.centerX,this.centerY);
-        ctx.fillText("X",this.centerX - 10,this.centerY);
+        // + ((this.centerX - (canvas.width / 2)) / 3000 * this.biggestXDifference)
+        //ctx.font = "15px Arial";
+        //ctx.fillText(this.name[0],this.centerX - 10,this.centerY);
+        
     }
     this.selectionBorders = function()
     {
@@ -139,6 +147,13 @@ function Region(regionObject)
     }
 }
 
+function Army(x, y)
+{
+    this.x = x;
+    thix.y = y;
+    ctx.fillRect(this.x, this.y, 10, 10);
+}
+
 let regionArray = [];
 let colorArray = ["#88CEC7","#CE888F","#B2CE88","#A488CE"];
 let playerArray = [];
@@ -148,7 +163,7 @@ function initialize()
 {
     if (gameApp.game != null)
     {
-        for (region of gameApp.game.map.regions)
+        for (region of gameApp.game.regions)
         {
             regionArray.push(new Region(region));
         }
@@ -180,7 +195,7 @@ function main()
     //{
     //    canvas.width = 875;
     //}
-    canvas.width = 800;
+    canvas.width = 780;
     canvas.height = canvas.width;
     scaleFactor = canvas.width * .001;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -246,7 +261,22 @@ function determineCenterOfRegion(coordinates)
     }
     let averageX = (minX + maxX) / 2;
     let averageY = (minY + maxY) / 2;
-    return [averageX, averageY];
+    let biggestXDifference = maxX - minX;
+
+    if (minX == 0)
+    {
+        averageX = 0 + (averageX / 3);
+    }
+    if (maxX == canvas.width)
+    {
+        averageX = canvas.width - (averageX / 8);
+    }
+    if (minX == 0 && maxX == canvas.width)
+    {
+        averageX = canvas.width / 2;
+    }
+
+    return [averageX, averageY, biggestXDifference];
 }
 
 initialize();

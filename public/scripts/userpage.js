@@ -29,7 +29,8 @@ async function getUserSession() {
     // get open games
     let players = userSession.user.players.filter(game => game.status != "completed");
     let openGames = [];
-    for (player of players) {
+    for (player of players)
+    {
         openGames.push(player.game);
     }
     console.log(openGames);
