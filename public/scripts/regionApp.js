@@ -18,7 +18,8 @@ socket2.on("updateRegionApp", updateRegionApp);
 
 let regionApp = new Vue({
     el: "#region-app",
-    data: {
+    data:
+    {
         selectedRegion: null,
         player: {},
         game: null

@@ -38,6 +38,13 @@ function Region(regionObject)
     this.updatedX = null;
     this.updatedY = null;
 
+    this.arrayOfArmies = [];
+    this.arrayOfNavies = [];
+    this.arrayOfAmphibious = [];
+    this.arrayOfAtomBombs = [];
+    this.arrayOfBioweapons = [];
+    this.arrayOfRadars = [];
+
     this.draw = function()
     {
         if (gameApp.game.regions.filter(region => region.name == this.name)[0].player != null)
@@ -79,8 +86,9 @@ function Region(regionObject)
         [this.centerX, this.centerY, this.biggestXDifference] = determineCenterOfRegion(this.updatedCoordinates);
         ctx.fillStyle = "#000";
         // + ((this.centerX - (canvas.width / 2)) / 3000 * this.biggestXDifference)
-        ctx.font = "15px Arial";
-        ctx.fillText(this.name[0],this.centerX - 10,this.centerY);
+        //ctx.font = "15px Arial";
+        //ctx.fillText(this.name[0],this.centerX - 10,this.centerY);
+        
     }
     this.selectionBorders = function()
     {
@@ -139,6 +147,13 @@ function Region(regionObject)
     }
 }
 
+function Army(x, y)
+{
+    this.x = x;
+    thix.y = y;
+    ctx.fillRect(this.x, this.y, 10, 10);
+}
+
 let regionArray = [];
 let colorArray = ["#88CEC7","#CE888F","#B2CE88","#A488CE"];
 let playerArray = [];
@@ -148,7 +163,7 @@ function initialize()
 {
     if (gameApp.game != null)
     {
-        for (region of gameApp.game.map.regions)
+        for (region of gameApp.game.regions)
         {
             regionArray.push(new Region(region));
         }
