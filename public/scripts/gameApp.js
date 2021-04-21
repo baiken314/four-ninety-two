@@ -3,6 +3,18 @@ const socket = io();
 //const URL = "https://23.130.192.72:8000";
 const URL = "http://localhost:8000";
 
+async function getMap() {
+    const mapsRequest = await fetch(URL + "/map");
+    const maps = await mapsRequest.json();
+
+    console.log("Getting maps");
+    console.log(maps);
+
+    userpageApp.maps = maps;
+}
+
+getMap();
+
 // grab game information from the player-session and load into gameApp
 async function updateGameApp() {
     console.log("updateGameApp in gameApp.js");
@@ -13,6 +25,7 @@ async function updateGameApp() {
     gameApp.user = playerSession.user;
     gameApp.game = playerSession.game;
     gameApp.player = playerSession.player;
+    gameApp.map = playerSession.map;
     gameApp.windowResize();
 }
 
@@ -32,6 +45,7 @@ let gameApp = new Vue({
         miningMarketRequest: null,
         syntheticsMarketRequest: null,
         leftoverX: null,
+        map: {}
     },
     created()
     {

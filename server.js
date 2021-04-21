@@ -16,6 +16,7 @@ const mapRouter = require("./routes/mapRouter");
 const playerRouter = require("./routes/playerRouter");
 const userRouter = require("./routes/userRouter");
 
+const Map = require("./models/Map");
 const User = require("./models/User");
 const Game = require("./models/Game");
 
@@ -184,6 +185,7 @@ app.get("/player-session", async (req, res) => {
 
     req.session.game = await Game.findOne({ _id: req.session.gameId }).populate("map");
     req.session.player = req.session.game.players.filter(player => player.user.equals(req.session.user._id))[0];
+    req.session.map = await Map.findOne({ _id: req.session.game.map });
 
     req.session.save(() => {
         res.json(req.session);

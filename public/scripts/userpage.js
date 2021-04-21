@@ -3,6 +3,18 @@ const URL = "http://localhost:8000";
 
 console.log("Starting.....");
 
+async function getMap() {
+    const mapsRequest = await fetch(URL + "/map");
+    const maps = await mapsRequest.json();
+
+    console.log("Getting maps");
+    console.log(maps);
+
+    userpageApp.maps = maps;
+}
+
+getMap();
+
 async function getUserSession() {
     console.log("Getting user session");
 
@@ -30,7 +42,8 @@ let userpageApp = new Vue({
     el: "#userpage-app",
     data: {
         user: {},
-        openGames: []
+        openGames: [],
+        maps: []
     }
 });
 
