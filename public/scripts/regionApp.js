@@ -22,7 +22,9 @@ let regionApp = new Vue({
     {
         selectedRegion: null,
         player: {},
-        game: null
+        game: null,
+        targetRegion: null,
+        showActions: true
     },
     methods:
     {
@@ -37,21 +39,46 @@ let regionApp = new Vue({
                 body: JSON.stringify({
                     game: gameApp.game._id,
                     attackingRegion: this.selectedRegion,
-                    defendingRegion: "",
+                    defendingRegion: this.targetRegion,
                     player: this.player._id,
                     units:
                     {
-                        land: this.selectedRegion.units.land,
-                        naval: this.selectedRegion.units.naval,
-                        amphibious: this.selectedRegion.units.amphibious,
-                        atomBombs: this.selectedRegion.units.atomBombs,
-                        bioweapons: this.selectedRegion.units.bioweapons,
+                        land: document.getElementById("landAttackCount"),
+                        naval: document.getElementById("navalAttackCount"),
+                        amphibious: document.getElementById("amphibiousAttackCount"),
+                        atomBombs: document.getElementById("atomBombsAttackCount"),
+                        bioweapons: document.getElementById("bioweaponsAttackCount"),
                         radars: 0
                     }
                 })
             });
             const playerAttack = await playerAttackRequest.json();
             console.log(playerAttack);
+        },
+        move: async function()
+        {
+            const playerMoveRequest = await fetch(URL2 + "/player/move", {
+                method: "POST",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(
+                    {
+                        game: gameApp.game._id,
+                        player: this.player._id,
+                        originRegion: this.selectedRegion,
+                        targetRegion: this.targetRegion,
+                        units:
+                        {
+                            land: document.getElementById("landMoveCount"),
+                            naval: document.getElementById("navalMoveCount"),
+                            amphibious: document.getElementById("amphibiousMoveCount")
+                        }
+                  })
+            });
+            const playerMove = await playerMoveRequest.json();
+            console.log(playerMove);
         }
     }
 });

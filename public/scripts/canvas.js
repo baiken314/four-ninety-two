@@ -4,6 +4,7 @@ let ctx = canvas.getContext("2d");
 let scaleFactor = 1;
 let xOffset = 0;
 let yOffset = 0;
+let unitWidth = 15;
 
 let mouse =
 {
@@ -13,8 +14,14 @@ let mouse =
 
 canvas.addEventListener('mousedown', e =>
 {
-    mouse.x = e.offsetX;
-    mouse.y = e.offsetY;
+    mouse.downx = e.offsetX;
+    mouse.downy = e.offsetY;
+    console.log(mouse.downx,mouse.downy);
+});
+canvas.addEventListener('mouseup', e =>
+{
+    mouse.upx = e.offsetX;
+    mouse.upy = e.offsetY;
 });
 
 function Region(regionObject)
@@ -24,19 +31,25 @@ function Region(regionObject)
     this.adjacentRegionNames = regionObject.adjacentRegionNames;
 
     this.coordinates = regionObject.coordinates;
-    this.numberOfCoordinates = this.coordinates.length;
-    this.industrialization = regionObject.industrialization;
 
+    this.numberOfCoordinates = this.coordinates.length;
     this.arrayOfXCoordinates = [];
     this.arrayOfYCoordinates = [];
-
-    this.updatedCoordinated = null;
 
     this.centerX = null;
     this.centerY = null;
 
     this.updatedX = null;
     this.updatedY = null;
+
+    this.industrialization = null;
+
+    this.landUnits = null;
+    this.navalUnits = null;
+    this.amphibiousUnits = null;
+    this.atomBombUnits = null;
+    this.bioweaponUnits = null;
+    this.radarUnits = null;
 
     this.arrayOfArmies = [];
     this.arrayOfNavies = [];
@@ -83,12 +96,24 @@ function Region(regionObject)
     }
     this.overlay = function()
     {
-        [this.centerX, this.centerY, this.biggestXDifference] = determineCenterOfRegion(this.updatedCoordinates);
-        ctx.fillStyle = "#000";
-        // + ((this.centerX - (canvas.width / 2)) / 3000 * this.biggestXDifference)
-        //ctx.font = "15px Arial";
-        //ctx.fillText(this.name[0],this.centerX - 10,this.centerY);
-        
+        this.arrayOfArmies = [];
+        this.arrayOfNavies = [];
+        this.arrayOfAmphibious = [];
+        this.arrayOfAtomBombs = [];
+        this.arrayOfBioweapons = [];
+        this.arrayOfRadars = [];
+
+        for (var i = (0 - (this.landUnits / 2)); i < this.landUnits - (this.landUnits / 2); i++)
+        {
+            this.arrayOfArmies.push(new Army(this.centerX + (i * unitWidth), this.centerY, unitWidth, "#000"));
+        }
+        if (this.arrayOfArmies.length != 0)
+        {
+            for (army of this.arrayOfArmies)
+            {
+                army.update();
+            }
+        }
     }
     this.selectionBorders = function()
     {
@@ -129,29 +154,141 @@ function Region(regionObject)
         ctx.fill();
         ctx.closePath();
     }
+    this.selectionUnits = function()
+    {
+        this.arrayOfArmies = [];
+        this.arrayOfNavies = [];
+        this.arrayOfAmphibious = [];
+        this.arrayOfAtomBombs = [];
+        this.arrayOfBioweapons = [];
+        this.arrayOfRadars = [];
+        
+        for (var i = (0 - (this.landUnits / 2)); i < this.landUnits - (this.landUnits / 2); i++)
+        {
+            this.arrayOfArmies.push(new Army(this.centerX + (i * unitWidth), this.centerY, unitWidth, "rgba(" + HEX2RGB(playerColors[gameApp.game.regions.filter(region => region.name == this.name)[0].player]) + ", " + .7 + ")", this));
+        }
+        if (this.arrayOfArmies.length != 0)
+        {
+            for (army of this.arrayOfArmies)
+            {
+                army.update();
+            }
+        }
+    }
     this.update = function()
     {
+        this.landUnits = gameApp.game.regions.filter(region => region.name == this.name)[0].units.land;
+        this.navalUnits = gameApp.game.regions.filter(region => region.name == this.name)[0].units.naval;
+        this.amphibiousUnits = gameApp.game.regions.filter(region => region.name == this.name)[0].units.amphibious;
+        this.atomBombUnits = gameApp.game.regions.filter(region => region.name == this.name)[0].units.atomBombs;
+        this.bioweaponUnits = gameApp.game.regions.filter(region => region.name == this.name)[0].units.bioweapons;
+        this.radarUnits = gameApp.game.regions.filter(region => region.name == this.name)[0].units.radars;
+
+        this.industrialization = gameApp.game.regions.filter(region => region.name == this.name)[0].industrialization;
+
         var i, j, inRegion = false;
         for( i = 0, j = this.numberOfCoordinates-1; i < this.numberOfCoordinates; j = i++ )
         {
-            if( ( ( this.arrayOfYCoordinates[i] > mouse.y ) != ( this.arrayOfYCoordinates[j] > mouse.y ) ) && ( mouse.x < ( this.arrayOfXCoordinates[j] - this.arrayOfXCoordinates[i] ) * ( mouse.y - this.arrayOfYCoordinates[i] ) / ( this.arrayOfYCoordinates[j] - this.arrayOfYCoordinates[i] ) + this.arrayOfXCoordinates[i] ) )
+            if( ( ( this.arrayOfYCoordinates[i] > mouse.downy ) != ( this.arrayOfYCoordinates[j] > mouse.downy ) ) && ( mouse.downx < ( this.arrayOfXCoordinates[j] - this.arrayOfXCoordinates[i] ) * ( mouse.downy - this.arrayOfYCoordinates[i] ) / ( this.arrayOfYCoordinates[j] - this.arrayOfYCoordinates[i] ) + this.arrayOfXCoordinates[i] ) )
             {
                 inRegion = !inRegion;
             }
         }
         if(inRegion)
         {
-            regionApp.selectedRegion = gameApp.game.regions.filter(region => region.name == this.name)[0];
+            if (regionApp.selectedRegion == null)
+            {
+                regionApp.selectedRegion = gameApp.game.regions.filter(region => region.name == this.name)[0];
+            }
+            else
+            {
+                if ((regionApp.selectedRegion.name != this.name) && (regionApp.targetRegion == "waiting"))
+                {
+                    regionApp.targetRegion = gameApp.game.regions.filter(region => region.name == this.name)[0];
+                    console.log(regionApp.selectedRegion,regionApp.targetRegion);
+                }
+                else if ((regionApp.targetRegion == null) && (regionApp.selectedRegion.name != this.name))
+                {
+                    regionApp.selectedRegion = gameApp.game.regions.filter(region => region.name == this.name)[0];
+                }
+                else
+                {
+                    if ((regionApp.selectedRegion.name != this.name) && (regionApp.targetRegion.name != this.name))
+                    {
+                        regionApp.selectedRegion = gameApp.game.regions.filter(region => region.name == this.name)[0];
+                    }
+                }
+            }
+            
         }
+
         this.draw();
+
+        [this.centerX, this.centerY] = determineCenterOfRegion(this.updatedCoordinates);
     }
 }
 
-function Army(x, y)
+function Army(x, y, width, fillStyle, parentRegion)
 {
+    this.parentRegion = parentRegion;
+    this.fillStyle = fillStyle;
     this.x = x;
-    thix.y = y;
-    ctx.fillRect(this.x, this.y, 10, 10);
+    this.y = y;
+    this.width = width;
+    this.coordinates = [
+        {
+            x: (this.x - this.width / 2),
+            y: (this.y - this.width / 2)
+        },
+        {
+            x: (this.x + this.width / 2),
+            y: (this.y - this.width / 2)
+        },
+        {
+            x: (this.x + this.width / 2),
+            y: (this.y + this.width / 2)
+        },
+        {
+            x: (this.x - this.width / 2),
+            y: (this.y + this.width / 2)
+        }
+    ];
+    this.numberOfCoordinates = this.coordinates.length;
+    this.arrayOfXCoordinates = [];
+    this.arrayOfYCoordinates = [];
+
+    this.draw = function()
+    {
+        ctx.fillStyle = this.fillStyle;
+        ctx.beginPath();
+        ctx.moveTo(this.coordinates[0].x, this.coordinates[0].y);
+        for (coordinate of this.coordinates)
+        {
+            ctx.lineTo(coordinate.x, coordinate.y);
+            this.arrayOfXCoordinates.push(coordinate.x);
+            this.arrayOfYCoordinates.push(coordinate.y);
+        }
+        ctx.lineTo(this.coordinates[0].x, this.coordinates[0].y);
+        ctx.closePath();
+        ctx.fill();
+    }
+    this.update = function()
+    {
+        this.draw();
+
+        var i, j, inRegion = false;
+        for( i = 0, j = this.numberOfCoordinates-1; i < this.numberOfCoordinates; j = i++ )
+        {
+            if( ( ( this.arrayOfYCoordinates[i] > mouse.downy ) != ( this.arrayOfYCoordinates[j] > mouse.downy ) ) && ( mouse.downx < ( this.arrayOfXCoordinates[j] - this.arrayOfXCoordinates[i] ) * ( mouse.downy - this.arrayOfYCoordinates[i] ) / ( this.arrayOfYCoordinates[j] - this.arrayOfYCoordinates[i] ) + this.arrayOfXCoordinates[i] ) )
+            {
+                inRegion = !inRegion;
+            }
+        }
+        if(inRegion)
+        {
+            firstRegion = this.parentRegion;
+        }
+    }
 }
 
 let regionArray = [];
@@ -159,11 +296,14 @@ let colorArray = ["#88CEC7","#CE888F","#B2CE88","#A488CE"];
 let playerArray = [];
 let playerColors = {};
 
+let firstRegion = null;
+let secondRegion = null;
+
 function initialize()
 {
     if (gameApp.game != null)
     {
-        for (region of gameApp.game.regions)
+        for (region of gameApp.game.map.regions)
         {
             regionArray.push(new Region(region));
         }
@@ -174,7 +314,6 @@ function initialize()
             playerColors[player._id] = colorArray[count];
             count++;
         }
-
         main();
     }
     else
@@ -195,7 +334,7 @@ function main()
     //{
     //    canvas.width = 875;
     //}
-    canvas.width = 780;
+    canvas.width = 750;
     canvas.height = canvas.width;
     scaleFactor = canvas.width * .001;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -217,21 +356,18 @@ function main()
     {
         region.overlay();
     }
+    if (regionApp.selectedRegion != null && (gameApp.game.regions.filter(region => region.name == regionApp.selectedRegion.name)[0].player != null))
+    {
+        for (region of regionArray)
+        {
+            if (region.name == regionApp.selectedRegion.name)
+            {
+                region.selectionUnits();
+            }
+        }
+    }
     requestAnimationFrame(main);
 }
-
-// function makeRegionTheLastDrawn(arr, old_index, new_index)
-// {
-//     if (new_index >= arr.length)
-//     {
-//         var k = new_index - arr.length + 1;
-//         while (k--)
-//         {
-//             arr.push(undefined);
-//         }
-//     }
-//     arr.splice(new_index, 0, arr.splice(old_index, 1)[0]);
-// }
 
 function determineCenterOfRegion(coordinates)
 {
@@ -261,7 +397,6 @@ function determineCenterOfRegion(coordinates)
     }
     let averageX = (minX + maxX) / 2;
     let averageY = (minY + maxY) / 2;
-    let biggestXDifference = maxX - minX;
 
     if (minX == 0)
     {
@@ -276,7 +411,39 @@ function determineCenterOfRegion(coordinates)
         averageX = canvas.width / 2;
     }
 
-    return [averageX, averageY, biggestXDifference];
+    return [averageX, averageY];
+}
+
+function HEX2RGB (hex)
+{
+    "use strict";
+    if (hex.charAt(0) === '#') {
+        hex = hex.substr(1);
+    }
+    if ((hex.length < 2) || (hex.length > 6)) {
+        return false;
+    }
+    var values = hex.split(''),
+        r,
+        g,
+        b;
+
+    if (hex.length === 2) {
+        r = parseInt(values[0].toString() + values[1].toString(), 16);
+        g = r;
+        b = r;
+    } else if (hex.length === 3) {
+        r = parseInt(values[0].toString() + values[0].toString(), 16);
+        g = parseInt(values[1].toString() + values[1].toString(), 16);
+        b = parseInt(values[2].toString() + values[2].toString(), 16);
+    } else if (hex.length === 6) {
+        r = parseInt(values[0].toString() + values[1].toString(), 16);
+        g = parseInt(values[2].toString() + values[3].toString(), 16);
+        b = parseInt(values[4].toString() + values[5].toString(), 16);
+    } else {
+        return false;
+    }
+    return "" + r + "," + g + "," + b + "";
 }
 
 initialize();
