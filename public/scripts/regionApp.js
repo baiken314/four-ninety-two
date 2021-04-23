@@ -14,7 +14,7 @@ async function updateRegionApp() {
     regionApp.game = playerSession.game;
 }
 
-socket2.on("updateRegionApp", updateRegionApp);
+socket2.on("updateGameApp", updateRegionApp);
 
 let regionApp = new Vue({
     el: "#region-app",

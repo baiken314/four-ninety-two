@@ -380,6 +380,7 @@ router.route("/attack").post(async (req, res) => {
  */
 router.route("/move").post(async (req, res) => {
     console.log("POST player/move");
+    console.log(req.body);
 
     let game = await Game.findOne({ _id: req.body.game });
     

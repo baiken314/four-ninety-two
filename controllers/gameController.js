@@ -139,13 +139,29 @@ module.exports = {
         }
     },
 
-    updateRegionTraverseCountDown: function (game) {
-        console.log("gameController.updateRegions");
+    updateRegionTraverseCountdown: function (game) {
+        console.log("gameController.updateRegionTraverseCountdown");
         // countdown for traverseCountdown
         for (region of game.regions) {
             if (region.traverseCountdown > 0) {
                 region.traverseCountdown -= 1;
             }
+        }
+    },
+
+    removePlayersFromEmptyRegions(game) {
+        console.log("gameController.removePlayersFromEmptyRegions");
+
+        for (region of game.regions) {
+            let regionUnits = 0;
+            for (unit in region._doc.units) {
+                regionUnits += region._doc.units[unit];
+            }
+            // remove player from region with no units
+            if (regionUnits < 1) {
+                region.player = undefined;
+            }
+            console.log(`Region ${region._doc.name} has ${regionUnits}, owned by ${region._doc.player}`);
         }
     },
 
@@ -241,6 +257,7 @@ module.exports = {
 
     updatePlayerInfo: function (game) {
         this.updateUnits(game);
+        this.removePlayersFromEmptyRegions(game);
         this.updatePlayerIncome(game);
         this.checkWinCondition(game);
         console.log(io);
@@ -250,7 +267,7 @@ module.exports = {
     prepareNextRound: function (game) {
         console.log("gameController.prepareNextRound");
         this.updatePlayerInfo(game);
-        this.updateRegionTraverseCountDown(game);
+        this.updateRegionTraverseCountdown(game);
         game.turn += 1;
     }
 
