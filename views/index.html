@@ -245,7 +245,7 @@
                         </td>
                     </tr>
                 </table>
-                <div v-if="(selectedRegion.player == player._id) && (!showActions) && (game.state == act.attack)">
+                <div v-if="(selectedRegion.player == player._id) && (!showActions) && (game.state == 'act.attack')">
                     <div class="w3-row w3-left" style="width:15%">
                         <div class="w3-col">
                             <div class="w3-panel w3-gray w3-round w3-grayscale custom-button" v-on:click="showActions = true; targetRegion = null;">
@@ -290,7 +290,7 @@
                         </div>
                     </div>
                 </div>
-                <div v-if="(selectedRegion.player == player._id) && (!showActions) && (game.state == act.move)">
+                <div v-if="(selectedRegion.player == player._id) && (!showActions) && (game.state == 'act.move')">
                     <div class="w3-row w3-left" style="width:15%">
                         <div class="w3-col">
                             <div class="w3-panel w3-gray w3-round w3-grayscale custom-button" v-on:click="showActions = true; targetRegion = null;">

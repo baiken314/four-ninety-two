@@ -38,8 +38,8 @@ let regionApp = new Vue({
                 },
                 body: JSON.stringify({
                     game: gameApp.game._id,
-                    attackingRegion: this.selectedRegion,
-                    defendingRegion: this.targetRegion,
+                    attackingRegion: this.selectedRegion._id,
+                    defendingRegion: this.targetRegion._id,
                     player: this.player._id,
                     units:
                     {
@@ -67,8 +67,8 @@ let regionApp = new Vue({
                     {
                         game: gameApp.game._id,
                         player: this.player._id,
-                        originRegion: this.selectedRegion,
-                        targetRegion: this.targetRegion,
+                        originRegion: this.selectedRegion._id,
+                        targetRegion: this.targetRegion._id,
                         units:
                         {
                             land: document.getElementById("landMoveCount"),
