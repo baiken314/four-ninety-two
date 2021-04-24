@@ -3747,7 +3747,7 @@
 		{
 			"name": "Gulf Coast",
 			"type": "land",
-			"adjacentRegionNames": ["Northern Sierra Madre","Rio Grande","Caribbean Sea","Yucatan","Pacific Coast"],
+			"adjacentRegionNames": ["Northern Sierra Madre","Rio Grande","Gulf of Mexico","Yucatan","Pacific Coast"],
 			"industrialization": {
 				"agriculture": 0,
 				"mining": 0,

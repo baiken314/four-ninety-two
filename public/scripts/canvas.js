@@ -14,14 +14,8 @@ let mouse =
 
 canvas.addEventListener('mousedown', e =>
 {
-    mouse.downx = e.offsetX;
-    mouse.downy = e.offsetY;
-    console.log(mouse.downx,mouse.downy);
-});
-canvas.addEventListener('mouseup', e =>
-{
-    mouse.upx = e.offsetX;
-    mouse.upy = e.offsetY;
+    mouse.x = e.offsetX;
+    mouse.y = e.offsetY;
 });
 
 function Region(regionObject)
@@ -51,12 +45,12 @@ function Region(regionObject)
     this.bioweaponUnits = null;
     this.radarUnits = null;
 
-    this.arrayOfArmies = [];
-    this.arrayOfNavies = [];
-    this.arrayOfAmphibious = [];
-    this.arrayOfAtomBombs = [];
-    this.arrayOfBioweapons = [];
-    this.arrayOfRadars = [];
+    this.land = null;
+    this.naval = null;
+    this.amphibious = null;
+    this.atomBomb = null;
+    this.bioweapon = null;
+    this.radar = null;
 
     this.draw = function()
     {
@@ -96,23 +90,10 @@ function Region(regionObject)
     }
     this.overlay = function()
     {
-        this.arrayOfArmies = [];
-        this.arrayOfNavies = [];
-        this.arrayOfAmphibious = [];
-        this.arrayOfAtomBombs = [];
-        this.arrayOfBioweapons = [];
-        this.arrayOfRadars = [];
-
-        for (var i = (0 - (this.landUnits / 2)); i < this.landUnits - (this.landUnits / 2); i++)
+        if (this.landUnits > 0)
         {
-            this.arrayOfArmies.push(new Army(this.centerX + (i * unitWidth), this.centerY, unitWidth, "#000"));
-        }
-        if (this.arrayOfArmies.length != 0)
-        {
-            for (army of this.arrayOfArmies)
-            {
-                army.update();
-            }
+            this.army = new Army(this.centerX, this.centerY, unitWidth, "#000", this.landUnits);
+            this.army.draw();
         }
     }
     this.selectionBorders = function()
@@ -156,23 +137,10 @@ function Region(regionObject)
     }
     this.selectionUnits = function()
     {
-        this.arrayOfArmies = [];
-        this.arrayOfNavies = [];
-        this.arrayOfAmphibious = [];
-        this.arrayOfAtomBombs = [];
-        this.arrayOfBioweapons = [];
-        this.arrayOfRadars = [];
-        
-        for (var i = (0 - (this.landUnits / 2)); i < this.landUnits - (this.landUnits / 2); i++)
+        if (this.landUnits > 0)
         {
-            this.arrayOfArmies.push(new Army(this.centerX + (i * unitWidth), this.centerY, unitWidth, "rgba(" + HEX2RGB(playerColors[gameApp.game.regions.filter(region => region.name == this.name)[0].player]) + ", " + .7 + ")", this));
-        }
-        if (this.arrayOfArmies.length != 0)
-        {
-            for (army of this.arrayOfArmies)
-            {
-                army.update();
-            }
+            this.army = new Army(this.centerX, this.centerY, unitWidth, "rgba(" + HEX2RGB(playerColors[gameApp.game.regions.filter(region => region.name == this.name)[0].player]) + ", " + .7 + ")", this.landUnits);
+            this.army.draw();
         }
     }
     this.update = function()
@@ -189,7 +157,7 @@ function Region(regionObject)
         var i, j, inRegion = false;
         for( i = 0, j = this.numberOfCoordinates-1; i < this.numberOfCoordinates; j = i++ )
         {
-            if( ( ( this.arrayOfYCoordinates[i] > mouse.downy ) != ( this.arrayOfYCoordinates[j] > mouse.downy ) ) && ( mouse.downx < ( this.arrayOfXCoordinates[j] - this.arrayOfXCoordinates[i] ) * ( mouse.downy - this.arrayOfYCoordinates[i] ) / ( this.arrayOfYCoordinates[j] - this.arrayOfYCoordinates[i] ) + this.arrayOfXCoordinates[i] ) )
+            if( ( ( this.arrayOfYCoordinates[i] > mouse.y ) != ( this.arrayOfYCoordinates[j] > mouse.y ) ) && ( mouse.x < ( this.arrayOfXCoordinates[j] - this.arrayOfXCoordinates[i] ) * ( mouse.y - this.arrayOfYCoordinates[i] ) / ( this.arrayOfYCoordinates[j] - this.arrayOfYCoordinates[i] ) + this.arrayOfXCoordinates[i] ) )
             {
                 inRegion = !inRegion;
             }
@@ -200,26 +168,18 @@ function Region(regionObject)
             {
                 regionApp.selectedRegion = gameApp.game.regions.filter(region => region.name == this.name)[0];
             }
-            else
+            else if ((regionApp.selectedRegion.name != this.name) && (regionApp.targetRegion == "waiting"))
             {
-                if ((regionApp.selectedRegion.name != this.name) && (regionApp.targetRegion == "waiting"))
-                {
-                    regionApp.targetRegion = gameApp.game.regions.filter(region => region.name == this.name)[0];
-                    console.log(regionApp.selectedRegion,regionApp.targetRegion);
-                }
-                else if ((regionApp.targetRegion == null) && (regionApp.selectedRegion.name != this.name))
-                {
-                    regionApp.selectedRegion = gameApp.game.regions.filter(region => region.name == this.name)[0];
-                }
-                else
-                {
-                    if ((regionApp.selectedRegion.name != this.name) && (regionApp.targetRegion.name != this.name))
-                    {
-                        regionApp.selectedRegion = gameApp.game.regions.filter(region => region.name == this.name)[0];
-                    }
-                }
+                regionApp.targetRegion = gameApp.game.regions.filter(region => region.name == this.name)[0];
             }
-            
+            else if (regionApp.targetRegion == null)
+            {
+                regionApp.selectedRegion = gameApp.game.regions.filter(region => region.name == this.name)[0];
+            }
+            else if (regionApp.targetRegion.name != this.name)
+            {
+                regionApp.selectedRegion = gameApp.game.regions.filter(region => region.name == this.name)[0];
+            }
         }
 
         this.draw();
@@ -228,13 +188,13 @@ function Region(regionObject)
     }
 }
 
-function Army(x, y, width, fillStyle, parentRegion)
+function Army(x, y, width, fillStyle, landUnits)
 {
-    this.parentRegion = parentRegion;
     this.fillStyle = fillStyle;
     this.x = x;
     this.y = y;
     this.width = width;
+    this.landUnits = landUnits;
     this.coordinates = [
         {
             x: (this.x - this.width / 2),
@@ -253,9 +213,6 @@ function Army(x, y, width, fillStyle, parentRegion)
             y: (this.y + this.width / 2)
         }
     ];
-    this.numberOfCoordinates = this.coordinates.length;
-    this.arrayOfXCoordinates = [];
-    this.arrayOfYCoordinates = [];
 
     this.draw = function()
     {
@@ -265,29 +222,13 @@ function Army(x, y, width, fillStyle, parentRegion)
         for (coordinate of this.coordinates)
         {
             ctx.lineTo(coordinate.x, coordinate.y);
-            this.arrayOfXCoordinates.push(coordinate.x);
-            this.arrayOfYCoordinates.push(coordinate.y);
         }
         ctx.lineTo(this.coordinates[0].x, this.coordinates[0].y);
         ctx.closePath();
         ctx.fill();
-    }
-    this.update = function()
-    {
-        this.draw();
-
-        var i, j, inRegion = false;
-        for( i = 0, j = this.numberOfCoordinates-1; i < this.numberOfCoordinates; j = i++ )
-        {
-            if( ( ( this.arrayOfYCoordinates[i] > mouse.downy ) != ( this.arrayOfYCoordinates[j] > mouse.downy ) ) && ( mouse.downx < ( this.arrayOfXCoordinates[j] - this.arrayOfXCoordinates[i] ) * ( mouse.downy - this.arrayOfYCoordinates[i] ) / ( this.arrayOfYCoordinates[j] - this.arrayOfYCoordinates[i] ) + this.arrayOfXCoordinates[i] ) )
-            {
-                inRegion = !inRegion;
-            }
-        }
-        if(inRegion)
-        {
-            firstRegion = this.parentRegion;
-        }
+        ctx.fillStyle = "#FFF";
+        ctx.font = "10px Arial";
+        ctx.fillText(this.landUnits,this.coordinates[0].x + (this.width/4),this.coordinates[0].y + (this.width/1.5));
     }
 }
 

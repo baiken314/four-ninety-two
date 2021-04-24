@@ -13,7 +13,6 @@ async function updateGameApp() {
     gameApp.user = playerSession.user;
     gameApp.game = playerSession.game;
     gameApp.player = playerSession.player;
-    gameApp.map = playerSession.map;
     gameApp.windowResize();
 }
 
@@ -32,8 +31,7 @@ let gameApp = new Vue({
         agricultureMarketRequest: null,
         miningMarketRequest: null,
         syntheticsMarketRequest: null,
-        leftoverX: null,
-        map: {}
+        leftoverX: null
     },
     created()
     {
