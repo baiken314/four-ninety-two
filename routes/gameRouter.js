@@ -60,6 +60,13 @@ router.route("/create").post(async (req, res) => {
             name: regionTemplate.name,
             type: regionTemplate.type,
             adjacentRegionNames: regionTemplate.adjacentRegionNames,
+            industrialization: {
+                investment: 0,
+                active: true,
+                agriculture: regionTemplate.industrialization.agriculture || 0,
+                mining: regionTemplate.industrialization.mining || 0,
+                synthetics: regionTemplate.industrialization.synthetics || 0
+            } 
         };
 
         game.regions.push(region);
@@ -87,9 +94,9 @@ router.route("/create").post(async (req, res) => {
             region.industrialization = {
                 investment: 0,
                 active: true,
-                agriculture: 2,
-                mining: 2,
-                synthetics: 2
+                agriculture: regionTemplate.industrialization.agriculture || 2,
+                mining: regionTemplate.industrialization.mining || 2,
+                synthetics: regionTemplate.industrialization.synthetics || 2
             }
         }
     }
