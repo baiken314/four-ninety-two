@@ -145,6 +145,11 @@ router.route("/attack").post(async (req, res) => {
 
     let units = req.body.units;
 
+    if (typeof defender == "undefined") {
+        res.json({ message: "ERROR - this region does not have a defender" });
+        return;
+    }
+
     // check if attacker owns the attackingRegion
     if (!attackingRegion.player.equals(attacker._id)) {
         res.json({ message: "ERROR - attacker does not control the region " + attackingRegion.player + " " + attacker._id });

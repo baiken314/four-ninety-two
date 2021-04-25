@@ -17,6 +17,13 @@ const mapSchema = new mongoose.Schema({
         name: String,
         type: { type: String },
         adjacentRegionNames: [String],
+        industrialization: {
+            investment: { type: Number, default: 0 },
+            active: { type: Boolean, default: true },
+            agriculture: { type: Number, default: 0 },
+            mining: { type: Number, default: 0 },
+            synthetics: { type: Number, default: 0 }
+        },
         coordinates: [{
             x: Number,
             y: Number
