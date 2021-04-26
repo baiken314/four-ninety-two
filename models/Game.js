@@ -89,7 +89,7 @@ const gameSchema = new mongoose.Schema({
                 }
             },
             bioweapons: {
-                price: { type: Number, default: 30 },
+                price: { type: Number, default: 25 },
                 resources: {
                     agriculture: { type: Number, default: 0 },
                     mining: { type: Number, default: 0 },
@@ -97,11 +97,11 @@ const gameSchema = new mongoose.Schema({
                 }
             },
             radars: {
-                price: { type: Number, default: 15 },
+                price: { type: Number, default: 25 },
                 resources: {
                     agriculture: { type: Number, default: 0 },
                     mining: { type: Number, default: 0 },
-                    synthetics: { type: Number, default: 3 }
+                    synthetics: { type: Number, default: 5 }
                 }
             },
             special: {

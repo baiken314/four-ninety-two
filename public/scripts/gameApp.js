@@ -146,6 +146,11 @@ let gameApp = new Vue({
                     amount: passedAmount
                 })
             });
+
+            this.agricultureMarketRequest = null;
+            this.miningMarketRequest = null;
+            this.syntheticsMarketRequest = null;
+
             const playerMarketOrder = await playerMarketOrderRequest.json();
             console.log(playerMarketOrder);
         }

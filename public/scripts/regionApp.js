@@ -25,6 +25,7 @@ let regionApp = new Vue({
         game: null,
         targetRegion: null,
         showActions: true,
+        buildType: '',
         
         landAttackCount: null,
         navalAttackCount: null,
@@ -41,7 +42,9 @@ let regionApp = new Vue({
         amphibiousBuildCount: null,
         atomBombsBuildCount: null,
         bioweaponsBuildCount: null,
-        radarsBuildCount: null
+        radarsBuildCount: null,
+
+        adjacentRegionIsOwnedByPlayer: false
     },
     methods:
     {
@@ -73,6 +76,13 @@ let regionApp = new Vue({
             this.targetRegion = null;
             this.selectedRegion = null;
             this.showActions = true;
+
+            this.landAttackCount = null;
+            this.navalAttackCount = null;
+            this.amphibiousAttackCount = null;
+            this.atomBombsAttackCount = null;
+            this.bioweaponsAttackCount = null;
+
             console.log(playerAttack);
         },
         move: async function()
@@ -101,6 +111,11 @@ let regionApp = new Vue({
             this.targetRegion = null;
             this.selectedRegion = null;
             this.showActions = true;
+
+            this.landMoveCount = null;
+            this.navalMoveCount = null;
+            this.amphibiousMoveCount = null;
+
             console.log(playerMove);
         },
         build: async function()
@@ -129,7 +144,49 @@ let regionApp = new Vue({
             });
             const playerBuild = await playerBuildRequest.json();
             this.showActions = true;
+
+            this.landBuildCount = null;
+            this.navalBuildCount = null;
+            this.amphibiousBuildCount = null;
+            this.atomBombsBuildCount = null;
+            this.bioweaponsBuildCount = null;
+            this.radarsBuildCount = null;
+
             console.log(playerBuild);
+        },
+        research: async function(type)
+        {
+            this.type = type;
+            const playerResearchRequest = await fetch(URL2 + "/player/research", {
+                method: "POST",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(
+                {
+                    game: gameApp.game._id,
+                    player: this.player._id,
+                    region: this.selectedRegion._id,
+                    research: this.type
+                })
+            });
+            const playerResearch = await playerResearchRequest.json();
+            this.showActions = true;
+            console.log(playerResearch);
+        },
+        checkIfAdjacentRegionIsOwnedByPlayer: function()
+        {
+            if (this.selectedRegion.type != "land" && gameApp.game.state == 'act.build')
+            {
+                for (adjacentRegion of this.selectedRegion.adjacentRegionNames)
+                {
+                    if (gameApp.game.regions.filter(region => region.name == adjacentRegion)[0].player != null && gameApp.game.regions.filter(region => region.name == adjacentRegion)[0].player == this.player._id)
+                    {
+                        this.adjacentRegionIsOwnedByPlayer = true;
+                    }
+                }
+            }
         }
     }
 });

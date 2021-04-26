@@ -2723,7 +2723,7 @@
 		{
 			"name": "Gulf of California",
 			"type": "water",
-			"adjacentRegionNames": ["Baja California","Northern Sierra Madre","Pacific Coast","Central Pacific Coast"],
+			"adjacentRegionNames": ["Baja California","Northern Sierra Madre","Pacific Coast","Central Pacific Ocean"],
 			"industrialization": {
 				"agriculture": 0,
 				"mining": 0,
@@ -3979,7 +3979,7 @@
 		{
 			"name": "Southwest",
 			"type": "land",
-			"adjacentRegionNames": ["Central Pacific Ocean","Cascadia","Rockies","Rio Grande","Northern Sierra Madre","Baja California"],
+			"adjacentRegionNames": ["North Pacific Ocean","Cascadia","Rockies","Rio Grande","Northern Sierra Madre","Baja California"],
 			"industrialization": {
 				"agriculture": 5,
 				"mining": 2,

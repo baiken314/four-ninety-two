@@ -4,7 +4,10 @@ let ctx = canvas.getContext("2d");
 let scaleFactor = 1;
 let xOffset = 0;
 let yOffset = 0;
-let unitWidth = 15;
+let unitWidth = 20;
+let unitHeight = 10;
+let unitHorizontalSpacing = unitWidth * 1.2;
+let unitVerticalSpacing = unitHeight * 1.2;
 
 let mouse =
 {
@@ -90,10 +93,84 @@ function Region(regionObject)
     }
     this.overlay = function()
     {
+        regionMilitaryUnitTypeCount = 0;
+        regionSpecialUnitTypeCount = 0;
         if (this.landUnits > 0)
         {
-            this.army = new Army(this.centerX, this.centerY, unitWidth, "#000", this.landUnits);
-            this.army.draw();
+            regionMilitaryUnitTypeCount++;
+        }
+        if (this.navalUnits > 0)
+        {
+            regionMilitaryUnitTypeCount++;
+        }
+        if (this.amphibiousUnits > 0)
+        {
+            regionMilitaryUnitTypeCount++;
+        }
+        if (gameApp.game.regions.filter(region => region.name == this.name)[0].player == gameApp.player._id)
+        {
+            if (this.atomBombUnits > 0)
+            {
+                regionSpecialUnitTypeCount++;
+            }
+            if (this.bioweaponUnits > 0)
+            {
+                regionSpecialUnitTypeCount++;
+            }
+            if (this.radarUnits > 0)
+            {
+                regionSpecialUnitTypeCount++;
+            }
+        }
+        
+        militaryUnitCenterX = this.centerX - (((unitWidth / 2) + ((regionMilitaryUnitTypeCount - 1) * (unitHorizontalSpacing))) / 2);
+        specialUnitCenterX = this.centerX - (((unitWidth / 2) + ((regionSpecialUnitTypeCount - 1) * (unitHorizontalSpacing))) / 2);
+        militaryUnitCenterY = this.centerY;
+        specialUnitCenterY = this.centerY;
+        if (regionSpecialUnitTypeCount > 0 && regionMilitaryUnitTypeCount > 0)
+        {
+            militaryUnitCenterY = militaryUnitCenterY - unitVerticalSpacing;
+            specialUnitCenterY = militaryUnitCenterY + unitVerticalSpacing;
+        }
+
+        if (this.landUnits > 0)
+        {
+            this.land = new Land(militaryUnitCenterX, militaryUnitCenterY, unitWidth, unitHeight, "#000", this.landUnits);
+            this.land.draw();
+            militaryUnitCenterX += unitHorizontalSpacing;
+        }
+        if (this.navalUnits > 0)
+        {
+            this.naval = new Naval(militaryUnitCenterX, militaryUnitCenterY, unitWidth, unitHeight, "#000", this.navalUnits);
+            this.naval.draw();
+            militaryUnitCenterX += unitHorizontalSpacing;
+        }
+        if (this.amphibiousUnits > 0)
+        {
+            this.amphibious = new Amphibious(militaryUnitCenterX, militaryUnitCenterY, unitWidth, unitHeight, "#000", this.amphibiousUnits);
+            this.amphibious.draw();
+            militaryUnitCenterX += unitHorizontalSpacing;
+        }
+        if (gameApp.game.regions.filter(region => region.name == this.name)[0].player == gameApp.player._id)
+        {
+            if (this.atomBombUnits > 0)
+            {
+                this.atomBomb = new AtomBomb(specialUnitCenterX, specialUnitCenterY, unitWidth, unitHeight, "#000", this.atomBombUnits);
+                this.atomBomb.draw();
+                specialUnitCenterX += unitHorizontalSpacing;
+            }
+            if (this.bioweaponUnits > 0)
+            {
+                this.bioweapon = new Bioweapon(specialUnitCenterX, specialUnitCenterY, unitWidth, unitHeight, "#000", this.bioweaponUnits);
+                this.bioweapon.draw();
+                specialUnitCenterX += unitHorizontalSpacing;
+            }
+            if (this.radarUnits > 0)
+            {
+                this.radar = new Radar(specialUnitCenterX, specialUnitCenterY, unitWidth, unitHeight, "#000", this.radarUnits);
+                this.radar.draw();
+                specialUnitCenterX += unitHorizontalSpacing;
+            }
         }
     }
     this.selectionBorders = function()
@@ -137,10 +214,84 @@ function Region(regionObject)
     }
     this.selectionUnits = function()
     {
+        regionMilitaryUnitTypeCount = 0;
+        regionSpecialUnitTypeCount = 0;
         if (this.landUnits > 0)
         {
-            this.army = new Army(this.centerX, this.centerY, unitWidth, "rgba(" + HEX2RGB(playerColors[gameApp.game.regions.filter(region => region.name == this.name)[0].player]) + ", " + .7 + ")", this.landUnits);
-            this.army.draw();
+            regionMilitaryUnitTypeCount++;
+        }
+        if (this.navalUnits > 0)
+        {
+            regionMilitaryUnitTypeCount++;
+        }
+        if (this.amphibiousUnits > 0)
+        {
+            regionMilitaryUnitTypeCount++;
+        }
+        if (gameApp.game.regions.filter(region => region.name == this.name)[0].player == gameApp.player._id)
+        {
+            if (this.atomBombUnits > 0)
+            {
+                regionSpecialUnitTypeCount++;
+            }
+            if (this.bioweaponUnits > 0)
+            {
+                regionSpecialUnitTypeCount++;
+            }
+            if (this.radarUnits > 0)
+            {
+                regionSpecialUnitTypeCount++;
+            }
+        }
+
+        militaryUnitCenterX = this.centerX - (((unitWidth / 2) + ((regionMilitaryUnitTypeCount - 1) * (unitHorizontalSpacing))) / 2);
+        specialUnitCenterX = this.centerX - (((unitWidth / 2) + ((regionSpecialUnitTypeCount - 1) * (unitHorizontalSpacing))) / 2);
+        militaryUnitCenterY = this.centerY;
+        specialUnitCenterY = this.centerY;
+        if (regionSpecialUnitTypeCount > 0 && regionMilitaryUnitTypeCount > 0)
+        {
+            militaryUnitCenterY = militaryUnitCenterY - unitVerticalSpacing;
+            specialUnitCenterY = militaryUnitCenterY + unitVerticalSpacing;
+        }
+
+        if (this.landUnits > 0)
+        {
+            this.land = new Land(militaryUnitCenterX, militaryUnitCenterY, unitWidth, unitHeight, "rgba(" + HEX2RGB(playerColors[gameApp.game.regions.filter(region => region.name == this.name)[0].player]) + ", " + .7 + ")", this.landUnits);
+            this.land.draw();
+            militaryUnitCenterX += unitHorizontalSpacing;
+        }
+        if (this.navalUnits > 0)
+        {
+            this.naval = new Naval(militaryUnitCenterX, militaryUnitCenterY, unitWidth, unitHeight, "rgba(" + HEX2RGB(playerColors[gameApp.game.regions.filter(region => region.name == this.name)[0].player]) + ", " + .7 + ")", this.navalUnits);
+            this.naval.draw();
+            militaryUnitCenterX += unitHorizontalSpacing;
+        }
+        if (this.amphibiousUnits > 0)
+        {
+            this.amphibious = new Amphibious(militaryUnitCenterX, militaryUnitCenterY, unitWidth, unitHeight, "rgba(" + HEX2RGB(playerColors[gameApp.game.regions.filter(region => region.name == this.name)[0].player]) + ", " + .7 + ")", this.amphibiousUnits);
+            this.amphibious.draw();
+            militaryUnitCenterX += unitHorizontalSpacing;
+        }
+        if (gameApp.game.regions.filter(region => region.name == this.name)[0].player == gameApp.player._id)
+        {
+            if (this.atomBombUnits > 0)
+            {
+                this.atomBomb = new AtomBomb(specialUnitCenterX, specialUnitCenterY, unitWidth, unitHeight, "rgba(" + HEX2RGB(playerColors[gameApp.game.regions.filter(region => region.name == this.name)[0].player]) + ", " + .7 + ")", this.atomBombUnits);
+                this.atomBomb.draw();
+                specialUnitCenterX += unitHorizontalSpacing;
+            }
+            if (this.bioweaponUnits > 0)
+            {
+                this.bioweapon = new Bioweapon(specialUnitCenterX, specialUnitCenterY, unitWidth, unitHeight, "rgba(" + HEX2RGB(playerColors[gameApp.game.regions.filter(region => region.name == this.name)[0].player]) + ", " + .7 + ")", this.bioweaponUnits);
+                this.bioweapon.draw();
+                specialUnitCenterX += unitHorizontalSpacing;
+            }
+            if (this.radarUnits > 0)
+            {
+                this.radar = new Radar(specialUnitCenterX, specialUnitCenterY, unitWidth, unitHeight, "rgba(" + HEX2RGB(playerColors[gameApp.game.regions.filter(region => region.name == this.name)[0].player]) + ", " + .7 + ")", this.radarUnits);
+                this.radar.draw();
+                specialUnitCenterX += unitHorizontalSpacing;
+            }
         }
     }
     this.update = function()
@@ -164,21 +315,27 @@ function Region(regionObject)
         }
         if(inRegion)
         {
-            if (regionApp.selectedRegion == null)
+            if (regionApp.selectedRegion == null && regionApp.showActions == true)
             {
                 regionApp.selectedRegion = gameApp.game.regions.filter(region => region.name == this.name)[0];
+                regionApp.adjacentRegionIsOwnedByPlayer = false;
+                regionApp.checkIfAdjacentRegionIsOwnedByPlayer();
             }
             else if ((regionApp.selectedRegion.name != this.name) && (regionApp.targetRegion == "waiting"))
             {
                 regionApp.targetRegion = gameApp.game.regions.filter(region => region.name == this.name)[0];
             }
-            else if (regionApp.targetRegion == null)
+            else if (regionApp.targetRegion == null && regionApp.showActions == true)
             {
                 regionApp.selectedRegion = gameApp.game.regions.filter(region => region.name == this.name)[0];
+                regionApp.adjacentRegionIsOwnedByPlayer = false;
+                regionApp.checkIfAdjacentRegionIsOwnedByPlayer();
             }
-            else if (regionApp.targetRegion.name != this.name)
+            else if (regionApp.targetRegion != null && regionApp.targetRegion.name != this.name && regionApp.showActions == true)
             {
                 regionApp.selectedRegion = gameApp.game.regions.filter(region => region.name == this.name)[0];
+                regionApp.adjacentRegionIsOwnedByPlayer = false;
+                regionApp.checkIfAdjacentRegionIsOwnedByPlayer();
             }
         }
 
@@ -188,29 +345,30 @@ function Region(regionObject)
     }
 }
 
-function Army(x, y, width, fillStyle, landUnits)
+function Land(x, y, width, height, fillStyle, landUnits)
 {
     this.fillStyle = fillStyle;
     this.x = x;
     this.y = y;
     this.width = width;
+    this.height = height;
     this.landUnits = landUnits;
     this.coordinates = [
         {
-            x: (this.x - this.width / 2),
-            y: (this.y - this.width / 2)
+            x: (this.x - this.width / 3),
+            y: (this.y - this.height / 2)
+        },
+        {
+            x: (this.x + this.width / 3),
+            y: (this.y - this.height / 2)
         },
         {
             x: (this.x + this.width / 2),
-            y: (this.y - this.width / 2)
-        },
-        {
-            x: (this.x + this.width / 2),
-            y: (this.y + this.width / 2)
+            y: (this.y + this.height / 2)
         },
         {
             x: (this.x - this.width / 2),
-            y: (this.y + this.width / 2)
+            y: (this.y + this.height / 2)
         }
     ];
 
@@ -228,7 +386,300 @@ function Army(x, y, width, fillStyle, landUnits)
         ctx.fill();
         ctx.fillStyle = "#FFF";
         ctx.font = "10px Arial";
-        ctx.fillText(this.landUnits,this.coordinates[0].x + (this.width/4),this.coordinates[0].y + (this.width/1.5));
+        ctx.fillText(this.landUnits,this.coordinates[0].x + (this.width/5),this.coordinates[0].y + (this.height/1.3));
+    }
+}
+
+function Naval(x, y, width, height, fillStyle, navalUnits)
+{
+    this.fillStyle = fillStyle;
+    this.x = x;
+    this.y = y;
+    this.width = width;
+    this.height = height;
+    this.navalUnits = navalUnits;
+    this.coordinates = [
+        {
+            x: (this.x - this.width / 2),
+            y: (this.y - this.height / 2)
+        },
+        {
+            x: (this.x + this.width / 2),
+            y: (this.y - this.height / 2)
+        },
+        {
+            x: (this.x + this.width / 3),
+            y: (this.y + this.height / 2)
+        },
+        {
+            x: (this.x - this.width / 3),
+            y: (this.y + this.height / 2)
+        }
+    ];
+
+    this.draw = function()
+    {
+        ctx.fillStyle = this.fillStyle;
+        ctx.beginPath();
+        ctx.moveTo(this.coordinates[0].x, this.coordinates[0].y);
+        for (coordinate of this.coordinates)
+        {
+            ctx.lineTo(coordinate.x, coordinate.y);
+        }
+        ctx.lineTo(this.coordinates[0].x, this.coordinates[0].y);
+        ctx.closePath();
+        ctx.fill();
+        ctx.fillStyle = "#FFF";
+        ctx.font = "10px Arial";
+        ctx.fillText(this.navalUnits,this.coordinates[3].x + (this.width/5),this.coordinates[0].y + (this.height/1.3));
+    }
+}
+
+function Amphibious(x, y, width, height, fillStyle, amphibiousUnits)
+{
+    this.fillStyle = fillStyle;
+    this.x = x;
+    this.y = y;
+    this.width = width;
+    this.height = height;
+    this.amphibiousUnits = amphibiousUnits;
+    this.coordinates = [
+        {
+            x: (this.x - this.width / 2),
+            y: (this.y - this.height / 2)
+        },
+        {
+            x: (this.x + this.width / 2),
+            y: (this.y - this.height / 2)
+        },
+        {
+            x: (this.x + this.width / 3),
+            y: (this.y)
+        },
+        {
+            x: (this.x + this.width / 2),
+            y: (this.y + this.height / 2)
+        },
+        {
+            x: (this.x - this.width / 2),
+            y: (this.y + this.height / 2)
+        },
+        {
+            x: (this.x - this.width / 3),
+            y: (this.y)
+        },
+    ];
+
+    this.draw = function()
+    {
+        ctx.fillStyle = this.fillStyle;
+        ctx.beginPath();
+        ctx.moveTo(this.coordinates[0].x, this.coordinates[0].y);
+        for (coordinate of this.coordinates)
+        {
+            ctx.lineTo(coordinate.x, coordinate.y);
+        }
+        ctx.lineTo(this.coordinates[0].x, this.coordinates[0].y);
+        ctx.closePath();
+        ctx.fill();
+        ctx.fillStyle = "#FFF";
+        ctx.font = "10px Arial";
+        ctx.fillText(this.amphibiousUnits,this.coordinates[5].x + (this.width/5),this.coordinates[0].y + (this.height/1.3));
+    }
+}
+
+function AtomBomb(x, y, width, height, fillStyle, atomBombUnits)
+{
+    this.fillStyle = fillStyle;
+    this.x = x;
+    this.y = y;
+    this.width = width;
+    this.height = height;
+    this.atomBombUnits = atomBombUnits;
+    this.coordinates = [
+        {
+            x: (this.x),
+            y: (this.y + this.height / 2)
+        },
+        {
+            x: (this.x + this.width / 3),
+            y: (this.y)
+        },
+        {
+            x: (this.x + this.width / 5),
+            y: (this.y - this.height / 3)
+        },
+        {
+            x: (this.x + this.width / 3),
+            y: (this.y - this.height / 2)
+        },
+        {
+            x: (this.x - this.width / 3),
+            y: (this.y - this.height / 2)
+        },
+        {
+            x: (this.x - this.width / 5),
+            y: (this.y - this.height / 3)
+        },
+        {
+            x: (this.x - this.width / 3),
+            y: (this.y)
+        }
+    ];
+
+    this.draw = function()
+    {
+        ctx.fillStyle = this.fillStyle;
+        ctx.beginPath();
+        ctx.moveTo(this.coordinates[0].x, this.coordinates[0].y);
+        for (coordinate of this.coordinates)
+        {
+            ctx.lineTo(coordinate.x, coordinate.y);
+        }
+        ctx.lineTo(this.coordinates[0].x, this.coordinates[0].y);
+        ctx.closePath();
+        ctx.fill();
+        ctx.fillStyle = "#FFF";
+        ctx.font = "10px Arial";
+        ctx.fillText(this.atomBombUnits,this.coordinates[6].x + (this.width/5),this.coordinates[0].y - (this.height/4));
+    }
+}
+
+function Bioweapon(x, y, width, height, fillStyle, bioweaponUnits)
+{
+    this.fillStyle = fillStyle;
+    this.x = x;
+    this.y = y;
+    this.width = width;
+    this.height = height;
+    this.bioweaponUnits = bioweaponUnits;
+    this.coordinates = [
+        {
+            x: (this.x),
+            y: (this.y - this.height / 4)
+        },
+        {
+            x: (this.x + this.width / 3),
+            y: (this.y - this.height / 2.5)
+        },
+        {
+            x: (this.x + this.width / 2.5),
+            y: (this.y - this.height / 3)
+        },
+        {
+            x: (this.x + this.width / 4),
+            y: (this.y)
+        },
+        {
+            x: (this.x + this.width / 2.5),
+            y: (this.y + this.height / 3)
+        },
+        {
+            x: (this.x + this.width / 3),
+            y: (this.y + this.height / 2.5)
+        },
+        {
+            x: (this.x),
+            y: (this.y + this.height / 4)
+        },
+        {
+            x: (this.x - this.width / 3),
+            y: (this.y + this.height / 2.5)
+        },
+        {
+            x: (this.x - this.width / 2.5),
+            y: (this.y + this.height / 3)
+        },
+        {
+            x: (this.x - this.width / 4),
+            y: (this.y)
+        },
+        {
+            x: (this.x - this.width / 2.5),
+            y: (this.y - this.height / 3)
+        },
+        {
+            x: (this.x - this.width / 3),
+            y: (this.y - this.height / 2.5)
+        },
+    ];
+
+    this.draw = function()
+    {
+        ctx.fillStyle = this.fillStyle;
+        ctx.beginPath();
+        ctx.moveTo(this.coordinates[0].x, this.coordinates[0].y);
+        for (coordinate of this.coordinates)
+        {
+            ctx.lineTo(coordinate.x, coordinate.y);
+        }
+        ctx.lineTo(this.coordinates[0].x, this.coordinates[0].y);
+        ctx.closePath();
+        ctx.fill();
+        ctx.fillStyle = "#FFF";
+        ctx.font = "10px Arial";
+        ctx.fillText(this.bioweaponUnits,this.coordinates[0].x - (this.width/6),this.coordinates[0].y + (this.height/2));
+    }
+}
+
+function Radar(x, y, width, height, fillStyle, radarUnits)
+{
+    this.fillStyle = fillStyle;
+    this.x = x;
+    this.y = y;
+    this.width = width;
+    this.height = height;
+    this.radarUnits = radarUnits;
+    this.coordinates = [
+        {
+            x: (this.x - this.width / 2),
+            y: (this.y - this.height / 2)
+        },
+        {
+            x: (this.x - this.width / 4),
+            y: (this.y - this.height / 2)
+        },
+        {
+            x: (this.x - this.width / 5),
+            y: (this.y + this.height / 5)
+        },
+        {
+            x: (this.x + this.width / 5),
+            y: (this.y + this.height / 5)
+        },
+        {
+            x: (this.x + this.width / 4),
+            y: (this.y - this.height / 2)
+        },
+        {
+            x: (this.x + this.width / 2),
+            y: (this.y - this.height / 2)
+        },
+        {
+            x: (this.x + this.width / 3),
+            y: (this.y + this.height / 2)
+        },
+        {
+            x: (this.x - this.width / 3),
+            y: (this.y + this.height / 2)
+        }
+    ];
+
+    this.draw = function()
+    {
+        ctx.fillStyle = this.fillStyle;
+        ctx.beginPath();
+        ctx.moveTo(this.coordinates[0].x, this.coordinates[0].y);
+        for (coordinate of this.coordinates)
+        {
+            ctx.lineTo(coordinate.x, coordinate.y);
+        }
+        ctx.lineTo(this.coordinates[0].x, this.coordinates[0].y);
+        ctx.closePath();
+        ctx.fill();
+        ctx.fillStyle = "#FFF";
+        ctx.font = "10px Arial";
+        ctx.fillText(this.radarUnits,this.coordinates[2].x,this.coordinates[0].y + (this.height/1.3));
     }
 }
 
@@ -293,9 +744,12 @@ function main()
             }
         }
     }
-    for (region of regionArray)
+    for (regionIndex of regionArray)
     {
-        region.overlay();
+        if (gameApp.game.regions.filter(region => region.name == regionIndex.name)[0].player != null)
+        {
+            regionIndex.overlay();
+        }
     }
     if (regionApp.selectedRegion != null && (gameApp.game.regions.filter(region => region.name == regionApp.selectedRegion.name)[0].player != null))
     {
