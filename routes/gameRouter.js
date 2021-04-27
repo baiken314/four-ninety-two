@@ -94,9 +94,9 @@ router.route("/create").post(async (req, res) => {
             region.industrialization = {
                 investment: 0,
                 active: true,
-                agriculture: regionTemplate.industrialization.agriculture || 2,
-                mining: regionTemplate.industrialization.mining || 2,
-                synthetics: regionTemplate.industrialization.synthetics || 2
+                agriculture: region.industrialization.agriculture || 2,
+                mining: region.industrialization.mining || 2,
+                synthetics: region.industrialization.synthetics || 2
             }
         }
     }
