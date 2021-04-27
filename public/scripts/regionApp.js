@@ -1,6 +1,6 @@
 const socket2 = io();
 
-const URL2 = "https://23.130.192.72:8000";
+const URL2 = "http://23.130.192.72:8000";
 //const URL2 = "http://localhost:8000";
 
 // grab game information from the player-session and load into regionApp
