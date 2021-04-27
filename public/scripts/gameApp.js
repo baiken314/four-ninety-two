@@ -1,7 +1,7 @@
 const socket = io();
 
-//const URL = "https://23.130.192.72:8000";
-const URL = "http://localhost:8000";
+const URL = "https://23.130.192.72:8000";
+//const URL = "http://localhost:8000";
 
 // grab game information from the player-session and load into gameApp
 async function updateGameApp() {
