@@ -232,12 +232,16 @@
                             <h5 v-if="selectedRegion.player == player._id"><br>{{"Atom Bombs: " + selectedRegion.units.atomBombs + " | Bioweapons: " + selectedRegion.units.bioweapons + " | Radars: " + selectedRegion.units.radars}}</h5>
                         </td>
                         <td style="width:40%" v-if="((selectedRegion.player == player._id) || (adjacentRegionIsOwnedByPlayer)) && (showActions) && (game.state.includes('act'))" class="align-right">
-                            <div class="w3-panel w3-gray w3-round w3-third w3-center" v-if="game.state == 'act.attack'" v-on:click="showActions = false; targetRegion = 'waiting';"><h4>Attack</h4></div>
-                            <div class="w3-panel w3-gray w3-round w3-third w3-center" v-if="game.state == 'act.move'" v-on:click="showActions = false; targetRegion = 'waiting';"><h4>Move</h4></div>
-                            <div class="w3-row">
-                                <div class="w3-col w3-panel w3-gray w3-round w3-third w3-center w3-left" v-if="game.state == 'act.build'" v-on:click="showActions = false; buildType = 'recruit';"><h4>Recruit</h4></div>
-                                <div class="w3-col w3-panel w3-gray w3-round w3-third w3-center w3-right" v-if="game.state == 'act.build' && selectedRegion.type =='land'" v-on:click="showActions = false; buildType = 'develop';"><h4>Develop</h4></div>
-                            </div>
+                            <table class="w3-center" style="width:100%">
+                                <tr>
+                                    <td class="w3-panel w3-gray w3-round w3-third w3-right w3-margin-left" v-bind:class="{ 'w3-opacity-max': game.state != 'act.move' , 'w3-grayscale custom-button': game.state == 'act.move'}" v-on:click="actionClick('move');"><h4>Move</h4></td>
+                                    <td class="w3-panel w3-gray w3-round w3-third w3-right w3-margin-right" v-bind:class="{ 'w3-opacity-max': game.state != 'act.attack' , 'w3-grayscale custom-button': game.state == 'act.attack'}" v-on:click="actionClick('attack');"><h4>Attack</h4></td>
+                                </tr>
+                                <tr>
+                                    <td class="w3-panel w3-gray w3-round w3-third w3-right w3-margin-left" v-bind:class="{ 'w3-opacity-max': ((game.state != 'act.build') || (selectedRegion.type != 'land')) , 'w3-grayscale custom-button': ((game.state == 'act.build') && (selectedRegion.type == 'land'))}" v-on:click="actionClick('develop');"><h4>Develop</h4></td>
+                                    <td class="w3-panel w3-gray w3-round w3-third w3-right w3-margin-right" v-bind:class="{ 'w3-opacity-max': game.state != 'act.build' , 'w3-grayscale custom-button': game.state == 'act.build'}" v-on:click="actionClick('recruit');"><h4>Recruit</h4></td>
+                                </tr>
+                            </table>
                         </td>
                     </tr>
                 </table>

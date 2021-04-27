@@ -187,6 +187,43 @@ let regionApp = new Vue({
                     }
                 }
             }
+        },
+        actionClick: function(buttonName)
+        {
+            this.buttonName = buttonName;
+
+            if (this.buttonName == 'attack')
+            {
+                if (gameApp.game.state == 'act.attack')
+                {
+                    this.targetRegion = 'waiting';
+                    this.showActions = false;
+                }
+            }
+            if (this.buttonName == 'move')
+            {
+                if (gameApp.game.state == 'act.move')
+                {
+                    this.targetRegion = 'waiting';
+                    this.showActions = false;
+                }
+            }
+            if (this.buttonName == 'recruit')
+            {
+                if (gameApp.game.state == 'act.build')
+                {
+                    this.buildType = 'recruit';
+                    this.showActions = false;
+                }
+            }
+            if (this.buttonName == 'develop')
+            {
+                if ((gameApp.game.state == 'act.build') && (this.selectedRegion.type == 'land'))
+                {
+                    this.buildType = 'develop';
+                    this.showActions = false;
+                }
+            }
         }
     }
 });
