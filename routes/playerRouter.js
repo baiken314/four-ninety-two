@@ -530,7 +530,7 @@ router.route("/build").post(async (req, res) => {
             let regionIsAdjacent = false;
             for (playerRegion of playerRegions) {
                 for (adjacentRegionName of playerRegion.adjacentRegionNames) {
-                    if (region.name == adjacentRegionName) {
+                    if (region.name == adjacentRegionName && region.type == "land") {
                         regionIsAdjacent = true;
                         break;
                     }
