@@ -1,7 +1,10 @@
+<<<<<<< Updated upstream
 const URL = "http://23.130.192.72:8000";
 //const URL = "http://localhost:8000";
 
 const fetch = require("../server").fetch;
+=======
+>>>>>>> Stashed changes
 const io = require("../server").io;
 
 module.exports = {
@@ -67,6 +70,9 @@ module.exports = {
     updatePlayerOrder: function (game) {
         console.log("gameController.updatePlayerOrder " + game.state);
         let state = game.state;
+        if (state.includes("act")) {
+            state = state.substr(0, 3);
+        }
         if (state == "sell" || state.includes("act") || state == "buy") {
             let playerOrder = game._doc.players.sort((a, b) => {
                 if (a.focus[state] > b.focus[state]) return -1;
