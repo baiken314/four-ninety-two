@@ -1,3 +1,6 @@
+const URL = "http://localhost:8000";
+
+const fetch = require("../server").fetch;
 const io = require("../server").io;
 
 module.exports = {
@@ -63,9 +66,6 @@ module.exports = {
     updatePlayerOrder: function (game) {
         console.log("gameController.updatePlayerOrder " + game.state);
         let state = game.state;
-        if (state.includes("act")) {
-            state = state.substr(0, 3);
-        }
         if (state == "sell" || state.includes("act") || state == "buy") {
             let playerOrder = game._doc.players.sort((a, b) => {
                 if (a.focus[state] > b.focus[state]) return -1;
@@ -94,17 +94,6 @@ module.exports = {
                 game.playerOrder.splice(i, 1);
             }
         }
-
-        for (region of game.regions) {
-            if (typeof region.player == "undefined") {
-                console.log("player removed from " + region._id);
-                region.player = undefined;
-                for (unit in region.units) {
-                    region[unit] = 0;
-                }
-            }
-        }
-
         console.log("new playerOrder: " + game.playerOrder);
         this.checkWinCondition(game);
     },
@@ -160,16 +149,17 @@ module.exports = {
         }
     },
 
-    removePlayersFromRegionsWithNoUnits(game) {
+    removePlayersFromEmptyRegions(game) {
         console.log("gameController.removePlayersFromEmptyRegions");
 
         for (region of game.regions) {
             let regionUnits = 0;
+            
             for (unit in region._doc.units) {
                 regionUnits += region._doc.units[unit];
             }
             // remove player from region with no units
-            if (regionUnits < 1) {
+            if (typeof region.player != "undefined" && regionUnits < 1) {
                 region.player = undefined;
             }
             console.log(`Region ${region._doc.name} has ${regionUnits}, owned by ${region._doc.player}`);
@@ -268,7 +258,7 @@ module.exports = {
 
     updatePlayerInfo: function (game) {
         this.updateUnits(game);
-        this.removePlayersFromRegionsWithNoUnits(game);
+        this.removePlayersFromEmptyRegions(game);
         this.updatePlayerIncome(game);
         this.checkWinCondition(game);
         console.log(io);
