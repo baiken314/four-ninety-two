@@ -1,6 +1,6 @@
 {
 	"name": "Manifest Destiny",
-	"description": "Wrestle for control of the North-West hemisphere intersection, from Iceland to Panama.",
+	"description": "Wrestle for control of the North-West hemisphere intersection, from Greenland to Panama.",
 	"startingRegions": [
 		{
 			"name": "Central American Block",
@@ -1643,7 +1643,7 @@
 		{
 			"name": "Baffin Bay",
 			"type": "water",
-			"adjacentRegionNames": ["Arctic Ocean","Greenland","Arctic Islands","Hudson Bay","Quebec","Labrador Sea","Greenland Sea"],
+			"adjacentRegionNames": ["Arctic Ocean","Greenland","Arctic Islands","Hudson Bay","Quebec","Labrador Sea","Greenland Sea","North Atlantic Ocean"],
 			"industrialization": {
 				"agriculture": 0,
 				"mining": 0,
@@ -1651,48 +1651,24 @@
 			},
 			"coordinates": [
 				{
-					"x": 600,
-					"y": 150
+					"x": 690,
+					"y": 425
 				},
 				{
-					"x": 600,
-					"y": 130
+					"x": 660,
+					"y": 395
 				},
 				{
-					"x": 585,
-					"y": 130
-				},
-				{
-					"x": 585,
-					"y": 145
-				},
-				{
-					"x": 565,
-					"y": 165
-				},
-				{
-					"x": 565,
-					"y": 225
-				},
-				{
-					"x": 530,
-					"y": 225
-				},
-				{
-					"x": 540,
-					"y": 235
-				},
-				{
-					"x": 565,
-					"y": 235
+					"x": 660,
+					"y": 390
 				},
 				{
 					"x": 650,
-					"y": 320
+					"y": 380
 				},
 				{
 					"x": 650,
-					"y": 340
+					"y": 355
 				},
 				{
 					"x": 635,
@@ -1700,75 +1676,103 @@
 				},
 				{
 					"x": 650,
-					"y": 355
+					"y": 340
 				},
 				{
 					"x": 650,
-					"y": 380
+					"y": 320
 				},
 				{
-					"x": 660,
-					"y": 390
+					"x": 565,
+					"y": 235
 				},
 				{
-					"x": 660,
-					"y": 395
+					"x": 540,
+					"y": 235
 				},
 				{
-					"x": 690,
-					"y": 425
+					"x": 530,
+					"y": 225
 				},
 				{
-					"x": 705,
-					"y": 410
+					"x": 565,
+					"y": 225
 				},
 				{
-					"x": 735,
-					"y": 440
+					"x": 565,
+					"y": 165
 				},
 				{
-					"x": 770,
-					"y": 405
+					"x": 585,
+					"y": 145
 				},
 				{
-					"x": 770,
-					"y": 375
-				},
-				{
-					"x": 760,
-					"y": 375
-				},
-				{
-					"x": 745,
-					"y": 360
-				},
-				{
-					"x": 735,
-					"y": 360
-				},
-				{
-					"x": 685,
-					"y": 310
-				},
-				{
-					"x": 685,
-					"y": 270
-				},
-				{
-					"x": 620,
-					"y": 205
+					"x": 585,
+					"y": 130
 				},
 				{
 					"x": 600,
-					"y": 205
+					"y": 130
+				},
+				{
+					"x": 600,
+					"y": 150
+				},
+				{
+					"x": 585,
+					"y": 165
 				},
 				{
 					"x": 585,
 					"y": 190
 				},
 				{
-					"x": 585,
-					"y": 165
+					"x": 600,
+					"y": 205
+				},
+				{
+					"x": 620,
+					"y": 205
+				},
+				{
+					"x": 685,
+					"y": 270
+				},
+				{
+					"x": 685,
+					"y": 310
+				},
+				{
+					"x": 735,
+					"y": 360
+				},
+				{
+					"x": 745,
+					"y": 360
+				},
+				{
+					"x": 760,
+					"y": 375
+				},
+				{
+					"x": 770,
+					"y": 375
+				},
+				{
+					"x": 770,
+					"y": 405
+				},
+				{
+					"x": 725,
+					"y": 450
+				},
+				{
+					"x": 700,
+					"y": 450
+				},
+				{
+					"x": 690,
+					"y": 440
 				}
 			]
 		},
@@ -1871,54 +1875,6 @@
 			},
 			"coordinates": [
 				{
-					"x": 735,
-					"y": 480
-				},
-				{
-					"x": 735,
-					"y": 460
-				},
-				{
-					"x": 725,
-					"y": 450
-				},
-				{
-					"x": 700,
-					"y": 450
-				},
-				{
-					"x": 690,
-					"y": 440
-				},
-				{
-					"x": 690,
-					"y": 425
-				},
-				{
-					"x": 705,
-					"y": 410
-				},
-				{
-					"x": 815,
-					"y": 520
-				},
-				{
-					"x": 735,
-					"y": 600
-				},
-				{
-					"x": 660,
-					"y": 600
-				},
-				{
-					"x": 660,
-					"y": 585
-				},
-				{
-					"x": 680,
-					"y": 565
-				},
-				{
 					"x": 685,
 					"y": 565
 				},
@@ -1961,54 +1917,10 @@
 				{
 					"x": 715,
 					"y": 500
-				}
-			]
-		},
-		{
-			"name": "Northeastern Islands",
-			"type": "land",
-			"adjacentRegionNames": ["Labrador Sea"],
-			"industrialization": {
-				"agriculture": 5,
-				"mining": 3,
-				"synthetics": 2
-			},
-			"coordinates": [
-				{
-					"x": 705,
-					"y": 580
 				},
 				{
-					"x": 740,
-					"y": 545
-				},
-				{
-					"x": 740,
-					"y": 535
-				},
-				{
-					"x": 755,
-					"y": 520
-				},
-				{
-					"x": 765,
-					"y": 520
-				},
-				{
-					"x": 770,
-					"y": 525
-				},
-				{
-					"x": 785,
-					"y": 525
-				},
-				{
-					"x": 785,
-					"y": 505
-				},
-				{
-					"x": 775,
-					"y": 495
+					"x": 735,
+					"y": 480
 				},
 				{
 					"x": 750,
@@ -2016,34 +1928,114 @@
 				},
 				{
 					"x": 745,
-					"y": 490
-				},
-				{
-					"x": 735,
 					"y": 500
 				},
 				{
+					"x": 745,
+					"y": 515
+				},
+				{
+					"x": 720,
+					"y": 515
+				},
+				{
 					"x": 735,
-					"y": 515
-				},
-				{
-					"x": 710,
-					"y": 515
-				},
-				{
-					"x": 725,
 					"y": 530
 				},
 				{
-					"x": 725,
+					"x": 735,
 					"y": 540
 				},
 				{
-					"x": 690,
+					"x": 700,
 					"y": 575
 				},
 				{
 					"x": 695,
+					"y": 575
+				}
+			]
+		},
+		{
+			"name": "Northeastern Islands",
+			"type": "land",
+			"adjacentRegionNames": ["Labrador Sea","North Atlantic Ocean"],
+			"industrialization": {
+				"agriculture": 5,
+				"mining": 3,
+				"synthetics": 2
+			},
+			"coordinates": [
+				{
+					"x": 715,
+					"y": 580
+				},
+				{
+					"x": 750,
+					"y": 545
+				},
+				{
+					"x": 750,
+					"y": 535
+				},
+				{
+					"x": 765,
+					"y": 520
+				},
+				{
+					"x": 775,
+					"y": 520
+				},
+				{
+					"x": 780,
+					"y": 525
+				},
+				{
+					"x": 795,
+					"y": 525
+				},
+				{
+					"x": 795,
+					"y": 505
+				},
+				{
+					"x": 785,
+					"y": 495
+				},
+				{
+					"x": 760,
+					"y": 495
+				},
+				{
+					"x": 755,
+					"y": 490
+				},
+				{
+					"x": 745,
+					"y": 500
+				},
+				{
+					"x": 745,
+					"y": 515
+				},
+				{
+					"x": 720,
+					"y": 515
+				},
+				{
+					"x": 735,
+					"y": 530
+				},
+				{
+					"x": 735,
+					"y": 540
+				},
+				{
+					"x": 700,
+					"y": 575
+				},
+				{
+					"x": 705,
 					"y": 580
 				}
 			]
@@ -4643,7 +4635,7 @@
 		{
 			"name": "Greenland Sea",
 			"type": "water",
-			"adjacentRegionNames": ["Arctic Ocean","Iceland","North Atlantic Ocean","Baffin Bay","Greenland"],
+			"adjacentRegionNames": ["Arctic Ocean","North Atlantic Ocean","Baffin Bay","Greenland"],
 			"industrialization": {
 				"agriculture": 0,
 				"mining": 0,
@@ -4757,63 +4749,19 @@
 			]
 		},
 		{
-			"name": "Iceland",
-			"type": "land",
-			"adjacentRegionNames": ["Greenland Sea"],
-			"industrialization": {
-				"agriculture": 0,
-				"mining": 0,
-				"synthetics": 0
-			},
-			"coordinates": [
-				{
-					"x": 790,
-					"y": 275
-				},
-				{
-					"x": 810,
-					"y": 255
-				},
-				{
-					"x": 820,
-					"y": 255
-				},
-				{
-					"x": 830,
-					"y": 265
-				},
-				{
-					"x": 830,
-					"y": 280
-				},
-				{
-					"x": 820,
-					"y": 290
-				},
-				{
-					"x": 810,
-					"y": 290
-				},
-				{
-					"x": 805,
-					"y": 285
-				},
-				{
-					"x": 800,
-					"y": 285
-				}
-			]
-		},
-		{
 			"name": "North Atlantic Ocean",
 			"type": "water",
-			"adjacentRegionNames": ["Baffin Bay","Greenland Sea","Central Atlantic Ocean","Appalachia","New England","Labrador Sea"],
+			"adjacentRegionNames": ["Baffin Bay","Greenland Sea","Central Atlantic Ocean","Appalachia","New England","Labrador Sea","Northeastern Islands"],
 			"industrialization": {
 				"agriculture": 0,
 				"mining": 0,
 				"synthetics": 0
 			},
 			"coordinates": [
+				{
+					"x": 770,
+					"y": 405
+				},
 				{
 					"x": 1000,
 					"y": 405
@@ -4879,16 +4827,88 @@
 					"y": 600
 				},
 				{
-					"x": 735,
-					"y": 600
+					"x": 660,
+					"y": 585
 				},
 				{
-					"x": 815,
+					"x": 680,
+					"y": 565
+				},
+				{
+					"x": 685,
+					"y": 565
+				},
+				{
+					"x": 695,
+					"y": 575
+				},
+				{
+					"x": 700,
+					"y": 575
+				},
+				{
+					"x": 705,
+					"y": 580
+				},
+				{
+					"x": 715,
+					"y": 580
+				},
+				{
+					"x": 750,
+					"y": 545
+				},
+				{
+					"x": 750,
+					"y": 535
+				},
+				{
+					"x": 765,
 					"y": 520
 				},
 				{
+					"x": 775,
+					"y": 520
+				},
+				{
+					"x": 780,
+					"y": 525
+				},
+				{
+					"x": 795,
+					"y": 525
+				},
+				{
+					"x": 795,
+					"y": 505
+				},
+				{
+					"x": 785,
+					"y": 495
+				},
+				{
+					"x": 760,
+					"y": 495
+				},
+				{
+					"x": 755,
+					"y": 490
+				},
+				{
+					"x": 750,
+					"y": 495
+				},
+				{
 					"x": 735,
-					"y": 440
+					"y": 480
+				},
+				{
+					"x": 735,
+					"y": 460
+				},
+				{
+					"x": 725,
+					"y": 450
 				},
 				{
 					"x": 770,
