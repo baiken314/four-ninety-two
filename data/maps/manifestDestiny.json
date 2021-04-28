@@ -2043,7 +2043,7 @@
 		{
 			"name": "Quebec",
 			"type": "land",
-			"adjacentRegionNames": ["Baffin Bay","Hudson Bay","Great Lakes","New England","Labrador Sea"],
+			"adjacentRegionNames": ["Baffin Bay","Hudson Bay","Great Lakes","New England","Labrador Sea","North Atlantic Ocean"],
 			"industrialization": {
 				"agriculture": 10,
 				"mining": 2,
@@ -4751,7 +4751,7 @@
 		{
 			"name": "North Atlantic Ocean",
 			"type": "water",
-			"adjacentRegionNames": ["Baffin Bay","Greenland Sea","Central Atlantic Ocean","Appalachia","New England","Labrador Sea","Northeastern Islands"],
+			"adjacentRegionNames": ["Baffin Bay","Greenland Sea","Central Atlantic Ocean","Appalachia","New England","Labrador Sea","Northeastern Islands","Quebec"],
 			"industrialization": {
 				"agriculture": 0,
 				"mining": 0,
