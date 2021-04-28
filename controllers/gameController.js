@@ -99,6 +99,17 @@ module.exports = {
                 game.playerOrder.splice(i, 1);
             }
         }
+
+        for (region of game.regions) {
+            if (typeof region.player == "undefined") {
+                console.log("player removed from " + region._id);
+                region.player = undefined;
+                for (unit in region.units) {
+                    region[unit] = 0;
+                }
+            }
+        }
+
         console.log("new playerOrder: " + game.playerOrder);
         this.checkWinCondition(game);
     },
@@ -154,7 +165,7 @@ module.exports = {
         }
     },
 
-    removePlayersFromEmptyRegions(game) {
+    removePlayersFromRegionsWithNoUnits(game) {
         console.log("gameController.removePlayersFromEmptyRegions");
 
         for (region of game.regions) {
@@ -262,7 +273,7 @@ module.exports = {
 
     updatePlayerInfo: function (game) {
         this.updateUnits(game);
-        this.removePlayersFromEmptyRegions(game);
+        this.removePlayersFromRegionsWithNoUnits(game);
         this.updatePlayerIncome(game);
         this.checkWinCondition(game);
         console.log(io);
