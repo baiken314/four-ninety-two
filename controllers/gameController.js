@@ -262,8 +262,9 @@ module.exports = {
         this.removePlayersFromEmptyRegions(game);
         this.updatePlayerIncome(game);
         this.checkWinCondition(game);
-        console.log(io);
+        console.log("before emit updateGameApp");
         io.emit("updateGameApp");
+        console.log("after emit updateGameApp");
     },
 
     prepareNextRound: function (game) {

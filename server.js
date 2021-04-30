@@ -48,6 +48,8 @@ app.use("/map", mapRouter);
 app.use("/player", playerRouter);
 app.use("/user", userRouter);
 
+
+
 app.get("/", (req, res) => {
     console.log("GET /");
     req.session.gameId = null;
@@ -188,7 +190,9 @@ app.get("/player-session", async (req, res) => {
     req.session.map = await Map.findOne({ _id: req.session.game.map });
 
     req.session.save(() => {
+        console.log("before res.json req.session " + new Date());
         res.json(req.session);
+        console.log("after res.json req.session " + new Date());
     });
 });
 

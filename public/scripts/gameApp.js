@@ -1,14 +1,16 @@
 const socket = io();
 
-const URL = "http://23.130.192.72:8000";
-//const URL = "http://localhost:8000";
+//const URL = "http://23.130.192.72:8000";
+const URL = "http://localhost:8000";
 
 // grab game information from the player-session and load into gameApp
 async function updateGameApp() {
     console.log("updateGameApp in gameApp.js");
 
+    console.log("before playerSession fetch");
     const playerSessionRequest = await fetch(URL + "/player-session");
     const playerSession = await playerSessionRequest.json();
+    console.log("after playerSession fetch");
 
     gameApp.user = playerSession.user;
     gameApp.game = playerSession.game;
