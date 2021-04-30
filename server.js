@@ -149,6 +149,11 @@ app.get("/userpage", async (req, res) => {
     res.redirect("/login");
 });
 
+app.get("/learn", async (req, res) => {
+    console.log("GET /learn");
+    res.sendFile(__dirname + "/views/learn.html");
+});
+
 app.get("/user-session", async (req, res) => {
     console.log("GET /user-session");
 

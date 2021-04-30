@@ -654,7 +654,7 @@ function main()
     //{
     //    canvas.width = 875;
     //}
-    canvas.width = 750;
+    canvas.width = 725;
     canvas.height = canvas.width;
     scaleFactor = canvas.width * .001;
     ctx.clearRect(0, 0, canvas.width, canvas.height);

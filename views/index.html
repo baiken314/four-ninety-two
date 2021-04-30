@@ -9,8 +9,17 @@
     <script src="/socket.io/socket.io.js"></script>
 </head>
 <body>
+    <div class="w3-top w3-center w3-container">
+        <div class="w3-bar w3-mobile w3-black w3-center" style="margin:auto;">
+            <a href="#" class="w3-bar-item w3-button"><h5>Learn</h5></a>
+            <a href="#" class="w3-bar-item w3-button" id="userpage"><h5>User</h5></a>
+            <a href="#" class="w3-bar-item w3-button" id="logout"><h5>Logout</h5></a>
+        </div>
+    </div>
     <div id="displayContainer" class="w3-display-container">
         <div class="w3-display-topmiddle">
+            <br>
+            <br>
             <canvas id='canvas'></canvas>
         </div>
         <div id="game-app" class="w3-margin w3-container">

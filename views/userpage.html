@@ -1,12 +1,19 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>User Page</title>
+        <title>492 | User</title>
         <link rel="stylesheet" href="styles/w3.css">
         <link rel="stylesheet" href="styles/custom.css">
         <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     </head>
     <body>
+        <div class="w3-top w3-center w3-container">
+            <div class="w3-bar w3-mobile w3-black w3-center" style="margin:auto;">
+                <a href="#" class="w3-bar-item w3-button"><h5>Learn</h5></a>
+                <a href="#" class="w3-bar-item w3-button w3-red"><h5>User</h5></a>
+                <a href="#" id="logout" class="w3-bar-item w3-button"><h5>Logout</h5></a>
+            </div>
+        </div>
         <div class="w3-display-container">
             <div id="userpage-app" class="w3-display-middle w3-black w3-margin" style="width:600px">
                 <div class="w3-container">
@@ -36,13 +43,6 @@
                             <h4>Create game</h4>
                         </div>
                     </form>
-                </div>
-                <hr>
-                <hr>
-                <div class="w3-container">
-                    <div class="custom-button w3-panel w3-red w3-round w3-center" id="logout" style="width:200px">
-                        <h4>Log out</h4>
-                    </div>
                 </div>
             </div>
             <script src="scripts/userpage.js"></script>
