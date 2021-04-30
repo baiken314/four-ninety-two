@@ -93,6 +93,12 @@ function Region(regionObject)
     }
     this.overlay = function()
     {
+        unitColor = "#000";
+        if (regionApp.selectedRegion != null && this.name == regionApp.selectedRegion.name)
+        {
+            unitColor = "rgba(" + HEX2RGB(playerColors[gameApp.game.regions.filter(region => region.name == this.name)[0].player], 50) + ", " + 1 + ")";
+        }
+
         regionMilitaryUnitTypeCount = 0;
         regionSpecialUnitTypeCount = 0;
         if (this.landUnits > 0)
@@ -135,19 +141,19 @@ function Region(regionObject)
 
         if (this.landUnits > 0)
         {
-            this.land = new Land(militaryUnitCenterX, militaryUnitCenterY, unitWidth, unitHeight, "#000", this.landUnits);
+            this.land = new Land(militaryUnitCenterX, militaryUnitCenterY, unitWidth, unitHeight, unitColor, this.landUnits);
             this.land.draw();
             militaryUnitCenterX += unitHorizontalSpacing;
         }
         if (this.navalUnits > 0)
         {
-            this.naval = new Naval(militaryUnitCenterX, militaryUnitCenterY, unitWidth, unitHeight, "#000", this.navalUnits);
+            this.naval = new Naval(militaryUnitCenterX, militaryUnitCenterY, unitWidth, unitHeight, unitColor, this.navalUnits);
             this.naval.draw();
             militaryUnitCenterX += unitHorizontalSpacing;
         }
         if (this.amphibiousUnits > 0)
         {
-            this.amphibious = new Amphibious(militaryUnitCenterX, militaryUnitCenterY, unitWidth, unitHeight, "#000", this.amphibiousUnits);
+            this.amphibious = new Amphibious(militaryUnitCenterX, militaryUnitCenterY, unitWidth, unitHeight, unitColor, this.amphibiousUnits);
             this.amphibious.draw();
             militaryUnitCenterX += unitHorizontalSpacing;
         }
@@ -155,19 +161,19 @@ function Region(regionObject)
         {
             if (this.atomBombUnits > 0)
             {
-                this.atomBomb = new AtomBomb(specialUnitCenterX, specialUnitCenterY, unitWidth, unitHeight, "#000", this.atomBombUnits);
+                this.atomBomb = new AtomBomb(specialUnitCenterX, specialUnitCenterY, unitWidth, unitHeight, unitColor, this.atomBombUnits);
                 this.atomBomb.draw();
                 specialUnitCenterX += unitHorizontalSpacing;
             }
             if (this.bioweaponUnits > 0)
             {
-                this.bioweapon = new Bioweapon(specialUnitCenterX, specialUnitCenterY, unitWidth, unitHeight, "#000", this.bioweaponUnits);
+                this.bioweapon = new Bioweapon(specialUnitCenterX, specialUnitCenterY, unitWidth, unitHeight, unitColor, this.bioweaponUnits);
                 this.bioweapon.draw();
                 specialUnitCenterX += unitHorizontalSpacing;
             }
             if (this.radarUnits > 0)
             {
-                this.radar = new Radar(specialUnitCenterX, specialUnitCenterY, unitWidth, unitHeight, "#000", this.radarUnits);
+                this.radar = new Radar(specialUnitCenterX, specialUnitCenterY, unitWidth, unitHeight, unitColor, this.radarUnits);
                 this.radar.draw();
                 specialUnitCenterX += unitHorizontalSpacing;
             }
@@ -211,88 +217,6 @@ function Region(regionObject)
         ctx.stroke();
         ctx.fill();
         ctx.closePath();
-    }
-    this.selectionUnits = function()
-    {
-        regionMilitaryUnitTypeCount = 0;
-        regionSpecialUnitTypeCount = 0;
-        if (this.landUnits > 0)
-        {
-            regionMilitaryUnitTypeCount++;
-        }
-        if (this.navalUnits > 0)
-        {
-            regionMilitaryUnitTypeCount++;
-        }
-        if (this.amphibiousUnits > 0)
-        {
-            regionMilitaryUnitTypeCount++;
-        }
-        if (gameApp.game.regions.filter(region => region.name == this.name)[0].player == gameApp.player._id)
-        {
-            if (this.atomBombUnits > 0)
-            {
-                regionSpecialUnitTypeCount++;
-            }
-            if (this.bioweaponUnits > 0)
-            {
-                regionSpecialUnitTypeCount++;
-            }
-            if (this.radarUnits > 0)
-            {
-                regionSpecialUnitTypeCount++;
-            }
-        }
-
-        militaryUnitCenterX = this.centerX - (((unitWidth / 2) + ((regionMilitaryUnitTypeCount - 1) * (unitHorizontalSpacing))) / 2);
-        specialUnitCenterX = this.centerX - (((unitWidth / 2) + ((regionSpecialUnitTypeCount - 1) * (unitHorizontalSpacing))) / 2);
-        militaryUnitCenterY = this.centerY;
-        specialUnitCenterY = this.centerY;
-        if (regionSpecialUnitTypeCount > 0 && regionMilitaryUnitTypeCount > 0)
-        {
-            militaryUnitCenterY = militaryUnitCenterY - unitVerticalSpacing;
-            specialUnitCenterY = militaryUnitCenterY + unitVerticalSpacing;
-        }
-
-        if (this.landUnits > 0)
-        {
-            this.land = new Land(militaryUnitCenterX, militaryUnitCenterY, unitWidth, unitHeight, "rgba(" + HEX2RGB(playerColors[gameApp.game.regions.filter(region => region.name == this.name)[0].player]) + ", " + .7 + ")", this.landUnits);
-            this.land.draw();
-            militaryUnitCenterX += unitHorizontalSpacing;
-        }
-        if (this.navalUnits > 0)
-        {
-            this.naval = new Naval(militaryUnitCenterX, militaryUnitCenterY, unitWidth, unitHeight, "rgba(" + HEX2RGB(playerColors[gameApp.game.regions.filter(region => region.name == this.name)[0].player]) + ", " + .7 + ")", this.navalUnits);
-            this.naval.draw();
-            militaryUnitCenterX += unitHorizontalSpacing;
-        }
-        if (this.amphibiousUnits > 0)
-        {
-            this.amphibious = new Amphibious(militaryUnitCenterX, militaryUnitCenterY, unitWidth, unitHeight, "rgba(" + HEX2RGB(playerColors[gameApp.game.regions.filter(region => region.name == this.name)[0].player]) + ", " + .7 + ")", this.amphibiousUnits);
-            this.amphibious.draw();
-            militaryUnitCenterX += unitHorizontalSpacing;
-        }
-        if (gameApp.game.regions.filter(region => region.name == this.name)[0].player == gameApp.player._id)
-        {
-            if (this.atomBombUnits > 0)
-            {
-                this.atomBomb = new AtomBomb(specialUnitCenterX, specialUnitCenterY, unitWidth, unitHeight, "rgba(" + HEX2RGB(playerColors[gameApp.game.regions.filter(region => region.name == this.name)[0].player]) + ", " + .7 + ")", this.atomBombUnits);
-                this.atomBomb.draw();
-                specialUnitCenterX += unitHorizontalSpacing;
-            }
-            if (this.bioweaponUnits > 0)
-            {
-                this.bioweapon = new Bioweapon(specialUnitCenterX, specialUnitCenterY, unitWidth, unitHeight, "rgba(" + HEX2RGB(playerColors[gameApp.game.regions.filter(region => region.name == this.name)[0].player]) + ", " + .7 + ")", this.bioweaponUnits);
-                this.bioweapon.draw();
-                specialUnitCenterX += unitHorizontalSpacing;
-            }
-            if (this.radarUnits > 0)
-            {
-                this.radar = new Radar(specialUnitCenterX, specialUnitCenterY, unitWidth, unitHeight, "rgba(" + HEX2RGB(playerColors[gameApp.game.regions.filter(region => region.name == this.name)[0].player]) + ", " + .7 + ")", this.radarUnits);
-                this.radar.draw();
-                specialUnitCenterX += unitHorizontalSpacing;
-            }
-        }
     }
     this.update = function()
     {
@@ -751,16 +675,6 @@ function main()
             regionIndex.overlay();
         }
     }
-    if (regionApp.selectedRegion != null && (gameApp.game.regions.filter(region => region.name == regionApp.selectedRegion.name)[0].player != null))
-    {
-        for (region of regionArray)
-        {
-            if (region.name == regionApp.selectedRegion.name)
-            {
-                region.selectionUnits();
-            }
-        }
-    }
     requestAnimationFrame(main);
 }
 
@@ -809,8 +723,9 @@ function determineCenterOfRegion(coordinates)
     return [averageX, averageY];
 }
 
-function HEX2RGB (hex)
+function HEX2RGB (hex, darkerBy)
 {
+    this.darkerBy = darkerBy;
     "use strict";
     if (hex.charAt(0) === '#') {
         hex = hex.substr(1);
@@ -838,7 +753,7 @@ function HEX2RGB (hex)
     } else {
         return false;
     }
-    return "" + r + "," + g + "," + b + "";
+    return "" + (r * ((100 - darkerBy) / 100)) + "," + (g * ((100 - darkerBy) / 100)) + "," + (b * ((100 - darkerBy) / 100)) + "";
 }
 
 initialize();
