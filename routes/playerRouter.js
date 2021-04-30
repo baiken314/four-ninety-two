@@ -198,7 +198,8 @@ router.route("/attack").post(async (req, res) => {
         let radarCount = defendingRegion.units.radars;
         for (adjacentRegionName of defendingRegion.adjacentRegionNames) {
             let adjacentDefendingRegion = game.regions.filter(region => region.name == adjacentRegionName)[0];
-            radarCount += adjacentDefendingRegion.units.radars;
+            if (adjacentDefendingRegion.player.equals(defender._id))
+                radarCount += adjacentDefendingRegion.units.radars;
         }
 
         console.log("radarCount: " + radarCount);
@@ -220,13 +221,17 @@ router.route("/attack").post(async (req, res) => {
                 for (unit in defendingRegion.units) { 
                     defendingRegion.units[unit] = 0;
                 }
-                defendingRegion.industrialization.agriculture = 0;
-                defendingRegion.industrialization.mining = 0;
-                defendingRegion.industrialization.synthetics = 0;
 
                 // used bioweapons
                 if (units.bioweapons > 0) {
                     defendingRegion.traverseCountdown = 5;
+                }
+
+                // used atomBombs
+                else {
+                    defendingRegion.industrialization.agriculture = 0;
+                    defendingRegion.industrialization.mining = 0;
+                    defendingRegion.industrialization.synthetics = 0;
                 }
 
                 break;
@@ -345,10 +350,10 @@ router.route("/attack").post(async (req, res) => {
             let losingRegion = attackerSum <= defenderSum ? attackingRegion : defendingRegion;
 
             // remove 1 land / marine / amphibious unit from loser
-            if (losingRegion.type == "land" && losingRegion.units.land > 0) {
+            if (defendingRegion.type == "land" && losingRegion.units.land > 0) {
                 losingRegion.units.land -= 1;
             }
-            else if (losingRegion.type != "land" && losingRegion.units.naval > 0) {
+            else if (defendingRegion.type != "land" && losingRegion.units.naval > 0) {
                 losingRegion.units.naval -= 1;
                 // kill ferried land units
                 losingRegion.units.land = Math.min(losingRegion.units.land, losingRegion.units.naval * 3);
