@@ -81,9 +81,9 @@
                             <h3 id="globalExchangeAgricultureValue" class="w3-opacity layer2 vertical-center">{{ game.market.prices.agriculture }}</h3>
                             <div id="a" class="w3-hide w3-animate-zoom">
                                 <div class="w3-row">
-                                    <input id="agricultureInput" class="w3-third custom-input" type="text" placeholder="Amount" v-model="agricultureMarketRequest">
-                                    <div @click="submitMarketOrder('sell','agriculture');" class="w3-third w3-button">Sell</div>
-                                    <div @click="submitMarketOrder('buy','agriculture');" class="w3-third w3-button">Buy</div>
+                                    <input v-if="game.state=='sell' || game.state=='buy'" id="agricultureInput" class="w3-third custom-input" type="text" placeholder="Amount" v-model="agricultureMarketRequest">
+                                    <div v-if="game.state=='sell'" @click="submitMarketOrder('sell','agriculture');" class="w3-twothird w3-button">Sell for {{agricultureMarketRequest * game.market.prices.agriculture}}</div>
+                                    <div v-if="game.state=='buy'" @click="submitMarketOrder('buy','agriculture');" class="w3-twothird w3-button">Buy for {{agricultureMarketRequest * game.market.prices.agriculture}}</div>
                                 </div>
                             </div>
                         </div>
@@ -94,9 +94,9 @@
                             <h3 id="globalExchangeMiningValue" class="w3-opacity layer2 vertical-center">{{ game.market.prices.mining }}</h3>
                             <div id="m" class="w3-hide w3-animate-zoom">
                                 <div class="w3-row">
-                                    <input id="miningInput" class="w3-third custom-input" type="text" placeholder="Amount" v-model="miningMarketRequest">
-                                    <div @click="submitMarketOrder('sell','mining');" class="w3-third w3-button">Sell</div>
-                                    <div @click="submitMarketOrder('buy','mining');" class="w3-third w3-button">Buy</div>
+                                    <input v-if="game.state=='sell' || game.state=='buy'" id="miningInput" class="w3-third custom-input" type="text" placeholder="Amount" v-model="miningMarketRequest">
+                                    <div v-if="game.state=='sell'" @click="submitMarketOrder('sell','mining');" class="w3-twothird w3-button">Sell for {{miningMarketRequest * game.market.prices.mining}}</div>
+                                    <div v-if="game.state=='buy'" @click="submitMarketOrder('buy','mining');" class="w3-twothird w3-button">Buy for {{miningMarketRequest * game.market.prices.mining}}</div>
                                 </div>
                             </div>
                         </div>
@@ -107,9 +107,9 @@
                             <h3 id="globalExchangeSyntheticsValue" class="w3-opacity layer2 vertical-center">{{ game.market.prices.synthetics }}</h3>
                             <div id="s" class="w3-hide w3-animate-zoom">
                                 <div class="w3-row">
-                                    <input id="syntheticsInput" class="w3-third custom-input" type="text" placeholder="Amount" v-model="syntheticsMarketRequest">
-                                    <div @click="submitMarketOrder('sell','synthetics');" class="w3-third w3-button">Sell</div>
-                                    <div @click="submitMarketOrder('buy','synthetics');" class="w3-third w3-button">Buy</div>
+                                    <input v-if="game.state=='sell' || game.state=='buy'" id="syntheticsInput" class="w3-third custom-input" type="text" placeholder="Amount" v-model="syntheticsMarketRequest">
+                                    <div v-if="game.state=='sell'" @click="submitMarketOrder('sell','synthetics');" class="w3-twothird w3-button">Sell for {{syntheticsMarketRequest * game.market.prices.synthetics}}</div>
+                                    <div v-if="game.state=='buy'" @click="submitMarketOrder('buy','synthetics');" class="w3-twothird w3-button">Buy for {{syntheticsMarketRequest * game.market.prices.synthetics}}</div>
                                 </div>
                             </div>
                         </div>
@@ -359,14 +359,14 @@
                                     <div v-if="selectedRegion.type=='land'" class="w3-row">
                                         <h5 class="w3-left w3-half w3-col">Atom Bombs </h5>
                                         <div v-if="player.research.atomBombs == false" class="w3-panel w3-gray w3-round w3-grayscale custom-button w3-right w3-half w3-col" v-on:click="research('atomBombs');">
-                                            <h4>Attempt Research</h4>
+                                            <h4>Research</h4>
                                         </div>
                                         <input v-if="player.research.atomBombs == true" class="custom-input w3-right w3-half w3-col" type="text" placeholder="0" v-model="atomBombsBuildCount">
                                     </div>
                                     <div v-if="selectedRegion.type=='land'" class="w3-row">
                                         <h5 class="w3-left w3-half w3-col">Bioweapons </h5>
                                         <div v-if="player.research.bioweapons == false" class="w3-panel w3-gray w3-round w3-grayscale custom-button w3-right w3-half w3-col" v-on:click="research('bioweapons');">
-                                            <h4>Attempt Research</h4>
+                                            <h4>Research</h4>
                                         </div>
                                         <input v-if="player.research.bioweapons == true" class="custom-input w3-right w3-half w3-col" type="text" placeholder="0" v-model="bioweaponsBuildCount">
                                     </div>
@@ -375,7 +375,7 @@
                                     <div class="w3-row">
                                         <h5 class="w3-left w3-half w3-col">Radars </h5>
                                         <div v-if="player.research.radars == false" class="w3-panel w3-gray w3-round w3-grayscale custom-button w3-right w3-half w3-col" v-on:click="research('radars');">
-                                            <h4>Attempt Research</h4>
+                                            <h4>Research</h4>
                                         </div>
                                         <input v-if="player.research.radars == true" class="custom-input w3-right w3-half w3-col" type="text" placeholder="0" v-model="radarsBuildCount">
                                     </div>

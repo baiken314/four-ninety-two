@@ -121,7 +121,10 @@ let gameApp = new Vue({
                 })
             });
             const playerFocus = await playerFocusRequest.json();
-            console.log(playerFocus);
+            if (playerFocus.message.toLowerCase().includes("error"))
+            {
+                alert(playerFocus.message);
+            }
         },
 
         endTurn: async function()
@@ -138,7 +141,10 @@ let gameApp = new Vue({
                 })
             });
             const playerEndTurn = await playerEndTurnRequest.json();
-            console.log(playerEndTurn);
+            if (playerEndTurn.message.toLowerCase().includes("error"))
+            {
+                alert(playerEndTurn.message);
+            }
         },
 
         submitMarketOrder: async function(passedAction, passedResource)
@@ -177,7 +183,10 @@ let gameApp = new Vue({
             this.syntheticsMarketRequest = null;
 
             const playerMarketOrder = await playerMarketOrderRequest.json();
-            console.log(playerMarketOrder);
+            if (playerMarketOrder.message.toLowerCase().includes("error"))
+            {
+                alert(playerMarketOrder.message);
+            }
         },
         attack: async function()
         {
@@ -214,7 +223,10 @@ let gameApp = new Vue({
             this.atomBombsAttackCount = null;
             this.bioweaponsAttackCount = null;
 
-            console.log(playerAttack);
+            if (playerAttack.message.toLowerCase().includes("error"))
+            {
+                alert(playerAttack.message);
+            }
         },
         move: async function()
         {
@@ -247,7 +259,10 @@ let gameApp = new Vue({
             this.navalMoveCount = null;
             this.amphibiousMoveCount = null;
 
-            console.log(playerMove);
+            if (playerMove.message.toLowerCase().includes("error"))
+            {
+                alert(playerMove.message);
+            }
         },
         build: async function()
         {
@@ -283,7 +298,10 @@ let gameApp = new Vue({
             this.bioweaponsBuildCount = null;
             this.radarsBuildCount = null;
 
-            console.log(playerBuild);
+            if (playerBuild.message.toLowerCase().includes("error"))
+            {
+                alert(playerBuild.message);
+            }
         },
         research: async function(type)
         {
@@ -304,7 +322,11 @@ let gameApp = new Vue({
             });
             const playerResearch = await playerResearchRequest.json();
             this.showActions = true;
-            console.log(playerResearch);
+
+            if (playerResearch.message.toLowerCase().includes("error"))
+            {
+                alert(playerResearch.message);
+            }
         },
         checkIfAdjacentRegionIsOwnedByPlayer: function()
         {

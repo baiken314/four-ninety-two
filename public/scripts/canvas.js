@@ -61,6 +61,10 @@ function Region(regionObject)
         {
             ctx.fillStyle = playerColors[gameApp.game.regions.filter(region => region.name == this.name)[0].player];
         }
+        else if (gameApp.game.regions.filter(region => region.name == this.name)[0].traverseCountdown > 0)
+        {
+            ctx.fillStyle = '#000';
+        }
         else if (this.type == 'land')
         {
             ctx.fillStyle = '#0c6d13';
