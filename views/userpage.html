@@ -1,28 +1,51 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <title>Login</title>
-    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-</head>
-<body>
-    <div id="userpage-app">
-        <h1>Welcome, {{ user.name }}</h1>
-        <p>Open Games:</p>
-        <ol>
-            <li v-for="game in openGames">
-                <a v-bind:href="`/index/${game}`">{{ game }}</a>
-            </li>
-        </ol>
-        <br>
-        <form>
-            <input name="map" type="text" placeholder="Map name">
-            <input name="users" type="text" placeholder="Usernames, separated by space">
-            <br>
-            <button id="create-game" type="button">Create game</button>
-        </form>
-        <br>
-        <button id="logout" type="button">LOGOUT</button>
-    </div>
-    <script src="scripts/userpage.js"></script>
-</body>
+    <head>
+        <title>User Page</title>
+        <link rel="stylesheet" href="styles/w3.css">
+        <link rel="stylesheet" href="styles/custom.css">
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    </head>
+    <body>
+        <div class="w3-display-container">
+            <div id="userpage-app" class="w3-display-middle w3-black w3-margin" style="width:600px">
+                <div class="w3-container">
+                    <br>
+                    <h1>Welcome, {{ user.name }}</h1>
+                </div>
+                <hr>
+                <hr>
+                <div class="w3-container">
+                    <h2>Open Games:</h2>
+                    <div class="w3-container">
+                        <ol>
+                            <li v-for="game in openGames">
+                                <a v-bind:href="`/index/${game}`">{{ game }}</a>
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+                <hr>
+                <hr>
+                <div class="w3-container">
+                    <form>
+                        <input name="map" type="text" class="custom-input" placeholder="Map name" style="width:570px">
+                        <input name="users" type="text" class="custom-input" placeholder="Usernames, separated by space" style="width:570px">
+                        <br>
+                        <div id="create-game" class="custom-button w3-panel w3-green w3-round w3-center" style="width:200px">
+                            <h4>Create game</h4>
+                        </div>
+                    </form>
+                </div>
+                <hr>
+                <hr>
+                <div class="w3-container">
+                    <div class="custom-button w3-panel w3-red w3-round w3-center" id="logout" style="width:200px">
+                        <h4>Log out</h4>
+                    </div>
+                </div>
+            </div>
+            <script src="scripts/userpage.js"></script>
+        </div>
+    </body>
 </html>
