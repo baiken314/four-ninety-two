@@ -63,6 +63,8 @@ module.exports = {
     updatePlayerOrder: function (game) {
         console.log("gameController.updatePlayerOrder " + game.state);
         let state = game.state;
+        if (state.includes("act"))
+            state = state.substr(0, 3);
         if (state == "sell" || state.includes("act") || state == "buy") {
             let playerOrder = game._doc.players.sort((a, b) => {
                 if (a.focus[state] > b.focus[state]) return -1;
