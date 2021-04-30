@@ -1,7 +1,3 @@
-//const URL = "http://23.130.192.72:8000";
-const URL = "http://localhost:8000";
-
-const fetch = require("../server").fetch;
 const io = require("../server").io;
 
 module.exports = {
@@ -87,14 +83,21 @@ module.exports = {
 
     removeDeadPlayers: function (game) {
         console.log("gameController.removeDeadPlayers");
+        console.log("CURRENT PLAYER ORDER: " + game.playerOrder);
+        let newPlayerOrder = [];
         for (let i = 0; i < game.playerOrder.length; i++) {
+            console.log("CHECKING PLAYER ORDER " + i + " " + game.playerOrder[i] + " END");
             let player = game.players.filter(player => player._id == game.playerOrder[i])[0];
             console.log("player: " + player);
             if (player.status != "alive") {
                 console.log("player is not alive " + player._id);
-                game.playerOrder.splice(i, 1);
+                //game.playerOrder.splice(i, 1);
+            }
+            else {
+                newPlayerOrder.push(player._id);
             }
         }
+        game.playerOrder = newPlayerOrder;
         console.log("new playerOrder: " + game.playerOrder);
         this.checkWinCondition(game);
     },
@@ -253,7 +256,7 @@ module.exports = {
         if (alivePlayers.length == 1) {
             game.state = "complete";
             game.playerOrder = [];
-            game.playerOrder.push(...alivePlayers);
+            game.playerOrder.push(alivePlayers[0]._id);
         }
     },
 
