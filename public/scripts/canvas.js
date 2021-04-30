@@ -94,7 +94,7 @@ function Region(regionObject)
     this.overlay = function()
     {
         unitColor = "#000";
-        if (regionApp.selectedRegion != null && this.name == regionApp.selectedRegion.name)
+        if (gameApp.selectedRegion != null && this.name == gameApp.selectedRegion.name)
         {
             unitColor = "rgba(" + HEX2RGB(playerColors[gameApp.game.regions.filter(region => region.name == this.name)[0].player], 50) + ", " + 1 + ")";
         }
@@ -239,27 +239,27 @@ function Region(regionObject)
         }
         if(inRegion)
         {
-            if (regionApp.selectedRegion == null && regionApp.showActions == true)
+            if (gameApp.selectedRegion == null && gameApp.showActions == true)
             {
-                regionApp.selectedRegion = gameApp.game.regions.filter(region => region.name == this.name)[0];
-                regionApp.adjacentRegionIsOwnedByPlayer = false;
-                regionApp.checkIfAdjacentRegionIsOwnedByPlayer();
+                gameApp.selectedRegion = gameApp.game.regions.filter(region => region.name == this.name)[0];
+                gameApp.adjacentRegionIsOwnedByPlayer = false;
+                gameApp.checkIfAdjacentRegionIsOwnedByPlayer();
             }
-            else if ((regionApp.selectedRegion.name != this.name) && (regionApp.targetRegion == "waiting"))
+            else if ((gameApp.selectedRegion.name != this.name) && (gameApp.targetRegion == "waiting"))
             {
-                regionApp.targetRegion = gameApp.game.regions.filter(region => region.name == this.name)[0];
+                gameApp.targetRegion = gameApp.game.regions.filter(region => region.name == this.name)[0];
             }
-            else if (regionApp.targetRegion == null && regionApp.showActions == true)
+            else if (gameApp.targetRegion == null && gameApp.showActions == true)
             {
-                regionApp.selectedRegion = gameApp.game.regions.filter(region => region.name == this.name)[0];
-                regionApp.adjacentRegionIsOwnedByPlayer = false;
-                regionApp.checkIfAdjacentRegionIsOwnedByPlayer();
+                gameApp.selectedRegion = gameApp.game.regions.filter(region => region.name == this.name)[0];
+                gameApp.adjacentRegionIsOwnedByPlayer = false;
+                gameApp.checkIfAdjacentRegionIsOwnedByPlayer();
             }
-            else if (regionApp.targetRegion != null && regionApp.targetRegion.name != this.name && regionApp.showActions == true)
+            else if (gameApp.targetRegion != null && gameApp.targetRegion.name != this.name && gameApp.showActions == true)
             {
-                regionApp.selectedRegion = gameApp.game.regions.filter(region => region.name == this.name)[0];
-                regionApp.adjacentRegionIsOwnedByPlayer = false;
-                regionApp.checkIfAdjacentRegionIsOwnedByPlayer();
+                gameApp.selectedRegion = gameApp.game.regions.filter(region => region.name == this.name)[0];
+                gameApp.adjacentRegionIsOwnedByPlayer = false;
+                gameApp.checkIfAdjacentRegionIsOwnedByPlayer();
             }
         }
 
@@ -658,11 +658,11 @@ function main()
     {
         region.update();
     }
-    if (regionApp.selectedRegion != null)
+    if (gameApp.selectedRegion != null)
     {
         for (region of regionArray)
         {
-            if (region.name == regionApp.selectedRegion.name)
+            if (region.name == gameApp.selectedRegion.name)
             {
                 region.selectionBorders();
             }

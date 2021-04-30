@@ -9,9 +9,9 @@
     <script src="/socket.io/socket.io.js"></script>
 </head>
 <body>
-    <div class="w3-row w3-margin">
-        <div id="game-app">
-            <div id="leftColumn" class="w3-col w3-black w3-left w3-margin-right" style="width:305px">
+    <div id="displayContainer" class="w3-display-container">
+        <div id="game-app" class="w3-margin w3-container">
+            <div id="leftColumn" class="w3-display-topleft w3-black w3-margin-right" style="width:305px">
                 <div class="w3-container w3-center">
                     <br>
                     <h3><b>-=- {{ user.name }} -=-</b></h3>
@@ -113,7 +113,7 @@
                     </div>
                 </div>
             </div>
-            <div id="rightColumn" class="w3-col w3-black w3-right w3-margin-left" style="width:220px">
+            <div id="rightColumn" class="w3-display-topright w3-black w3-margin-left" style="width:220px">
                 <div class="w3-container w3-center">
                     <br>
                     <h3>Round </h3>
@@ -218,203 +218,202 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="w3-rest w3-center">
-            <canvas id='canvas'></canvas>
-            <div id="region-app" v-if="selectedRegion != null" class="w3-container w3-black" style="height:170px">
-                <table style="width:100%">
-                    <tr>
-                        <td style="width:60%" v-if="showActions" class="align-left">
-                            <h4>{{"-=- " + selectedRegion.name}}</h4><h4 v-if="selectedRegion.player != null">{{" - " + game.players.filter(player => player._id == selectedRegion.player)[0].name}}</h4><h4>{{" -=-"}}</h4>
-                            <h5><br>{{"Land: " + selectedRegion.units.land + " | Naval: " + selectedRegion.units.naval + " | Amphibious: " + selectedRegion.units.amphibious}}</h5>
-                            <h5><br>{{"Level of Investment: " + selectedRegion.industrialization.investment}}</h5>
-                            <h5 v-if="selectedRegion.player == player._id"><br>{{"Agriculture: " + selectedRegion.industrialization.agriculture + " | Mining: " + selectedRegion.industrialization.mining + " | Synthetics: " + selectedRegion.industrialization.synthetics}}</h5>
-                            <h5 v-if="selectedRegion.player == player._id"><br>{{"Atom Bombs: " + selectedRegion.units.atomBombs + " | Bioweapons: " + selectedRegion.units.bioweapons + " | Radars: " + selectedRegion.units.radars}}</h5>
-                        </td>
-                        <td style="width:40%" v-if="((selectedRegion.player == player._id) || (adjacentRegionIsOwnedByPlayer)) && (showActions) && (game.state.includes('act'))" class="align-right">
-                            <table class="w3-center" style="width:100%">
-                                <tr>
-                                    <td class="w3-panel w3-gray w3-round w3-third w3-right w3-margin-left" v-bind:class="{ 'w3-opacity-max': game.state != 'act.move' , 'w3-grayscale custom-button': game.state == 'act.move'}" v-on:click="actionClick('move');"><h4>Move</h4></td>
-                                    <td class="w3-panel w3-gray w3-round w3-third w3-right w3-margin-right" v-bind:class="{ 'w3-opacity-max': game.state != 'act.attack' , 'w3-grayscale custom-button': game.state == 'act.attack'}" v-on:click="actionClick('attack');"><h4>Attack</h4></td>
-                                </tr>
-                                <tr>
-                                    <td class="w3-panel w3-gray w3-round w3-third w3-right w3-margin-left" v-bind:class="{ 'w3-opacity-max': ((game.state != 'act.build') || (selectedRegion.type != 'land')) , 'w3-grayscale custom-button': ((game.state == 'act.build') && (selectedRegion.type == 'land'))}" v-on:click="actionClick('develop');"><h4>Develop</h4></td>
-                                    <td class="w3-panel w3-gray w3-round w3-third w3-right w3-margin-right" v-bind:class="{ 'w3-opacity-max': game.state != 'act.build' , 'w3-grayscale custom-button': game.state == 'act.build'}" v-on:click="actionClick('recruit');"><h4>Recruit</h4></td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                </table>
-                <div v-if="(selectedRegion.player == player._id) && (!showActions) && (game.state == 'act.attack')">
-                    <div class="w3-row w3-left" style="width:15%">
-                        <div class="w3-col">
-                            <div class="w3-panel w3-gray w3-round w3-grayscale custom-button" v-on:click="showActions = true; targetRegion = null;">
-                                <h4>Back</h4>
-                            </div>
-                            <div class="w3-panel w3-gray w3-round w3-grayscale custom-button" v-on:click="attack();" v-if="targetRegion != 'waiting'">
-                                <h4>Enact</h4>
-                            </div>
-                        </div>
-                    </div>
-                    <div style="width:85%" v-if="targetRegion == 'waiting'" class="w3-panel w3-rest w3-right">
-                        <h4>Select an adjacent region to attack.</h4>
-                    </div>
-                    <div style="width:85%" v-if="targetRegion != 'waiting'" class="w3-panel w3-rest w3-right">
-                        <h4>Select attacking units:</h4>
-                        <br>
-                        <div class="w3-row">
-                            <div class="w3-col w3-left w3-half">
-                                <div v-if="targetRegion.type=='land'" class="w3-row">
-                                    <h5 class="w3-left w3-half w3-col">{{selectedRegion.units.land}} Land </h5>
-                                    <input class="custom-input w3-right w3-half w3-col" type="text" placeholder="0" v-model="landAttackCount">
+            <div class="w3-display-bottommiddle w3-black" style="width:1200px">
+                <div v-if="selectedRegion != null" class="w3-container w3-black" style="height:170px">
+                    <table style="width:100%">
+                        <tr>
+                            <td style="width:60%" v-if="showActions" class="align-left">
+                                <h4>{{"-=- " + selectedRegion.name}}</h4><h4 v-if="selectedRegion.player != null">{{" - " + game.players.filter(player => player._id == selectedRegion.player)[0].name}}</h4><h4>{{" -=-"}}</h4>
+                                <h5><br>{{"Land: " + selectedRegion.units.land + " | Naval: " + selectedRegion.units.naval + " | Amphibious: " + selectedRegion.units.amphibious}}</h5>
+                                <h5><br>{{"Level of Investment: " + selectedRegion.industrialization.investment}}</h5>
+                                <h5 v-if="selectedRegion.player == player._id"><br>{{"Agriculture: " + selectedRegion.industrialization.agriculture + " | Mining: " + selectedRegion.industrialization.mining + " | Synthetics: " + selectedRegion.industrialization.synthetics}}</h5>
+                                <h5 v-if="selectedRegion.player == player._id"><br>{{"Atom Bombs: " + selectedRegion.units.atomBombs + " | Bioweapons: " + selectedRegion.units.bioweapons + " | Radars: " + selectedRegion.units.radars}}</h5>
+                            </td>
+                            <td style="width:40%" v-if="((selectedRegion.player == player._id) || (adjacentRegionIsOwnedByPlayer)) && (showActions) && (game.state.includes('act'))" class="align-right">
+                                <table class="w3-center" style="width:100%">
+                                    <tr>
+                                        <td class="w3-panel w3-gray w3-round w3-third w3-right w3-margin-left" v-bind:class="{ 'w3-opacity-max': game.state != 'act.move' , 'w3-grayscale custom-button': game.state == 'act.move'}" v-on:click="actionClick('move');"><h4>Move</h4></td>
+                                        <td class="w3-panel w3-gray w3-round w3-third w3-right w3-margin-right" v-bind:class="{ 'w3-opacity-max': game.state != 'act.attack' , 'w3-grayscale custom-button': game.state == 'act.attack'}" v-on:click="actionClick('attack');"><h4>Attack</h4></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="w3-panel w3-gray w3-round w3-third w3-right w3-margin-left" v-bind:class="{ 'w3-opacity-max': ((game.state != 'act.build') || (selectedRegion.type != 'land')) , 'w3-grayscale custom-button': ((game.state == 'act.build') && (selectedRegion.type == 'land'))}" v-on:click="actionClick('develop');"><h4>Develop</h4></td>
+                                        <td class="w3-panel w3-gray w3-round w3-third w3-right w3-margin-right" v-bind:class="{ 'w3-opacity-max': game.state != 'act.build' , 'w3-grayscale custom-button': game.state == 'act.build'}" v-on:click="actionClick('recruit');"><h4>Recruit</h4></td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                    <div v-if="(selectedRegion.player == player._id) && (!showActions) && (game.state == 'act.attack')">
+                        <div class="w3-row w3-left" style="width:15%">
+                            <div class="w3-col">
+                                <div class="w3-panel w3-gray w3-round w3-grayscale custom-button" v-on:click="showActions = true; targetRegion = null;">
+                                    <h4>Back</h4>
                                 </div>
-                                <div v-if="targetRegion.type!='land'" class="w3-row">
-                                    <h5 class="w3-left w3-half w3-col">{{selectedRegion.units.naval}} Naval </h5>
-                                    <input class="custom-input w3-right w3-half w3-col" type="text" placeholder="0" v-model="navalAttackCount">
-                                </div>
-                                <div class="w3-row">
-                                    <h5 class="w3-left w3-half w3-col">{{selectedRegion.units.amphibious}} Amphibious </h5>
-                                    <input class="custom-input w3-right w3-half w3-col" type="text" placeholder="0" v-model="amphibiousAttackCount">
-                                </div>
-                            </div>
-                            <div class="w3-col w3-right w3-half">
-                                <div class="w3-row">
-                                    <h5 class="w3-left w3-half w3-col">{{selectedRegion.units.atomBombs}} Atom Bombs </h5>
-                                    <input class="custom-input w3-right w3-half w3-col" type="text" placeholder="0" v-model="atomBombsAttackCount">
-                                </div>
-                                <div class="w3-row">
-                                    <h5 class="w3-left w3-half w3-col">{{selectedRegion.units.bioweapons}} Bioweapons </h5>
-                                    <input class="custom-input w3-right w3-half w3-col" type="text" placeholder="0" v-model="bioweaponsAttackCount">
+                                <div class="w3-panel w3-gray w3-round w3-grayscale custom-button" v-on:click="attack();" v-if="targetRegion != 'waiting'">
+                                    <h4>Enact</h4>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-                <div v-if="(selectedRegion.player == player._id) && (!showActions) && (game.state == 'act.move')">
-                    <div class="w3-row w3-left" style="width:15%">
-                        <div class="w3-col">
-                            <div class="w3-panel w3-gray w3-round w3-grayscale custom-button" v-on:click="showActions = true; targetRegion = null;">
-                                <h4>Back</h4>
-                            </div>
-                            <div class="w3-panel w3-gray w3-round w3-grayscale custom-button" v-on:click="move();" v-if="targetRegion != 'waiting'">
-                                <h4>Enact</h4>
-                            </div>
+                        <div style="width:85%" v-if="targetRegion == 'waiting'" class="w3-panel w3-rest w3-right">
+                            <h4>Select an adjacent region to attack.</h4>
                         </div>
-                    </div>
-                    <div style="width:85%" v-if="targetRegion == 'waiting'" class="w3-panel w3-rest w3-right">
-                        <h4>Select an adjacent region to move to.</h4>
-                    </div>
-                    <div style="width:85%" v-if="targetRegion != 'waiting'" class="w3-panel w3-rest w3-right">
-                        <h4>Select moving units:</h4>
-                        <br>
-                        <div class="w3-row">
-                            <div class="w3-col w3-left w3-half">
-                                <div v-if="targetRegion.type=='land'" class="w3-row">
-                                    <h5 class="w3-left w3-half w3-col">{{selectedRegion.units.land}} Land </h5>
-                                    <input class="custom-input w3-right w3-half w3-col" type="text" placeholder="0" v-model="landMoveCount">
-                                </div>
-                                <div v-if="targetRegion.type!='land'" class="w3-row">
-                                    <h5 class="w3-left w3-half w3-col">{{selectedRegion.units.naval}} Naval </h5>
-                                    <input class="custom-input w3-right w3-half w3-col" type="text" placeholder="0" v-model="navalMoveCount">
-                                </div>
-                                <div class="w3-row">
-                                    <h5 class="w3-left w3-half w3-col">{{selectedRegion.units.amphibious}} Amphibious </h5>
-                                    <input class="custom-input w3-right w3-half w3-col" type="text" placeholder="0" v-model="amphibiousMoveCount">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div v-if="((selectedRegion.player == player._id) || (selectedRegion.player == null)) && (!showActions) && (game.state == 'act.build') && buildType == 'recruit'">
-                    <div class="w3-row w3-left" style="width:15%">
-                        <div class="w3-col" style="width:85%">
-                            <div class="w3-panel w3-gray w3-round w3-grayscale custom-button" v-on:click="showActions = true;">
-                                <h4>Back</h4>
-                            </div>
-                            <div class="w3-panel w3-gray w3-round w3-grayscale custom-button" v-on:click="build();">
-                                <h4>Enact</h4>
-                            </div>
-                        </div>
-                    </div>
-                    <div style="width:85%" class="w3-panel w3-rest w3-right">
-                        <h4>Select units to recruit:</h4>
-                        <br>
-                        <div class="w3-row">
-                            <div class="w3-col w3-left w3-third">
-                                <div v-if="selectedRegion.type=='land'" class="w3-row">
-                                    <h5 class="w3-left w3-half w3-col">Land </h5>
-                                    <input class="custom-input w3-right w3-half w3-col" type="text" placeholder="0" v-model="landBuildCount">
-                                </div>
-                                <div v-if="selectedRegion.type!='land'" class="w3-row">
-                                    <h5 class="w3-left w3-half w3-col">Naval </h5>
-                                    <input class="custom-input w3-right w3-half w3-col" type="text" placeholder="0" v-model="navalBuildCount">
-                                </div>
-                                <div class="w3-row">
-                                    <h5 class="w3-left w3-half w3-col">Amphibious </h5>
-                                    <input class="custom-input w3-right w3-half w3-col" type="text" placeholder="0" v-model="amphibiousBuildCount">
-                                </div>
-                            </div>
-                            <div class="w3-col w3-center w3-third">
-                                <div v-if="selectedRegion.type=='land'" class="w3-row">
-                                    <h5 class="w3-left w3-half w3-col">Atom Bombs </h5>
-                                    <div v-if="player.research.atomBombs == false" class="w3-panel w3-gray w3-round w3-grayscale custom-button w3-right w3-half w3-col" v-on:click="research('atomBombs');">
-                                        <h4>Attempt Research</h4>
+                        <div style="width:85%" v-if="targetRegion != 'waiting'" class="w3-panel w3-rest w3-right">
+                            <h4>Select attacking units:</h4>
+                            <br>
+                            <div class="w3-row">
+                                <div class="w3-col w3-left w3-half">
+                                    <div v-if="targetRegion.type=='land'" class="w3-row">
+                                        <h5 class="w3-left w3-half w3-col">{{selectedRegion.units.land}} Land </h5>
+                                        <input class="custom-input w3-right w3-half w3-col" type="text" placeholder="0" v-model="landAttackCount">
                                     </div>
-                                    <input v-if="player.research.atomBombs == true" class="custom-input w3-right w3-half w3-col" type="text" placeholder="0" v-model="atomBombsBuildCount">
-                                </div>
-                                <div v-if="selectedRegion.type=='land'" class="w3-row">
-                                    <h5 class="w3-left w3-half w3-col">Bioweapons </h5>
-                                    <div v-if="player.research.bioweapons == false" class="w3-panel w3-gray w3-round w3-grayscale custom-button w3-right w3-half w3-col" v-on:click="research('bioweapons');">
-                                        <h4>Attempt Research</h4>
+                                    <div v-if="targetRegion.type!='land'" class="w3-row">
+                                        <h5 class="w3-left w3-half w3-col">{{selectedRegion.units.naval}} Naval </h5>
+                                        <input class="custom-input w3-right w3-half w3-col" type="text" placeholder="0" v-model="navalAttackCount">
                                     </div>
-                                    <input v-if="player.research.bioweapons == true" class="custom-input w3-right w3-half w3-col" type="text" placeholder="0" v-model="bioweaponsBuildCount">
-                                </div>
-                            </div>
-                            <div class="w3-col w3-center w3-third">
-                                <div class="w3-row">
-                                    <h5 class="w3-left w3-half w3-col">Radars </h5>
-                                    <div v-if="player.research.radars == false" class="w3-panel w3-gray w3-round w3-grayscale custom-button w3-right w3-half w3-col" v-on:click="research('radars');">
-                                        <h4>Attempt Research</h4>
+                                    <div class="w3-row">
+                                        <h5 class="w3-left w3-half w3-col">{{selectedRegion.units.amphibious}} Amphibious </h5>
+                                        <input class="custom-input w3-right w3-half w3-col" type="text" placeholder="0" v-model="amphibiousAttackCount">
                                     </div>
-                                    <input v-if="player.research.radars == true" class="custom-input w3-right w3-half w3-col" type="text" placeholder="0" v-model="radarsBuildCount">
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div v-if="((selectedRegion.player == player._id) || (selectedRegion.player == null)) && (!showActions) && (game.state == 'act.build') && buildType == 'develop'">
-                    <div class="w3-row w3-left" style="width:15%">
-                        <div class="w3-col" style="width:85%">
-                            <div class="w3-panel w3-gray w3-round w3-grayscale custom-button" v-on:click="showActions = true;">
-                                <h4>Back</h4>
-                            </div>
-                            <div class="w3-panel w3-gray w3-round w3-grayscale custom-button" v-on:click="build();">
-                                <h4>Enact</h4>
-                            </div>
-                        </div>
-                    </div>
-                    <div style="width:85%" class="w3-panel w3-rest w3-right">
-                        <h4>Select industry to attempt to develop:</h4>
-                        <br>
-                        <div class="w3-row">
-                            <div class="w3-col w3-third w3-padding">
-                                <div v-if="selectedRegion.type=='land'">
-                                    <div class="w3-panel w3-gray w3-round w3-grayscale custom-button" v-on:click="research('agriculture');">
-                                        <h4>Agriculture</h4>
+                                <div class="w3-col w3-right w3-half">
+                                    <div class="w3-row">
+                                        <h5 class="w3-left w3-half w3-col">{{selectedRegion.units.atomBombs}} Atom Bombs </h5>
+                                        <input class="custom-input w3-right w3-half w3-col" type="text" placeholder="0" v-model="atomBombsAttackCount">
+                                    </div>
+                                    <div class="w3-row">
+                                        <h5 class="w3-left w3-half w3-col">{{selectedRegion.units.bioweapons}} Bioweapons </h5>
+                                        <input class="custom-input w3-right w3-half w3-col" type="text" placeholder="0" v-model="bioweaponsAttackCount">
                                     </div>
                                 </div>
                             </div>
-                            <div class="w3-col w3-third w3-padding">
-                                <div v-if="selectedRegion.type=='land'">
-                                    <div class="w3-panel w3-gray w3-round w3-grayscale custom-button" v-on:click="research('mining');">
-                                        <h4>Mining</h4>
+                        </div>
+                    </div>
+                    <div v-if="(selectedRegion.player == player._id) && (!showActions) && (game.state == 'act.move')">
+                        <div class="w3-row w3-left" style="width:15%">
+                            <div class="w3-col">
+                                <div class="w3-panel w3-gray w3-round w3-grayscale custom-button" v-on:click="showActions = true; targetRegion = null;">
+                                    <h4>Back</h4>
+                                </div>
+                                <div class="w3-panel w3-gray w3-round w3-grayscale custom-button" v-on:click="move();" v-if="targetRegion != 'waiting'">
+                                    <h4>Enact</h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="width:85%" v-if="targetRegion == 'waiting'" class="w3-panel w3-rest w3-right">
+                            <h4>Select an adjacent region to move to.</h4>
+                        </div>
+                        <div style="width:85%" v-if="targetRegion != 'waiting'" class="w3-panel w3-rest w3-right">
+                            <h4>Select moving units:</h4>
+                            <br>
+                            <div class="w3-row">
+                                <div class="w3-col w3-left w3-half">
+                                    <div v-if="targetRegion.type=='land'" class="w3-row">
+                                        <h5 class="w3-left w3-half w3-col">{{selectedRegion.units.land}} Land </h5>
+                                        <input class="custom-input w3-right w3-half w3-col" type="text" placeholder="0" v-model="landMoveCount">
+                                    </div>
+                                    <div v-if="targetRegion.type!='land'" class="w3-row">
+                                        <h5 class="w3-left w3-half w3-col">{{selectedRegion.units.naval}} Naval </h5>
+                                        <input class="custom-input w3-right w3-half w3-col" type="text" placeholder="0" v-model="navalMoveCount">
+                                    </div>
+                                    <div class="w3-row">
+                                        <h5 class="w3-left w3-half w3-col">{{selectedRegion.units.amphibious}} Amphibious </h5>
+                                        <input class="custom-input w3-right w3-half w3-col" type="text" placeholder="0" v-model="amphibiousMoveCount">
                                     </div>
                                 </div>
                             </div>
-                            <div class="w3-col w3-third w3-padding">
-                                <div v-if="selectedRegion.type=='land'">
-                                    <div class="w3-panel w3-gray w3-round w3-grayscale custom-button" v-on:click="research('synthetics');">
-                                        <h4>Synthetics</h4>
+                        </div>
+                    </div>
+                    <div v-if="((selectedRegion.player == player._id) || (selectedRegion.player == null)) && (!showActions) && (game.state == 'act.build') && buildType == 'recruit'">
+                        <div class="w3-row w3-left" style="width:15%">
+                            <div class="w3-col" style="width:85%">
+                                <div class="w3-panel w3-gray w3-round w3-grayscale custom-button" v-on:click="showActions = true;">
+                                    <h4>Back</h4>
+                                </div>
+                                <div class="w3-panel w3-gray w3-round w3-grayscale custom-button" v-on:click="build();">
+                                    <h4>Enact</h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="width:85%" class="w3-panel w3-rest w3-right">
+                            <h4>Select units to recruit:</h4>
+                            <br>
+                            <div class="w3-row">
+                                <div class="w3-col w3-left w3-third">
+                                    <div v-if="selectedRegion.type=='land'" class="w3-row">
+                                        <h5 class="w3-left w3-half w3-col">Land </h5>
+                                        <input class="custom-input w3-right w3-half w3-col" type="text" placeholder="0" v-model="landBuildCount">
+                                    </div>
+                                    <div v-if="selectedRegion.type!='land'" class="w3-row">
+                                        <h5 class="w3-left w3-half w3-col">Naval </h5>
+                                        <input class="custom-input w3-right w3-half w3-col" type="text" placeholder="0" v-model="navalBuildCount">
+                                    </div>
+                                    <div class="w3-row">
+                                        <h5 class="w3-left w3-half w3-col">Amphibious </h5>
+                                        <input class="custom-input w3-right w3-half w3-col" type="text" placeholder="0" v-model="amphibiousBuildCount">
+                                    </div>
+                                </div>
+                                <div class="w3-col w3-center w3-third">
+                                    <div v-if="selectedRegion.type=='land'" class="w3-row">
+                                        <h5 class="w3-left w3-half w3-col">Atom Bombs </h5>
+                                        <div v-if="player.research.atomBombs == false" class="w3-panel w3-gray w3-round w3-grayscale custom-button w3-right w3-half w3-col" v-on:click="research('atomBombs');">
+                                            <h4>Attempt Research</h4>
+                                        </div>
+                                        <input v-if="player.research.atomBombs == true" class="custom-input w3-right w3-half w3-col" type="text" placeholder="0" v-model="atomBombsBuildCount">
+                                    </div>
+                                    <div v-if="selectedRegion.type=='land'" class="w3-row">
+                                        <h5 class="w3-left w3-half w3-col">Bioweapons </h5>
+                                        <div v-if="player.research.bioweapons == false" class="w3-panel w3-gray w3-round w3-grayscale custom-button w3-right w3-half w3-col" v-on:click="research('bioweapons');">
+                                            <h4>Attempt Research</h4>
+                                        </div>
+                                        <input v-if="player.research.bioweapons == true" class="custom-input w3-right w3-half w3-col" type="text" placeholder="0" v-model="bioweaponsBuildCount">
+                                    </div>
+                                </div>
+                                <div class="w3-col w3-center w3-third">
+                                    <div class="w3-row">
+                                        <h5 class="w3-left w3-half w3-col">Radars </h5>
+                                        <div v-if="player.research.radars == false" class="w3-panel w3-gray w3-round w3-grayscale custom-button w3-right w3-half w3-col" v-on:click="research('radars');">
+                                            <h4>Attempt Research</h4>
+                                        </div>
+                                        <input v-if="player.research.radars == true" class="custom-input w3-right w3-half w3-col" type="text" placeholder="0" v-model="radarsBuildCount">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div v-if="((selectedRegion.player == player._id) || (selectedRegion.player == null)) && (!showActions) && (game.state == 'act.build') && buildType == 'develop'">
+                        <div class="w3-row w3-left" style="width:15%">
+                            <div class="w3-col" style="width:85%">
+                                <div class="w3-panel w3-gray w3-round w3-grayscale custom-button" v-on:click="showActions = true;">
+                                    <h4>Back</h4>
+                                </div>
+                                <div class="w3-panel w3-gray w3-round w3-grayscale custom-button" v-on:click="build();">
+                                    <h4>Enact</h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="width:85%" class="w3-panel w3-rest w3-right">
+                            <h4>Select industry to attempt to develop:</h4>
+                            <br>
+                            <div class="w3-row">
+                                <div class="w3-col w3-third w3-padding">
+                                    <div v-if="selectedRegion.type=='land'">
+                                        <div class="w3-panel w3-gray w3-round w3-grayscale custom-button" v-on:click="research('agriculture');">
+                                            <h4>Agriculture</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="w3-col w3-third w3-padding">
+                                    <div v-if="selectedRegion.type=='land'">
+                                        <div class="w3-panel w3-gray w3-round w3-grayscale custom-button" v-on:click="research('mining');">
+                                            <h4>Mining</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="w3-col w3-third w3-padding">
+                                    <div v-if="selectedRegion.type=='land'">
+                                        <div class="w3-panel w3-gray w3-round w3-grayscale custom-button" v-on:click="research('synthetics');">
+                                            <h4>Synthetics</h4>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -423,11 +422,13 @@
                 </div>
             </div>
         </div>
+        <div class="w3-display-topmiddle">
+            <canvas id='canvas'></canvas>
+        </div>
     </div>
 
     <script src="scripts/index.js"></script>
     <script src="scripts/gameApp.js"></script>
-    <script src="scripts/regionApp.js"></script>
     <script src="scripts/canvas.js"></script>
 </body>
 </html>
