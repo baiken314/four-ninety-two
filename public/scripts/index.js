@@ -104,3 +104,9 @@ let userpageButton = document.getElementById("userpage");
 userpageButton.addEventListener("click", function() {
     window.location.href = `${URL}/userpage`;
 });
+
+// learn button
+let learnButton = document.getElementById("learn");
+learnButton.addEventListener("click", function() {
+    window.location.href = `${URL}/learn`;
+});

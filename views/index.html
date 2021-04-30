@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>four ninety-two</title>
+    <title>492 | Play</title>
     <link rel="stylesheet" href="styles/w3.css">
     <link rel="stylesheet" href="styles/custom.css">
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
@@ -11,7 +11,7 @@
 <body>
     <div class="w3-top w3-center w3-container">
         <div class="w3-bar w3-mobile w3-black w3-center" style="margin:auto;">
-            <a href="#" class="w3-bar-item w3-button"><h5>Learn</h5></a>
+            <a href="#" class="w3-bar-item w3-button" id="learn"><h5>Learn</h5></a>
             <a href="#" class="w3-bar-item w3-button" id="userpage"><h5>User</h5></a>
             <a href="#" class="w3-bar-item w3-button" id="logout"><h5>Logout</h5></a>
         </div>
@@ -270,31 +270,31 @@
                             <h4>Select an adjacent region to attack.</h4>
                         </div>
                         <div style="width:85%" v-if="targetRegion != 'waiting'" class="w3-panel w3-rest w3-right">
-                            <h4>Select attacking units:</h4>
+                            <h5>Select attacking units: (Costs you 3 of each industry, and the defender 1 each.)</h5>
                             <br>
                             <div class="w3-row">
                                 <div class="w3-col w3-left w3-half">
                                     <div v-if="targetRegion.type=='land'" class="w3-row">
                                         <h5 class="w3-left w3-half w3-col">{{selectedRegion.units.land}} Land </h5>
-                                        <input class="custom-input w3-right w3-half w3-col" type="text" placeholder="0" v-model="landAttackCount">
+                                        <input class="custom-input w3-left w3-third w3-col" type="text" placeholder="0" v-model="landAttackCount">
                                     </div>
                                     <div v-if="targetRegion.type!='land'" class="w3-row">
                                         <h5 class="w3-left w3-half w3-col">{{selectedRegion.units.naval}} Naval </h5>
-                                        <input class="custom-input w3-right w3-half w3-col" type="text" placeholder="0" v-model="navalAttackCount">
+                                        <input class="custom-input w3-left w3-third w3-col" type="text" placeholder="0" v-model="navalAttackCount">
                                     </div>
                                     <div class="w3-row">
                                         <h5 class="w3-left w3-half w3-col">{{selectedRegion.units.amphibious}} Amphibious </h5>
-                                        <input class="custom-input w3-right w3-half w3-col" type="text" placeholder="0" v-model="amphibiousAttackCount">
+                                        <input class="custom-input w3-left w3-third w3-col" type="text" placeholder="0" v-model="amphibiousAttackCount">
                                     </div>
                                 </div>
                                 <div class="w3-col w3-right w3-half">
                                     <div class="w3-row">
                                         <h5 class="w3-left w3-half w3-col">{{selectedRegion.units.atomBombs}} Atom Bombs </h5>
-                                        <input class="custom-input w3-right w3-half w3-col" type="text" placeholder="0" v-model="atomBombsAttackCount">
+                                        <input class="custom-input w3-left w3-third w3-col" type="text" placeholder="0" v-model="atomBombsAttackCount">
                                     </div>
                                     <div class="w3-row">
                                         <h5 class="w3-left w3-half w3-col">{{selectedRegion.units.bioweapons}} Bioweapons </h5>
-                                        <input class="custom-input w3-right w3-half w3-col" type="text" placeholder="0" v-model="bioweaponsAttackCount">
+                                        <input class="custom-input w3-left w3-third w3-col" type="text" placeholder="0" v-model="bioweaponsAttackCount">
                                     </div>
                                 </div>
                             </div>
@@ -315,21 +315,21 @@
                             <h4>Select an adjacent region to move to.</h4>
                         </div>
                         <div style="width:85%" v-if="targetRegion != 'waiting'" class="w3-panel w3-rest w3-right">
-                            <h4>Select moving units:</h4>
+                            <h5>Select moving units: (Costs you 1 of Agriculture and Fuel per military unit moved.)</h5>
                             <br>
                             <div class="w3-row">
                                 <div class="w3-col w3-left w3-half">
                                     <div v-if="targetRegion.type=='land'" class="w3-row">
                                         <h5 class="w3-left w3-half w3-col">{{selectedRegion.units.land}} Land </h5>
-                                        <input class="custom-input w3-right w3-half w3-col" type="text" placeholder="0" v-model="landMoveCount">
+                                        <input class="custom-input w3-left w3-third w3-col" type="text" placeholder="0" v-model="landMoveCount">
                                     </div>
                                     <div v-if="targetRegion.type!='land'" class="w3-row">
                                         <h5 class="w3-left w3-half w3-col">{{selectedRegion.units.naval}} Naval </h5>
-                                        <input class="custom-input w3-right w3-half w3-col" type="text" placeholder="0" v-model="navalMoveCount">
+                                        <input class="custom-input w3-left w3-third w3-col" type="text" placeholder="0" v-model="navalMoveCount">
                                     </div>
                                     <div class="w3-row">
                                         <h5 class="w3-left w3-half w3-col">{{selectedRegion.units.amphibious}} Amphibious </h5>
-                                        <input class="custom-input w3-right w3-half w3-col" type="text" placeholder="0" v-model="amphibiousMoveCount">
+                                        <input class="custom-input w3-left w3-third w3-col" type="text" placeholder="0" v-model="amphibiousMoveCount">
                                     </div>
                                 </div>
                             </div>
@@ -347,46 +347,46 @@
                             </div>
                         </div>
                         <div style="width:85%" class="w3-panel w3-rest w3-right">
-                            <h4>Select units to recruit:</h4>
+                            <h5>Select units to recruit:</h5>
                             <br>
                             <div class="w3-row">
                                 <div class="w3-col w3-left w3-third">
                                     <div v-if="selectedRegion.type=='land'" class="w3-row">
-                                        <h5 class="w3-left w3-half w3-col">Land </h5>
-                                        <input class="custom-input w3-right w3-half w3-col" type="text" placeholder="0" v-model="landBuildCount">
+                                        <h5 class="w3-left w3-half w3-col">Land ($5,1A,1M,1S)</h5>
+                                        <input class="custom-input w3-left w3-third w3-col" type="text" placeholder="0" v-model="landBuildCount">
                                     </div>
                                     <div v-if="selectedRegion.type!='land'" class="w3-row">
-                                        <h5 class="w3-left w3-half w3-col">Naval </h5>
-                                        <input class="custom-input w3-right w3-half w3-col" type="text" placeholder="0" v-model="navalBuildCount">
+                                        <h5 class="w3-left w3-half w3-col">Naval ($5,1A,1M,1S)</h5>
+                                        <input class="custom-input w3-left w3-third w3-col" type="text" placeholder="0" v-model="navalBuildCount">
                                     </div>
                                     <div class="w3-row">
-                                        <h5 class="w3-left w3-half w3-col">Amphibious </h5>
-                                        <input class="custom-input w3-right w3-half w3-col" type="text" placeholder="0" v-model="amphibiousBuildCount">
+                                        <h5 class="w3-left w3-half w3-col">Amphibious ($5,2A,2M,2S)</h5>
+                                        <input class="custom-input w3-left w3-third w3-col" type="text" placeholder="0" v-model="amphibiousBuildCount">
                                     </div>
                                 </div>
                                 <div class="w3-col w3-center w3-third">
                                     <div v-if="selectedRegion.type=='land'" class="w3-row">
-                                        <h5 class="w3-left w3-half w3-col">Atom Bombs </h5>
-                                        <div v-if="player.research.atomBombs == false" class="w3-panel w3-gray w3-round w3-grayscale custom-button w3-right w3-half w3-col" v-on:click="research('atomBombs');">
-                                            <h4>Research</h4>
+                                        <h5 class="w3-left w3-half w3-col">Atom Bombs ($25,5S)</h5>
+                                        <div v-if="player.research.atomBombs == false" class="w3-panel w3-gray w3-round w3-grayscale custom-button w3-left w3-half w3-col" v-on:click="research('atomBombs');">
+                                            <h5>Research ($10)</h5>
                                         </div>
-                                        <input v-if="player.research.atomBombs == true" class="custom-input w3-right w3-half w3-col" type="text" placeholder="0" v-model="atomBombsBuildCount">
+                                        <input v-if="player.research.atomBombs == true" class="custom-input w3-left w3-third w3-col" type="text" placeholder="0" v-model="atomBombsBuildCount">
                                     </div>
                                     <div v-if="selectedRegion.type=='land'" class="w3-row">
-                                        <h5 class="w3-left w3-half w3-col">Bioweapons </h5>
-                                        <div v-if="player.research.bioweapons == false" class="w3-panel w3-gray w3-round w3-grayscale custom-button w3-right w3-half w3-col" v-on:click="research('bioweapons');">
-                                            <h4>Research</h4>
+                                        <h5 class="w3-left w3-half w3-col">Bioweapons ($25,5S)</h5>
+                                        <div v-if="player.research.bioweapons == false" class="w3-panel w3-gray w3-round w3-grayscale custom-button w3-left w3-half w3-col" v-on:click="research('bioweapons');">
+                                            <h5>Research ($10)</h5>
                                         </div>
-                                        <input v-if="player.research.bioweapons == true" class="custom-input w3-right w3-half w3-col" type="text" placeholder="0" v-model="bioweaponsBuildCount">
+                                        <input v-if="player.research.bioweapons == true" class="custom-input w3-left w3-third w3-col" type="text" placeholder="0" v-model="bioweaponsBuildCount">
                                     </div>
                                 </div>
                                 <div class="w3-col w3-center w3-third">
                                     <div class="w3-row">
-                                        <h5 class="w3-left w3-half w3-col">Radars </h5>
-                                        <div v-if="player.research.radars == false" class="w3-panel w3-gray w3-round w3-grayscale custom-button w3-right w3-half w3-col" v-on:click="research('radars');">
-                                            <h4>Research</h4>
+                                        <h5 class="w3-left w3-half w3-col">Radars ($25,5S)</h5>
+                                        <div v-if="player.research.radars == false" class="w3-panel w3-gray w3-round w3-grayscale custom-button w3-left w3-half w3-col" v-on:click="research('radars');">
+                                            <h5>Research ($10)</h5>
                                         </div>
-                                        <input v-if="player.research.radars == true" class="custom-input w3-right w3-half w3-col" type="text" placeholder="0" v-model="radarsBuildCount">
+                                        <input v-if="player.research.radars == true" class="custom-input w3-left w3-third w3-col" type="text" placeholder="0" v-model="radarsBuildCount">
                                     </div>
                                 </div>
                             </div>
@@ -404,7 +404,7 @@
                             </div>
                         </div>
                         <div style="width:85%" class="w3-panel w3-rest w3-right">
-                            <h4>Select industry to attempt to develop:</h4>
+                            <h5>Select industry to attempt to develop: (Costs $10 to attempt)</h5>
                             <br>
                             <div class="w3-row">
                                 <div class="w3-col w3-third w3-padding">
